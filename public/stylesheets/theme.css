@@ -1,0 +1,32 @@
+header{
+	background-color: RGB(206, 221, 232);
+	font-style: Trebuchet MS; 
+	font-size: 20px;
+}
+body{
+		font-style: Trebuchet MS; 
+	font-size: 20px;
+}
+.thumbnail {
+	margin: 30px;
+	transition: box-shadow 0.15s;
+	padding-top: 20px;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(170, 170, 170);
+	box-shadow: rgb(85, 85, 85) 0px 2px 3.33333px;
+	display: block;
+	height: 150px;
+	width: 100%;
+	font-size: 30px;
+	text-align: center;
+	border-radius: 25px;
+}
+.thumbnail:hover{
+	background-color:#BABABA;
+}
+
+.container{
+	margin: auto;
+	width: 60%;
+}

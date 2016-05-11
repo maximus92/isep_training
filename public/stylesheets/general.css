@@ -1,0 +1,96 @@
+.dark-grey{
+	color: rgba(104, 132, 144, 1)!important;
+}
+.dark-blue{
+	color: rgba(13,97,134,1);
+}
+.grey{
+	color: rgba(186,186,186,1)!important;	
+}
+.yellow1{
+	color: rgba(255,213,69,1);
+}
+.yellow2{
+	color: rgba(255,197,0,1)
+}
+.yellow3{
+	color: rgba(237,195,83,1)
+}
+
+/* HEADER */
+
+.btn-deco{
+	margin-top:35px;
+	margin-right: 20px;
+}
+.isep_training_title{
+	margin-top:20px;
+	font-size:30px;
+	font-weight:bold;
+}
+.welcome-label{
+	padding: 15px;
+}
+.welcome-label div{
+	font-weight: bold;
+	margin-bottom:10px;
+}
+
+/* SIGN IN */
+
+.isep_logo{
+	width:150px;
+	margin:20px;
+}
+.padding-10{
+	padding: 10px;
+}
+.center{
+	text-align:center;
+}
+.isep_title{
+	font-weight: bold;
+	font-size: 30px;
+	padding-top: 100px;
+}
+#signin {
+	padding-top:80px;
+}
+.middle-box{
+	margin-top:40px;
+}
+.img-bckg{
+	margin-top: -60px;
+	position: fixed;
+	width:1600px;
+    background-size: cover;
+    z-index:-1;
+}
+.lang-select{
+	margin-top:30px;
+}
+@media screen and (max-width: 768px) {
+/* SIGN-IN */	
+   .padding-10{
+   		padding:0px;
+   }
+   #signin {
+	padding-top:0px;
+	}
+	
+/* HEADER */
+	.welcome-label button {
+		float: right;
+		padding: 10px;
+		margin: 15px;
+	}	
+}
+
+/*FOOTER*/
+#footer{
+	position: absolute;
+	width: 100%;
+    bottom: 5px;
+    padding:20px;
+    font-size: 14px;
+}
