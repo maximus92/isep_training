@@ -1,0 +1,473 @@
+@(message: String)
+
+@main("ISEP Training - Professeur"){
+<script type="text/javascript">
+		var i = 1;
+		function add(addQuestion) {
+			i++;
+			var remove;
+			id = remove + i;
+			var newdiv = document.createElement('div');
+			newdiv.innerHTML = '<div id="'+id+'"><label for="reponse">Réponse</label><div class="row"><div class="col-sm-10"><input type="text" class="form-control" id="reponse1" size=50%></div><div class="col-sm-1"><label><input type="checkbox" value=""></label></div><div class="col-sm-1"><i class="fa fa-times" onclick="removeDiv('
+					+ id + ');"></i></div></div></div>'
+			document.getElementById(addQuestion).appendChild(newdiv);
+		}
+
+		function removeDiv(divId) {
+			$("#" + divId).remove();
+		}
+	</script>
+
+	<div class="container container_prof">
+		<div class="nav">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#home" data-toggle="tab">Ajouter
+						une question</a></li>
+				<li><a href="#test" data-toggle="tab">Test de cours</a></li>
+				<li><a href="#examen" aria-controls="messages" role="tab"
+					data-toggle="tab">Examens</a></li>
+				<li><a href="#bdd" aria-controls="settings" role="tab"
+					data-toggle="tab">Base de données</a></li>
+			</ul>
+		</div>
+
+
+		<!--  Page ajouter question -->
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+				<div class="col-sm-4 col-xs-8">
+					<div class="thumbnail thumbnail_prof">
+						<a href="#addFile" data-toggle="tab">Importer un QCM</a>
+					</div>
+				</div>
+				<div class="col-sm-4 col-xs-8">
+					<div class="thumbnail thumbnail_prof">
+						<a href="#addManually" data-toggle="tab">Ajouter une question</a>
+
+					</div>
+				</div>
+			</div>
+			<div id="addManually" class="tab-pane fade">
+				<form>
+					<div class="row">
+						<div class="col-xs-2">
+							<label>Difficulté : </label>
+						</div>
+						<div class="col-xs-3">
+							<SELECT name="difficulty" size="1">
+								<OPTION>Facile</OPTION>
+								<OPTION>Moyen</OPTION>
+								<OPTION>Difficile</OPTION>
+							</SELECT>
+						</div>
+						<div class="col-xs-3">
+							<label>Question pour : </label>
+						</div>
+						<div class="col-xs-2">
+							<SELECT name="difficulty" size="1">
+								<OPTION>Entrainement des élèves</OPTION>
+								<OPTION>Examen</OPTION>
+							</SELECT>
+						</div>
+					</div>
+					</br>
+					<div class="row">
+						<div class="col-xs-2">
+							<label for="module">Module : </label>
+						</div>
+						<div class="col-xs-3">
+
+							<SELECT name="module" size="1">
+								<OPTION>Mathématiques</OPTION>
+								<OPTION>Physique</OPTION>
+								<OPTION>Anglais</OPTION>
+							</SELECT>
+						</div>
+						<div class="col-xs-3">
+							<label for="chapter">Chapitre : </label>
+						</div>
+						<div class="col-xs-2">
+							<SELECT name="chapter" size="1">
+								<OPTION>Espace vectoriel</OPTION>
+								<OPTION>Examen</OPTION>
+							</SELECT>
+						</div>
+					</div>
+					</br>
+
+
+					<div class="form-group">
+						<label for="question">Question</label> <input type="text"
+							class="form-control" id="question">
+
+						<div class="pull-right">
+							<input type='file' id="imgInp" style="display: none" />
+							<!-- <img id="blah" src="#" alt="your image" /> --> 
+							<button type="button" class="btn btn-primary"
+								onclick="getfile();">Ajouter support</button>
+							<button type="button" class="btn btn-success btn-sm">&</button>
+						</div>
+					</div>
+					</br>
+					
+					
+					<script type="text/javascript">
+					
+					
+						function getfile() {
+							document.getElementById('imgInp').click();
+							document.getElementById('selectedfile').value = document
+									.getElementById('imgInp').value;
+						}
+						/*function readURL(input) {
+
+							if (input.files && input.files[0]) {
+								var reader = new FileReader();
+
+								reader.onload = function(e) {
+									$('#blah').attr('src', e.target.result);
+								}
+
+								reader.readAsDataURL(input.files[0]);
+							}
+						}
+
+						$("#imgInp").change(function() {
+							readURL(this);
+						});*/
+					</script>
+</br></br>
+					<div class="row">
+						<div class="col-xs-9"></div>
+						<div class="col-xs-3">
+
+							<label> Cocher les bonnes </br>réponses
+							</label>
+						</div>
+					</div>
+					</br>
+					<div id="addQuestion">
+						<div id="remove0">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1">
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" onclick="removeDiv('remove0');"></i>
+								</div>
+							</div>
+						</div>
+						</br>
+
+						<div id="remove1">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1">
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" onclick="removeDiv('remove1');"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					</br>
+
+					<div class="pull-right">
+						<button type="button" class="btn btn-primary"
+							onclick="add('addQuestion')">Ajouter une réponse</button>
+					</div>
+					</br> </br>
+
+
+
+					<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
+				</form>
+			</div>
+
+			<div id="addFile" class="tab-pane fade">
+				<form>
+					</br>
+					<button type="button" class="btn btn-primary">Importer un
+						fichier externe</button>
+					</br> </br>
+					<div class="row">
+						<div class="col-sm-2 col-xs-2">
+							<label>Difficulté : </label>
+						</div>
+						<div class="col-sm-3 col-xs-3">
+							<SELECT name="difficulty" size="1">
+								<OPTION>Facile</OPTION>
+								<OPTION>Moyen</OPTION>
+								<OPTION>Difficile</OPTION>
+							</SELECT>
+						</div>
+						<div class="col-sm-3 col-xs-3">
+							<label>Question pour : </label>
+						</div>
+						<div class="col-sm-2 col-xs-2">
+							<SELECT name="difficulty" size="1">
+								<OPTION>Entrainement des élèves</OPTION>
+								<OPTION>Examen</OPTION>
+							</SELECT>
+						</div>
+					</div>
+					</br>
+					<div class="row">
+						<div class="col-sm-2 col-xs-2">
+							<label for="module">Module : </label>
+						</div>
+						<div class="col-sm-3 col-xs-3">
+
+							<SELECT name="module" size="1">
+								<OPTION>Mathématiques</OPTION>
+								<OPTION>Physique</OPTION>
+								<OPTION>Anglais</OPTION>
+							</SELECT>
+						</div>
+						<div class="col-sm-3 col-xs-3">
+							<label for="chapter">Chapitre : </label>
+						</div>
+						<div class="col-sm-2 col-xs-2">
+							<SELECT name="chapter" size="1">
+								<OPTION>Espace vectoriel</OPTION>
+								<OPTION>Examen</OPTION>
+							</SELECT>
+						</div>
+					</div>
+					</br>
+
+					<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
+				</form>
+			</div>
+
+
+
+
+
+			<div id="test" class="tab-pane fade">
+				<div class="row">
+					<div class="col-sm-1">
+						<label for="module">Module : </label>
+					</div>
+					<div class="col-sm-3">
+						<SELECT name="module" size="1">
+							<OPTION>Mathématiques</OPTION>
+							<OPTION>Physique</OPTION>
+							<OPTION>Anglais</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-sm-1 ">
+						<label for="chapter">Chapitre : </label>
+					</div>
+					<div class="col-sm-3">
+						<SELECT name="chapter" size="1">
+							<OPTION>...</OPTION>
+							<OPTION>...</OPTION>
+						</SELECT>
+					</div>
+
+					<div class="col-sm-1 ">
+
+						<label for="difficulty">Difficulté : </label>
+					</div>
+					<div class="col-sm-3">
+
+						<SELECT name="difficulty" size="1">
+							<OPTION>Facile</OPTION>
+							<OPTION>Moyen</OPTION>
+							<OPTION>Difficile</OPTION>
+						</SELECT>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- Page Examen -->
+			<div id="examen" class="tab-pane fade">
+				<form class="form-inline">
+					<input type="text" class="form-control" id="titre"
+						placeholder="Titre" size=100%> </br> </br> <label for="nbrQ">Nombre
+						de questions : </label> <select name="nbrQ">
+						<script type="text/javascript">
+							for (var i = 1; i < 200; i++) {
+								document.write("<option value='"+i+"'>" + i
+										+ "</option>");
+							}
+						</script>
+					</select> </br> </br>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<label for="nbrR">Nombre de bonnes réponses possibles : </label>
+						</div>
+						<div class="col-sm-1">
+							<labelfor"minR">Minimum</label>
+						</div>
+						<div class="col-sm-2">
+
+							<select name="minR">
+								<script type="text/javascript">
+									for (var i = 1; i < 10; i++) {
+										document.write("<option value='"+i+"'>"
+												+ i + "</option>");
+									}
+								</script>
+							</select>
+						</div>
+						<div class="col-sm-1">
+							<labelfor"maxR">Maximum</label>
+						</div>
+						<div class="col-sm-2">
+
+							<select name="maxR">
+								<script type="text/javascript">
+									for (var i = 1; i < 10; i++) {
+										document.write("<option value='"+i+"'>"
+												+ i + "</option>");
+									}
+								</script>
+							</select>
+						</div>
+
+					</div>
+					</br> <label for="time">Temps imparti : </label> <select name="hour">
+						<script type="text/javascript">
+							for (var i = 0; i < 10; i++) {
+								document.write("<option value='"+i+"'>" + i
+										+ "</option>");
+							}
+						</script>
+					</select> Heures <select name="minute">
+						<script type="text/javascript">
+							for (var i = 0; i < 60; i++) {
+								document.write("<option value='"+i+"'>" + i
+										+ "</option>");
+							}
+						</script>
+					</select> Minutes </br> </br> <label for="positiveP">Nombre de points par
+						bonne réponse : </label> <input type="number" id="positiveP"> </br> </br> <label
+						for="negativeP">Nombre de points par mauvaise réponse : </label> <input
+						type="number" id="negativeP"> </br> </br> <label for="nullP">Nombre
+						de points par réponse vide: </label> <input type="number" id="nullP">
+					</br> </br>
+					<!-- Trigger the modal with a button -->
+					<button type="button" class="btn btn-info btn-lg pull-right"
+						data-toggle="modal" data-target="#myExam">Valider</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="myExam" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Récapitulatif</h4>
+								</div>
+								<div class="modal-body">
+									<table class="table table-striped">
+										<tr id="Q1">
+											<td>Question 1</td>
+											<td class="pull-right"><i class="fa fa-times"
+												onclick="removeDiv('Q1');"></i></td>
+										</tr>
+										<tr id="Q2">
+											<td>Question 2</td>
+											<td class="pull-right"><i class="fa fa-times"
+												onclick="removeDiv('Q2');"></i></td>
+										</tr>
+										<tr id="Q3">
+											<td>Question 3</td>
+											<td class="pull-right"><i class="fa fa-times"
+												onclick="removeDiv('Q3');"></i></td>
+
+										</tr>
+										</tbody>
+									</table>
+									<button type="button" class="btn btn-primary btn-sm"
+										data-toggle="modal" data-target="#ajouterQ">Ajouter
+										une question</button>
+									<!-- Modal ajouter question-->
+									<div class="modal fade" id="ajouterQ" role="dialog">
+										<div class="modal-dialog">
+
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title">Ajouter une question</h4>
+												</div>
+												<div class="modal-body">
+													<form>
+														<label for="formGroupExampleInput">Question</label> <input
+															type="text" class="form-control"
+															id="formGroupExampleInput" size=50%> </br> </br> <label
+															class="pull-right"> Cocher les bonnes </br>réponses
+														</label> </br>
+														<div id="addAnswer">
+															<div id="remove1">
+																<label for="reponse">Réponse</label>
+																<div class="row">
+																	<div class="col-xs-10">
+																		<input type="text" class="form-control" id="reponse1"
+																			size=50%>
+																	</div>
+																	<div class="col-xs-1">
+																		<label> <input type="checkbox" value="">
+																		</label>
+																	</div>
+																	<div class="col-xs-1">
+																		<i class="fa fa-times" onclick="removeDiv('remove1');"></i>
+																	</div>
+																</div>
+															</div>
+														</div>
+														</br>
+
+														<div class="pull-right">
+															<button type="button" class="btn btn-primary"
+																onclick="add('addAnswer')">Ajouter une réponse</button>
+														</div>
+													</form>
+													</br> </br>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button"
+														class="btn btn-info btn-lg pull-center"
+														data-toggle="modal" data-target="#myExam">Ajouter</button>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-info btn-lg pull-center">Enregistrer</button>
+									<button type="submit" class="btn btn-info btn-lg pull-right">Télécharger</button>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Fin page Examen -->
+		</div>
+    
+}

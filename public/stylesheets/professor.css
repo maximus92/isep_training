@@ -1,0 +1,42 @@
+.container_prof{
+	margin: auto;
+	width: 60%;
+	border-left:1.5px #688490 solid;
+	border-right:1.5px #688490 solid;
+	border-bottom:1.5px #688490 solid;
+	border-radius: 2px;	
+	 border-spacing: 2px;
+}
+label{
+	color: #0D6186;
+	text-align: center;
+}
+.nav{
+    border-color: #E7E7E7;
+    width: 100%;
+}
+
+
+.thumbnail_prof {
+border-width: 2px;
+border-style: solid;
+border-color: #688490;
+margin: 100%;
+	
+}
+.thumbnail_prof:hover{
+		background-color: #FFC500;		
+}
+
+#myExam{
+	width: 'auto';
+}
+#ajouterQ{
+		width: 200%;
+		height: 200%;
+	
+}
+#blah{
+	width: 200;
+	height: 300px;
+}
