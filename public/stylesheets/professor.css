@@ -1,6 +1,6 @@
 .container_prof{
 	margin: auto;
-	width: 60%;
+	width: 80%;
 	border-left:1.5px #688490 solid;
 	border-right:1.5px #688490 solid;
 	border-bottom:1.5px #688490 solid;
@@ -21,7 +21,11 @@ label{
 border-width: 2px;
 border-style: solid;
 border-color: #688490;
-margin: 100%;
+width: 100%;
+height: 100px;
+margin: 40%;
+text-align: center;
+font-size: 30px;
 	
 }
 .thumbnail_prof:hover{
