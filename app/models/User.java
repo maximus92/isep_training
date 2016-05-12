@@ -36,15 +36,19 @@ public class User {
 		return this.token;
 	}
 	
+	public int getIsprof(){
+		return this.isProf;
+	}
+	
 	public void setToken(String s){
 		this.token = s;
 	}
 	
-	public void insert(Database db){
+	public void insert(){
 		  Connection conn = null;
 	      PreparedStatement stmt=null;
 	      try{
-    		  conn = db.getConnection();
+    		  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("INSERT INTO user(username,firstname,lastname,token,isprof) "
 	          		+ "VALUES ('"+this.username+"', '"+this.firstname+"', '"+this.lastname+"', '"+this.token+"', '"+this.isProf+"')");
 	          stmt.executeUpdate();
@@ -62,13 +66,13 @@ public class User {
 	      }
 	}
 	
-	public String exist(Database db){
+	public String exist(){
 		String token="";
 		Connection conn = null;
 		ResultSet rs =null;
 	      PreparedStatement stmt=null;
 	      try{
-	    	  conn = db.getConnection();
+	    	  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("SELECT * FROM user WHERE username='"+this.username+"'");
 	          rs = stmt.executeQuery();
 	          while(rs.next()){
@@ -87,5 +91,37 @@ public class User {
 	    	  }
 	      }
           return token;
+	}
+	
+	public static User getUserByToken(String token){
+		  Connection conn = null;
+	      PreparedStatement stmt=null;
+	      ResultSet rs = null;
+	      User u = null;
+	      try{
+  		  conn = DB.getConnection();
+  		  stmt = conn.prepareStatement("SELECT * FROM user WHERE token='"+token+"'");
+          rs = stmt.executeQuery();
+          while(rs.next()){
+        	  String username = rs.getString("username");
+        	  String firstname = rs.getString("firstname");
+        	  String lastname = rs.getString("lastname");
+        	  int isProf = rs.getInt("isprof");
+        	  u = new User(username,firstname,lastname,isProf,token);
+          }
+          stmt.close();
+          return u;          
+	      }catch(SQLException e){
+	    	  e.printStackTrace();
+	    	  return u;
+	      }finally{
+	    	  if(conn != null){
+	    		  try{
+	    			 conn.close(); 
+	    		  }catch(SQLException ignore){
+	    			  ignore.printStackTrace();
+	    		  }
+	    	  }
+	      }
 	}
 }

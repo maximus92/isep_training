@@ -77,7 +77,7 @@ public class ConnexionLDAP{
 	}
 	
 	
-	public User connect(Database db,DynamicForm form){
+	public User connect(DynamicForm form){
 		String pwd = form.get("pwd");
 		String login = form.get("login");
 		//pwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
@@ -91,7 +91,7 @@ public class ConnexionLDAP{
 	     String token = null;
 	      int isprof=0;
 	      try{
-	    	  conn = db.getConnection();
+	    	  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("SELECT * FROM user WHERE username='mabboud'");
 	          rs = stmt.executeQuery();
 	          while(rs.next()){
