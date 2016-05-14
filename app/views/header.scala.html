@@ -11,7 +11,7 @@
   					</div>
   				</div>
   				<div class="col-sm-3  center welcome-label">
-  					<div class="dark-blue hidden-xs">Bienvenue</div>
+  					<div class="dark-blue hidden-xs">Bienvenue @(session.get("fn").substring(0, 1).toUpperCase() + session.get("fn").substring(1)) @(session.get("ln").substring(0, 1).toUpperCase() + session.get("ln").substring(1))</div>
   					<a href="/logout">
   						<button class="btn btn-danger">
   							<span class="hidden-xs">Déconnexion</span>

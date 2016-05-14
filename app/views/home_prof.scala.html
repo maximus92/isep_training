@@ -8,7 +8,7 @@
 			var remove;
 			id = remove + i;
 			var newdiv = document.createElement('div');
-			newdiv.innerHTML = '<div id="'+id+'"><label for="reponse">Réponse</label><div class="row"><div class="col-sm-10"><input type="text" class="form-control" id="reponse1" size=50%></div><div class="col-sm-1"><label><input type="checkbox" value=""></label></div><div class="col-sm-1"><i class="fa fa-times" onclick="removeDiv('
+			newdiv.innerHTML = '<div id="'+id+'"><label for="reponse">R√©ponse</label><div class="row"><div class="col-sm-10"><input type="text" class="form-control" id="reponse1" size=50%></div><div class="col-sm-1"><label><input type="checkbox" value=""></label></div><div class="col-sm-1"><i class="fa fa-times" onclick="removeDiv('
 					+ id + ');"></i></div></div></div>'
 			document.getElementById(addQuestion).appendChild(newdiv);
 		}
@@ -27,7 +27,7 @@
 				<li><a href="#examen" aria-controls="messages" role="tab"
 					data-toggle="tab">Examens</a></li>
 				<li><a href="#bdd" aria-controls="settings" role="tab"
-					data-toggle="tab">Base de données</a></li>
+					data-toggle="tab">Base de donn√©es</a></li>
 			</ul>
 		</div>
 
@@ -51,7 +51,7 @@
 				<form>
 					<div class="row">
 						<div class="col-xs-2">
-							<label>Difficulté : </label>
+							<label>Difficult√© : </label>
 						</div>
 						<div class="col-xs-3">
 							<SELECT name="difficulty" size="1">
@@ -65,7 +65,7 @@
 						</div>
 						<div class="col-xs-2">
 							<SELECT name="difficulty" size="1">
-								<OPTION>Entrainement des élèves</OPTION>
+								<OPTION>Entrainement des √©l√®ves</OPTION>
 								<OPTION>Examen</OPTION>
 							</SELECT>
 						</div>
@@ -78,7 +78,7 @@
 						<div class="col-xs-3">
 
 							<SELECT name="module" size="1">
-								<OPTION>Mathématiques</OPTION>
+								<OPTION>Math√©matiques</OPTION>
 								<OPTION>Physique</OPTION>
 								<OPTION>Anglais</OPTION>
 							</SELECT>
@@ -141,14 +141,14 @@
 						<div class="col-xs-9"></div>
 						<div class="col-xs-3">
 
-							<label> Cocher les bonnes </br>réponses
+							<label> Cocher les bonnes </br>r√©ponses
 							</label>
 						</div>
 					</div>
 					</br>
 					<div id="addQuestion">
 						<div id="remove0">
-							<label for="reponse">Réponse</label>
+							<label for="reponse">R√©ponse</label>
 							<div class="row">
 								<div class="col-xs-10">
 									<input type="text" class="form-control" id="reponse1">
@@ -165,7 +165,7 @@
 						</br>
 
 						<div id="remove1">
-							<label for="reponse">Réponse</label>
+							<label for="reponse">R√©ponse</label>
 							<div class="row">
 								<div class="col-xs-10">
 									<input type="text" class="form-control" id="reponse1">
@@ -186,7 +186,7 @@
 
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary"
-							onclick="add('addQuestion')">Ajouter une réponse</button>
+							onclick="add('addQuestion')">Ajouter une r√©ponse</button>
 					</div>
 					</br> </br>
 
@@ -204,7 +204,7 @@
 					</br> </br>
 					<div class="row">
 						<div class="col-sm-2 col-xs-2">
-							<label>Difficulté : </label>
+							<label>Difficult√© : </label>
 						</div>
 						<div class="col-sm-3 col-xs-3">
 							<SELECT name="difficulty" size="1">
@@ -218,7 +218,7 @@
 						</div>
 						<div class="col-sm-2 col-xs-2">
 							<SELECT name="difficulty" size="1">
-								<OPTION>Entrainement des élèves</OPTION>
+								<OPTION>Entrainement des √©l√®ves</OPTION>
 								<OPTION>Examen</OPTION>
 							</SELECT>
 						</div>
@@ -231,7 +231,7 @@
 						<div class="col-sm-3 col-xs-3">
 
 							<SELECT name="module" size="1">
-								<OPTION>Mathématiques</OPTION>
+								<OPTION>Math√©matiques</OPTION>
 								<OPTION>Physique</OPTION>
 								<OPTION>Anglais</OPTION>
 							</SELECT>
@@ -263,7 +263,7 @@
 					</div>
 					<div class="col-sm-3">
 						<SELECT name="module" size="1">
-							<OPTION>Mathématiques</OPTION>
+							<OPTION>Math√©matiques</OPTION>
 							<OPTION>Physique</OPTION>
 							<OPTION>Anglais</OPTION>
 						</SELECT>
@@ -280,7 +280,7 @@
 
 					<div class="col-sm-1 ">
 
-						<label for="difficulty">Difficulté : </label>
+						<label for="difficulty">Difficult√© : </label>
 					</div>
 					<div class="col-sm-3">
 
@@ -311,7 +311,7 @@
 
 					<div class="row">
 						<div class="col-sm-4">
-							<label for="nbrR">Nombre de bonnes réponses possibles : </label>
+							<label for="nbrR">Nombre de bonnes r√©ponses possibles : </label>
 						</div>
 						<div class="col-sm-1">
 							<labelfor"minR">Minimum</label>
@@ -358,10 +358,10 @@
 							}
 						</script>
 					</select> Minutes </br> </br> <label for="positiveP">Nombre de points par
-						bonne réponse : </label> <input type="number" id="positiveP"> </br> </br> <label
-						for="negativeP">Nombre de points par mauvaise réponse : </label> <input
+						bonne r√©ponse : </label> <input type="number" id="positiveP"> </br> </br> <label
+						for="negativeP">Nombre de points par mauvaise r√©ponse : </label> <input
 						type="number" id="negativeP"> </br> </br> <label for="nullP">Nombre
-						de points par réponse vide: </label> <input type="number" id="nullP">
+						de points par r√©ponse vide: </label> <input type="number" id="nullP">
 					</br> </br>
 					<!-- Trigger the modal with a button -->
 					<button type="button" class="btn btn-info btn-lg pull-right"
@@ -375,7 +375,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4 class="modal-title">Récapitulatif</h4>
+									<h4 class="modal-title">R√©capitulatif</h4>
 								</div>
 								<div class="modal-body">
 									<table class="table table-striped">
@@ -415,11 +415,11 @@
 														<label for="formGroupExampleInput">Question</label> <input
 															type="text" class="form-control"
 															id="formGroupExampleInput" size=50%> </br> </br> <label
-															class="pull-right"> Cocher les bonnes </br>réponses
+															class="pull-right"> Cocher les bonnes </br>r√©ponses
 														</label> </br>
 														<div id="addAnswer">
 															<div id="remove1">
-																<label for="reponse">Réponse</label>
+																<label for="reponse">R√©ponse</label>
 																<div class="row">
 																	<div class="col-xs-10">
 																		<input type="text" class="form-control" id="reponse1"
@@ -439,7 +439,7 @@
 
 														<div class="pull-right">
 															<button type="button" class="btn btn-primary"
-																onclick="add('addAnswer')">Ajouter une réponse</button>
+																onclick="add('addAnswer')">Ajouter une r√©ponse</button>
 														</div>
 													</form>
 													</br> </br>
@@ -458,7 +458,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="submit" class="btn btn-info btn-lg pull-center">Enregistrer</button>
-									<button type="submit" class="btn btn-info btn-lg pull-right">Télécharger</button>
+									<button type="submit" class="btn btn-info btn-lg pull-right">T√©l√©charger</button>
 
 								</div>
 							</div>

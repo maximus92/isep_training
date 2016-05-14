@@ -45,6 +45,8 @@ public class SigninController extends Controller {
         if(u!= null){
         	session().clear();
             session("token", u.getToken());
+            session("ln", u.getLastname());
+            session("fn", u.getFirstname());
         }
         return redirect("/student");   
     }

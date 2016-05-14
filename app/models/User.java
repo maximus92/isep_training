@@ -32,6 +32,10 @@ public class User {
 		return this.lastname;
 	}
 	
+	public String getFirstname(){
+		return this.firstname;
+	}
+	
 	public String getToken(){
 		return this.token;
 	}
