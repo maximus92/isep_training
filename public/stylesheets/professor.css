@@ -7,11 +7,11 @@
 	border-radius: 2px;	
 	 border-spacing: 2px;
 }
-label{
+.container_prof label{
 	color: #0D6186;
 	text-align: center;
 }
-.nav{
+.container_prof .nav{
     border-color: #E7E7E7;
     width: 100%;
 }

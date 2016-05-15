@@ -1,23 +1,6 @@
 @(message: String)
 
 @main("ISEP Training - Professeur"){
-<script type="text/javascript">
-		var i = 1;
-		function add(addQuestion) {
-			i++;
-			var remove;
-			id = remove + i;
-			var newdiv = document.createElement('div');
-			newdiv.innerHTML = '<div id="'+id+'"><label for="reponse">Réponse</label><div class="row"><div class="col-sm-10"><input type="text" class="form-control" id="reponse1" size=50%></div><div class="col-sm-1"><label><input type="checkbox" value=""></label></div><div class="col-sm-1"><i class="fa fa-times" onclick="removeDiv('
-					+ id + ');"></i></div></div></div>'
-			document.getElementById(addQuestion).appendChild(newdiv);
-		}
-
-		function removeDiv(divId) {
-			$("#" + divId).remove();
-		}
-	</script>
-
 	<div class="container container_prof">
 		<div class="nav">
 			<ul class="nav nav-tabs">
@@ -108,35 +91,7 @@
 							<button type="button" class="btn btn-success btn-sm">&</button>
 						</div>
 					</div>
-					</br>
-					
-					
-					<script type="text/javascript">
-					
-					
-						function getfile() {
-							document.getElementById('imgInp').click();
-							document.getElementById('selectedfile').value = document
-									.getElementById('imgInp').value;
-						}
-						/*function readURL(input) {
-
-							if (input.files && input.files[0]) {
-								var reader = new FileReader();
-
-								reader.onload = function(e) {
-									$('#blah').attr('src', e.target.result);
-								}
-
-								reader.readAsDataURL(input.files[0]);
-							}
-						}
-
-						$("#imgInp").change(function() {
-							readURL(this);
-						});*/
-					</script>
-</br></br>
+					</br></br></br>
 					<div class="row">
 						<div class="col-xs-9"></div>
 						<div class="col-xs-3">
@@ -189,8 +144,6 @@
 							onclick="add('addQuestion')">Ajouter une réponse</button>
 					</div>
 					</br> </br>
-
-
 
 					<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
 				</form>
@@ -300,13 +253,8 @@
 				<form class="form-inline">
 					<input type="text" class="form-control" id="titre"
 						placeholder="Titre" size=100%> </br> </br> <label for="nbrQ">Nombre
-						de questions : </label> <select name="nbrQ">
-						<script type="text/javascript">
-							for (var i = 1; i < 200; i++) {
-								document.write("<option value='"+i+"'>" + i
-										+ "</option>");
-							}
-						</script>
+						de questions : </label> <select name="nbrQ" id="nbrQ">
+						
 					</select> </br> </br>
 
 					<div class="row">
@@ -317,14 +265,7 @@
 							<labelfor"minR">Minimum</label>
 						</div>
 						<div class="col-sm-2">
-
-							<select name="minR">
-								<script type="text/javascript">
-									for (var i = 1; i < 10; i++) {
-										document.write("<option value='"+i+"'>"
-												+ i + "</option>");
-									}
-								</script>
+							<select name="minR" id="minR">
 							</select>
 						</div>
 						<div class="col-sm-1">
@@ -332,37 +273,28 @@
 						</div>
 						<div class="col-sm-2">
 
-							<select name="maxR">
-								<script type="text/javascript">
-									for (var i = 1; i < 10; i++) {
-										document.write("<option value='"+i+"'>"
-												+ i + "</option>");
-									}
-								</script>
+							<select name="maxR" id="maxR">
 							</select>
 						</div>
 
 					</div>
-					</br> <label for="time">Temps imparti : </label> <select name="hour">
-						<script type="text/javascript">
-							for (var i = 0; i < 10; i++) {
-								document.write("<option value='"+i+"'>" + i
-										+ "</option>");
-							}
-						</script>
-					</select> Heures <select name="minute">
-						<script type="text/javascript">
-							for (var i = 0; i < 60; i++) {
-								document.write("<option value='"+i+"'>" + i
-										+ "</option>");
-							}
-						</script>
-					</select> Minutes </br> </br> <label for="positiveP">Nombre de points par
-						bonne réponse : </label> <input type="number" id="positiveP"> </br> </br> <label
-						for="negativeP">Nombre de points par mauvaise réponse : </label> <input
-						type="number" id="negativeP"> </br> </br> <label for="nullP">Nombre
-						de points par réponse vide: </label> <input type="number" id="nullP">
-					</br> </br>
+					</br> 
+					
+					<label for="time">Temps imparti : </label> 
+					<select name="hour" id="hour"></select> Heures 
+					<select name="minute" id="minute"></select> Minutes 
+					</br></br> 
+					
+					<label for="positiveP">Nombre de points par bonne réponse : </label> 
+					<input type="number" id="positiveP"> </br> </br> 
+					<label for="negativeP">Nombre de points par mauvaise réponse : </label> 
+					<input type="number" id="negativeP"> 
+					</br></br> 
+					
+					<label for="nullP">Nombre de points par réponse vide: </label> 
+					<input type="number" id="nullP">
+					</br></br>
+					
 					<!-- Trigger the modal with a button -->
 					<button type="button" class="btn btn-info btn-lg pull-right"
 						data-toggle="modal" data-target="#myExam">Valider</button>
@@ -469,5 +401,6 @@
 			</div>
 			<!-- Fin page Examen -->
 		</div>
+	</div>	
     
 }

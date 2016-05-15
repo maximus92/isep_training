@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.security.Secured;
 import play.mvc.*;
 
 import views.html.*;

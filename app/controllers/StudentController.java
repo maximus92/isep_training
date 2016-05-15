@@ -16,6 +16,8 @@ import java.sql.Statement;
 
 import javax.inject.Inject;
 
+import controllers.security.Secured;
+import controllers.security.StudentSecurity;
 import models.*;
 
 /**
@@ -34,7 +36,6 @@ public class StudentController extends Controller {
           
 	@Security.Authenticated(Secured.class)
     public Result index() {
-		Logger.debug("OK3");
         return ok(home.render(""));
     }
     
