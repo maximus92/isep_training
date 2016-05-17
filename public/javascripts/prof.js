@@ -1,3 +1,4 @@
+//$(document).ready(function(){
 	
 	var i = 1;
 	function add(addQuestion) {
@@ -35,3 +36,4 @@
 	}
 	
 
+//});

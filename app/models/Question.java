@@ -35,16 +35,16 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.db.*;
 
-public class ProfessorQuestion {
-	/*public String question;
+public class Question {
+	public String question;
 	public String correction;
-	public int level;
-	public int id_chapter;
-	public int forexam;
+	public String level;
+	public String id_chapter;
+	public String forexam;
 	public String file;
-	public String createby;
+	public int createby;
 	
-	public Question (String question,String correction, int level,int id_chapter, int forexam, String file, String createby){
+	public Question(String question,String correction, String level,String id_chapter, String forexam, String file, int createby){
 		this.question = question;
 		this.correction = correction;
 		this.level = level;
@@ -67,30 +67,9 @@ public class ProfessorQuestion {
 	      try{
   		  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-	          		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"',, '"+this.createby+"')");
+	          		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"', '"+this.createby+"')");
 	          stmt.executeUpdate();
 	          stmt.close();
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	      }finally{
-	    	  if(conn != null){
-	    		  try{
-	    			 conn.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
-	      }
-	}*/
-	public void select(){
-		
-		  Connection conn = null;
-	      PreparedStatement stmt=null;
-	      try{
-		  conn = DB.getConnection();
-		  stmt = conn.prepareStatement("SELECT * FROM question"); 
-		  stmt.executeUpdate();
-	      stmt.close();
 	      }catch(SQLException e){
 	    	  e.printStackTrace();
 	      }finally{

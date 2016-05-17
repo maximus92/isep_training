@@ -31,25 +31,25 @@
 				</div>
 			</div>
 			<div id="addManually" class="tab-pane fade">
-				<form>
+				<form method="post" action="@routes.ProfessorController.addQ()">
 					<div class="row">
 						<div class="col-xs-2">
 							<label>Difficulté : </label>
 						</div>
 						<div class="col-xs-3">
-							<SELECT name="difficulty" size="1">
-								<OPTION>Facile</OPTION>
-								<OPTION>Moyen</OPTION>
-								<OPTION>Difficile</OPTION>
+							<SELECT name="level" size="1">
+								<OPTION value="0">Facile</OPTION>
+								<OPTION value="1">Moyen</OPTION>
+								<OPTION value="2">Difficile</OPTION>
 							</SELECT>
 						</div>
 						<div class="col-xs-3">
 							<label>Question pour : </label>
 						</div>
 						<div class="col-xs-2">
-							<SELECT name="difficulty" size="1">
-								<OPTION>Entrainement des élèves</OPTION>
-								<OPTION>Examen</OPTION>
+							<SELECT name="forexam" size="1">
+								<OPTION value="0">Entrainement des élèves</OPTION>
+								<OPTION value="1">Examen</OPTION>
 							</SELECT>
 						</div>
 					</div>
@@ -70,8 +70,8 @@
 							<label for="chapter">Chapitre : </label>
 						</div>
 						<div class="col-xs-2">
-							<SELECT name="chapter" size="1">
-								<OPTION>Espace vectoriel</OPTION>
+							<SELECT name="id_chapter" size="1">
+								<OPTION value="0">Espace vectoriel</OPTION>
 								<OPTION>Examen</OPTION>
 							</SELECT>
 						</div>
@@ -81,10 +81,10 @@
 
 					<div class="form-group">
 						<label for="question">Question</label> <input type="text"
-							class="form-control" id="question">
+							class="form-control" id="question" name="question">
 
 						<div class="pull-right">
-							<input type='file' id="imgInp" style="display: none" />
+							<input type='file' id="imgInp" style="display: none" name="file"/>
 							<!-- <img id="blah" src="#" alt="your image" /> --> 
 							<button type="button" class="btn btn-primary"
 								onclick="getfile();">Ajouter support</button>
@@ -106,7 +106,7 @@
 							<label for="reponse">Réponse</label>
 							<div class="row">
 								<div class="col-xs-10">
-									<input type="text" class="form-control" id="reponse1">
+									<input type="text" class="form-control" id="reponse1" name="reponse1">
 								</div>
 								<div class="col-xs-1">
 									<label> <input type="checkbox" value="">
