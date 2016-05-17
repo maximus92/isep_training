@@ -19,6 +19,9 @@ public class User {
 	public String lastname;
 	public int isProf;
 	public String token;
+	public static Connection conn = null;
+	public static PreparedStatement stmt = null;
+	public static ResultSet rs =null;
 	
 	public User(String username,String firstname, String lastname,int isProf, String uuid){
 		this.username = username;
@@ -49,8 +52,6 @@ public class User {
 	}
 	
 	public void insert(){
-		  Connection conn = null;
-	      PreparedStatement stmt=null;
 	      try{
     		  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("INSERT INTO user(username,firstname,lastname,token,isprof) "
@@ -72,9 +73,6 @@ public class User {
 	
 	public String exist(){
 		String token="";
-		Connection conn = null;
-		ResultSet rs =null;
-	      PreparedStatement stmt=null;
 	      try{
 	    	  conn = DB.getConnection();
 	          stmt = conn.prepareStatement("SELECT * FROM user WHERE username='"+this.username+"'");
@@ -98,9 +96,6 @@ public class User {
 	}
 	
 	public static User getUserByToken(String token){
-		  Connection conn = null;
-	      PreparedStatement stmt=null;
-	      ResultSet rs = null;
 	      User u = null;
 	      try{
   		  conn = DB.getConnection();
@@ -127,5 +122,30 @@ public class User {
 	    		  }
 	    	  }
 	      }
+	}
+	
+	public static int getIdByToken(String token){
+		int id_user = 0;
+		try{
+	  		  conn = DB.getConnection();
+	  		  stmt = conn.prepareStatement("SELECT * FROM user WHERE token='"+token+"'");
+	          rs = stmt.executeQuery();
+	          while(rs.next()){
+	        	  id_user = rs.getInt("id_user");
+	          }
+	          stmt.close();
+	          return id_user;          
+		      }catch(SQLException e){
+		    	  e.printStackTrace();
+		    	  return id_user;
+		      }finally{
+		    	  if(conn != null){
+		    		  try{
+		    			 conn.close(); 
+		    		  }catch(SQLException ignore){
+		    			  ignore.printStackTrace();
+		    		  }
+		    	  }
+		      }
 	}
 }
