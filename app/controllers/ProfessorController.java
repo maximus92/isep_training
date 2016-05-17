@@ -10,9 +10,10 @@ import views.html.*;
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
-@With(ProfessorSecurity.class)
+//@With(ProfessorSecurity.class)
 public class ProfessorController extends Controller {
-
+	 
+	 
     /**
      * An action that renders an HTML page with a welcome message.
      * The configuration in the <code>routes</code> file means that
