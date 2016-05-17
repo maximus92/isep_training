@@ -1,14 +1,16 @@
 package controllers;
 
+import controllers.security.ProfessorSecurity;
 import controllers.security.Secured;
+import controllers.security.StudentSecurity;
 import play.mvc.*;
-
 import views.html.*;
 
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
+@With(ProfessorSecurity.class)
 public class ProfessorController extends Controller {
 
     /**

@@ -63,6 +63,7 @@ public class ConnexionLDAP{
         String fn = attrs.get("givenname").toString().replaceAll("^(givenName: )", "");
         String uuID = UUID.randomUUID().toString();
         //pwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
+        System.out.println(ln);
         int isprof = isProf(emp);
         User u = new User(login,fn,ln,isprof,uuID);
         return  u;
