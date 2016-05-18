@@ -1,6 +1,7 @@
 package controllers;
 
 
+import models.Answer;
 import models.Question;
 import models.User;
 import controllers.security.ProfessorSecurity;
@@ -34,20 +35,38 @@ public class ProfessorController extends Controller {
 	public Result addQ(){
 		DynamicForm form = Form.form().bindFromRequest();
 		String question = form.get("question");
-		String correction = form.get("reponse1");
+		String correction = form.get("correction");
 		String level = form.get("level");
 		String id_chapter = form.get("id_chapter");
 		String forexam = form.get("forexam");
 		String file = form.get("file");
 		String token = session().get("token");
 		int createby = User.getIdByToken(token);
+		String answer = form.get("reponse1");
+		String istrue = isQuestionTrue(form.get("goodA1"));
 		
 		Logger.debug(question+" "+correction+" "+level+" "+id_chapter+" "+forexam+" "+file+" "+createby+" "+token);
 
 		Question q = new Question(question, correction, level, id_chapter, forexam, file, createby);
-		q.insert();
+		
+		int id_question = q.insertQuestion();
+		
+		Logger.debug(Integer.toString(id_question)+" "+istrue);
+
+		
+		Answer a = new Answer(answer, id_question, istrue);
+		a.insertAnswer();
 		return ok(home_prof.render(""));
 		
+	}
+	
+	public  String  isQuestionTrue(String s){
+		if(s == "1"){
+			return "1";
+		}
+		else{
+			return "0";
+		}
 	}
 
 }

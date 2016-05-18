@@ -1,10 +1,12 @@
 package models;
 
 import play.mvc.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Hashtable;
 import java.util.UUID;
 
@@ -14,7 +16,6 @@ import play.data.*;
 import play.db.*;
 
 import javax.inject.Inject;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -22,7 +23,6 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import play.Logger;
-
 import views.html.*;
 
 import java.sql.Connection;
@@ -59,23 +59,28 @@ public class Question {
 	}
 	
 
-	public void insert(){
-		
-		
-		  Connection conn = null;
-	      PreparedStatement stmt=null;
+	public int insertQuestion(){
+		 int id_question = 0;
+		  Connection connection = null;
+	      PreparedStatement stmt = null;
 	      try{
-  		  conn = DB.getConnection();
-	          stmt = conn.prepareStatement("INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-	          		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"', '"+this.createby+"')");
+  		  connection = DB.getConnection();
+	          stmt = connection.prepareStatement("INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
+	          		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"', '"+this.createby+"')",Statement.RETURN_GENERATED_KEYS);
 	          stmt.executeUpdate();
+	          ResultSet resultat = stmt.getGeneratedKeys();
+	          if(resultat.next()){
+	        	   id_question = resultat.getInt(1);
+	          }
 	          stmt.close();
+	          return id_question;
 	      }catch(SQLException e){
 	    	  e.printStackTrace();
+	    	  return id_question;
 	      }finally{
-	    	  if(conn != null){
+	    	  if(connection != null){
 	    		  try{
-	    			 conn.close(); 
+	    			 connection.close(); 
 	    		  }catch(SQLException ignore){
 	    			  ignore.printStackTrace();
 	    		  }

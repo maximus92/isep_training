@@ -102,6 +102,8 @@
 					</div>
 					</br>
 					<div id="addQuestion">
+						<input type="hidden" value="2" name="reponse_counter" id="reponse_counter" /> 
+					
 						<div id="remove0">
 							<label for="reponse">Réponse</label>
 							<div class="row">
@@ -109,11 +111,11 @@
 									<input type="text" class="form-control" id="reponse1" name="reponse1">
 								</div>
 								<div class="col-xs-1">
-									<label> <input type="checkbox" value="">
+									<label> <input type="checkbox" value="1" name="goodA1">
 									</label>
 								</div>
 								<div class="col-xs-1">
-									<i class="fa fa-times" onclick="removeDiv('remove0');"></i>
+									<i class="fa fa-times" id="delete_answer" onclick="removeDiv('remove0');"></i>
 								</div>
 							</div>
 						</div>
@@ -123,27 +125,29 @@
 							<label for="reponse">Réponse</label>
 							<div class="row">
 								<div class="col-xs-10">
-									<input type="text" class="form-control" id="reponse1">
+									<input type="text" class="form-control" id="reponse2" name="reponse2">
 								</div>
 								<div class="col-xs-1">
-									<label> <input type="checkbox" value="">
+									<label> <input type="checkbox" value="" name="goodA2">
 									</label>
 								</div>
 								<div class="col-xs-1">
-									<i class="fa fa-times" onclick="removeDiv('remove1');"></i>
+									<i class="fa fa-times" id="delete_answer" onclick="removeDiv('remove1');"></i>
 								</div>
 							</div>
 						</div>
+						
 					</div>
 
 
 					</br>
 
-					<div class="pull-right">
-						<button type="button" class="btn btn-primary"
-							onclick="add('addQuestion')">Ajouter une réponse</button>
-					</div>
+						<button type="button" class="btn btn-primary pull-left"
+							onclick="add('addQuestion')" id="addAnswer">Ajouter une réponse</button>
 					</br> </br>
+					</br>
+					<label for="correction">Correction détaillée</label>
+					<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 
 					<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
 				</form>
