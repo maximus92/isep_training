@@ -35,8 +35,8 @@ public class SigninController extends Controller {
         DynamicForm signinform = Form.form().bindFromRequest();
         ConnexionLDAP c = new ConnexionLDAP();
         Logger.debug("ok");
-       User u = c.connectLDAP(signinform);
-        //User u = c.connect(signinform);
+       //User u = c.connectLDAP(signinform);
+        User u = c.connect(signinform);
         if(u.exist().equals("")){
         	u.insert();
         }else{
