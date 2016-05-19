@@ -37,8 +37,12 @@ public class StudentController extends Controller {
           
 	@Security.Authenticated(Secured.class)
     public Result index() {
-        return ok(home.render(""));
+        return ok(home_student.render(""));
     }
+	
+	public Result generate_qcm(){
+		return ok(student_generate_qcm.render(""));
+	}
     
 
 }
