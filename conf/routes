@@ -15,7 +15,9 @@ POST    /signin                     controllers.SigninController.connexion
 GET     /logout                     controllers.SigninController.logout
 
 GET     /prof                       controllers.ProfessorController.index
-POST    /addq                     controllers.ProfessorController.addQ
+POST    /addq                       controllers.ProfessorController.addQ
+
+GET		/student/generate_qcm		controllers.StudentController.generate_qcm
 
 
 # Map static resources from the /public folder to the /assets URL path
