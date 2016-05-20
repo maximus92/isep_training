@@ -1,25 +1,20 @@
 package controllers;
 
 
-import play.mvc.*;
+import static play.libs.Json.toJson;
 
-import views.html.*;
-import play.Logger;
-import play.data.DynamicForm;
-import play.data.Form;
-import play.db.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.inject.Inject;
-
+import models.Module;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
+import play.mvc.With;
 import controllers.security.Secured;
 import controllers.security.StudentSecurity;
-import models.*;
+
+import views.html.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -37,11 +32,14 @@ public class StudentController extends Controller {
           
 	@Security.Authenticated(Secured.class)
     public Result index() {
-        return ok(home_student.render(""));
+        return ok(student_generate_qcm.render(""));
     }
+
 	
-	public Result generate_qcm(){
-		return ok(student_generate_qcm.render(""));
+	public Result getAllModules(){
+		ArrayList<String> modules = new ArrayList<String>();
+		modules = Module.getAllModules();
+		return ok(toJson(modules));	
 	}
     
 

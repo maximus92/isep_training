@@ -6,22 +6,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import play.Logger;
 import play.db.DB;
 
 public class Module {
 	
-	private final static String GET_ALL_MODULES = "SELECT name FROM Module";
+	private final static String GET_ALL_MODULES = "SELECT name FROM module";
 	
 	private static String module_name;
 	private static String id_module;
-	private static ArrayList<String> all_modules;
 	
 	public Module(String module_name, String id_module){
 		this.module_name = module_name;
 		this.id_module = id_module;
 	}
 	
-	public ArrayList<String> getAllModules(){
+	public static ArrayList<String> getAllModules(){
+		ArrayList<String> all_modules = new ArrayList<String>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -31,6 +32,7 @@ public class Module {
 			result = statement.executeQuery();
 			while(result.next()){
 				all_modules.add(result.getString("name"));
+
 			}
 			statement.close();
 		} catch (SQLException e){
