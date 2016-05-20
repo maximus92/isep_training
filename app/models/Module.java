@@ -11,7 +11,7 @@ import play.db.DB;
 
 public class Module {
 	
-	private final static String GET_ALL_MODULES = "SELECT name FROM module";
+	private final static String GET_ALL_MODULES = "SELECT id_module, name FROM module";
 	
 	private static String module_name;
 	private static String id_module;
@@ -21,8 +21,8 @@ public class Module {
 		this.id_module = id_module;
 	}
 	
-	public static ArrayList<String> getAllModules(){
-		ArrayList<String> all_modules = new ArrayList<String>();
+	public static ArrayList<ArrayList<String>> getAllModules(){
+		ArrayList<ArrayList<String>> all_modules = new ArrayList<ArrayList<String>>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -31,7 +31,10 @@ public class Module {
 			statement = connection.prepareStatement(GET_ALL_MODULES);
 			result = statement.executeQuery();
 			while(result.next()){
-				all_modules.add(result.getString("name"));
+				ArrayList<String> array = new ArrayList<String>();
+				array.add(Integer.toString(result.getInt("id_module")));
+				array.add(result.getString("name"));
+				all_modules.add(array);
 
 			}
 			statement.close();

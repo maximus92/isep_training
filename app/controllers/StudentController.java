@@ -6,6 +6,7 @@ import static play.libs.Json.toJson;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Chapter;
 import models.Module;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,7 +14,6 @@ import play.mvc.Security;
 import play.mvc.With;
 import controllers.security.Secured;
 import controllers.security.StudentSecurity;
-
 import views.html.*;
 
 /**
@@ -32,14 +32,19 @@ public class StudentController extends Controller {
           
 	@Security.Authenticated(Secured.class)
     public Result index() {
-        return ok(student_generate_qcm.render(""));
+        return ok(home_student.render(""));
     }
 
 	
-	public Result getAllModules(){
-		ArrayList<String> modules = new ArrayList<String>();
+	public Result studentQcmSettings(){
+		ArrayList<ArrayList<String>> modules = new ArrayList<ArrayList<String>>();
+		ArrayList<String> chapters = new ArrayList<String>();
+		
 		modules = Module.getAllModules();
-		return ok(toJson(modules));	
+		chapters = Chapter.getChaptersByModuleId(Integer.parseInt(modules.get(0).get(0)));
+		
+		
+		return ok(student_qcm_settings.render("", modules, chapters));
 	}
     
 
