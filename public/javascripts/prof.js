@@ -42,17 +42,39 @@
 		function countAnswer(){
 	
 		var v = $("#reponse_counter").val();
-		alert(v);
-		$("#addAnswer").click(function(){
-			v++;
-			$("#reponse_counter").val(v);
-		});
-		$("#delete_answer").live("click",function(){
-			alert("ok");
-			v = v-1;
-			$("#reponse_counter").val(v);
-		});
+			$("#addAnswer").click(function(){
+				v++;
+				$("#reponse_counter").val(v);
+			});
+			$("#delete_answer").live("click",function(){
+				v = v-1;
+				$("#reponse_counter").val(v);
+			});
 		}
+		
+		$("#module-form").submit(function(event){
+			event.preventDefault();
+		});
+		
+		$("#btn-ajout-module").click(function(){
+			var dataString = $("#module-form").serialize();
+	        $.ajax({
+	            type: "POST",
+	            url: "/add-module",
+	            data: dataString,
+	            dataType: "json",
+	           
+	            success: function(data) {
+	            	$(".module-reponse").append('<div class="padding-10 col-sm-6">'+
+	            					data.name+
+	            					'<input type="hidden" class="form-control" name="id_user" value="'+data.id+'">'+
+	            				'</div>'+	
+	            				'<div class="padding-10 center col-sm-4">'+
+	                				'<button type="submit" id="btn-delete-module" class="btn btn-danger">Supprimer</button>'+
+	              				'</div>');
+	                          }
+	        });       
+		});
 	});
 	
 	
