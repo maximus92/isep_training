@@ -1,0 +1,23 @@
+@(message: String, modules: ArrayList[ArrayList[String]], chapters: ArrayList[String])
+@main("Générer un Qcm"){
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-5">
+            <ul id="module">
+                @for(module <- modules){
+                    <li>@module(1)</li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-5">
+            <ul id="chapter">
+                @for(chapter <- chapters){
+            	    <li> @chapter </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+}
