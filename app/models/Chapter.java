@@ -11,10 +11,10 @@ import play.db.DB;
 
 public class Chapter {
 	
-	private static final String GET_CHAPTERS_BY_MODULE_ID = "SELECT chapter_name FROM chapter WHERE id_module = ?";
+	private static final String GET_CHAPTERS_BY_MODULE_ID = "SELECT id_chapter, chapter_name FROM chapter WHERE id_module = ?";
 
-	public static ArrayList<String> getChaptersByModuleId(int module_id){
-		ArrayList<String> chapters = new ArrayList<String>();
+	public static ArrayList<ArrayList<String>> getChaptersByModuleId(int module_id){
+		ArrayList<ArrayList<String>> chapters = new ArrayList<ArrayList<String>>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -27,7 +27,10 @@ public class Chapter {
 			result = statement.executeQuery();
 			
 			while(result.next()){
-				chapters.add(result.getString("chapter_name"));
+				ArrayList<String> array = new ArrayList<String>();
+				array.add(Integer.toString(result.getInt("id_chapter")));
+				array.add(result.getString("chapter_name"));
+				chapters.add(array);
 			}
 			statement.close();
 		} catch (SQLException e){

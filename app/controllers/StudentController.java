@@ -38,7 +38,7 @@ public class StudentController extends Controller {
 	
 	public Result studentQcmSettings(){
 		ArrayList<ArrayList<String>> modules = new ArrayList<ArrayList<String>>();
-		ArrayList<String> chapters = new ArrayList<String>();
+		ArrayList<ArrayList<String>> chapters = new ArrayList<ArrayList<String>>();
 		
 		modules = Module.getAllModules();
 		chapters = Chapter.getChaptersByModuleId(Integer.parseInt(modules.get(0).get(0)));
