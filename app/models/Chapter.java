@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import play.Logger;
 import play.db.DB;
 
 public class Chapter {
