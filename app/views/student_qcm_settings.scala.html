@@ -2,20 +2,74 @@
 @main("Générer un Qcm"){
 
 <div class="container">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="col-md-5">
-            <ul id="module">
-                @for(module <- modules){
-                    <li>@module(1)</li>
-                }
-            </ul>
+    <div class="col-md-10 col-md-offset-1" id="student-qcm-settings-first-part">
+        <div>
+            <div class="col-md-4">
+                <ul class="list-group" id="module">
+                    @for(module <- modules){
+                        <li class="list-group-item">@module(1)</li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-1 btn-lg">
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-group" id="chapter">
+                    @for(chapter <- chapters){
+                        <li class="list-group-item"> @chapter </li>
+                    }
+                </ul>
+            </div>
         </div>
-        <div class="col-md-5">
-            <ul id="chapter">
-                @for(chapter <- chapters){
-            	    <li> @chapter </li>
-                }
-            </ul>
+        <div class="col-md-4 col-md-offset-6">
+            <button type="button" class="btn btn-lg btn-default">Retour</button>
+            <button type="button" class="btn btn-lg btn-default col-md-offset-1" id="pass-to-settings-second-part">Suivant</button>
+        </div>
+    </div>
+    
+    <div id="student-qcm-settings-second-part">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <h3>Nombre de questions</h3>
+                <select name="number-of-questions" id="number-of-questions" class="form-control">
+                    @for(i <- 1 until 11){
+                          <option>@(i*5)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+                <h3>Temps imparti</h3>
+                <div class="col-md-4">
+                    <select name="time" id="time" class="form-control">
+                        @for(i <- 1 until 5){
+                              <option>@(i)</option>
+                        }
+                    </select>
+                </div>
+                <p class="col-md-2">H</p>
+                <div class="col-md-4">
+                    <select name="time" id="time" class="form-control">
+                        @for(i <- 1 until 13){
+                              <option>@(i*5)</option>
+                        }
+                    </select>
+                </div>    
+                <p class="col-md-2">Min</p>
+            </div>
+        
+            <div class="col-md-3 col-md-offset-1">
+                <h3>Difficulté</h3>
+                <select name="question-level" id="question-level" class="form-control">
+                    @for(i <- 1 until 4){
+                          <option>@(i)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-6">
+            <button type="button" class="btn btn-lg btn-default" id="back-to-settings-first-part" >Retour</button>
+            <button type="button" class="btn btn-lg btn-default col-md-offset-1">Commencer</button>
         </div>
     </div>
 </div>

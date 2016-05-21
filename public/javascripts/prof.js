@@ -35,7 +35,6 @@
 		}
 	}
 	
-	
 	$(document).ready(function(){
 		countAnswer();
 
@@ -77,6 +76,4 @@
 		});
 	});
 	
-	
-
 //});
