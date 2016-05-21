@@ -89,9 +89,7 @@
 						<button type="button" class="btn btn-success btn-sm">&</button>
 					</div>
 				</div>
-				</br>
-				</br>
-				</br>
+				</br> </br>
 				<div class="row">
 					<div class="col-xs-9"></div>
 					<div class="col-xs-3">
@@ -147,8 +145,8 @@
 				</br>
 
 				<button type="button" class="btn btn-primary pull-left"
-					onclick="add('addQuestion')" id="addAnswer">Ajouter une
-					réponse</button>
+					onclick="addAnswer('addQuestion')" id="addAnswer">Ajouter
+					une réponse</button>
 				</br> </br> </br> <label for="correction">Correction détaillée</label>
 				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 				</br>
@@ -217,40 +215,153 @@
 
 
 		<div id="test" class="tab-pane fade">
-			<div class="row">
-				<div class="col-sm-1">
-					<label for="module">Module : </label>
-				</div>
-				<div class="col-sm-3">
-					<SELECT name="module" size="1">
-						<OPTION>Mathématiques</OPTION>
-						<OPTION>Physique</OPTION>
-						<OPTION>Anglais</OPTION>
-					</SELECT>
-				</div>
-				<div class="col-sm-1 ">
-					<label for="chapter">Chapitre : </label>
-				</div>
-				<div class="col-sm-3">
-					<SELECT name="chapter" size="1">
-						<OPTION>...</OPTION>
-						<OPTION>...</OPTION>
-					</SELECT>
-				</div>
+			<form class="form-inline">
+				<input type="text" class="form-control" id="titre"
+					placeholder="Titre" size=100%> </br> </br>
+				<div class="row">
+					<div class="col-xs-1">
+						<label for="module">Module: </label>
+					</div>
+					<div class="col-xs-3">
+						<SELECT name="module" size="1">
+							<OPTION>Mathématiques</OPTION>
+							<OPTION>Physique</OPTION>
+							<OPTION>Anglais</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-xs-1 ">
+						<label for="chapter">Chapitre: </label>
+					</div>
+					<div class="col-xs-3">
+						<SELECT name="chapter" size="1">
+							<OPTION>...</OPTION>
+							<OPTION>...</OPTION>
+						</SELECT>
+					</div>
 
-				<div class="col-sm-1 ">
+					<div class="col-xs-1 ">
 
-					<label for="difficulty">Difficulté : </label>
-				</div>
-				<div class="col-sm-3">
+						<label for="difficulty">Difficulté: </label>
+					</div>
+					<div class="col-xs-2">
 
-					<SELECT name="difficulty" size="1">
-						<OPTION>Facile</OPTION>
-						<OPTION>Moyen</OPTION>
-						<OPTION>Difficile</OPTION>
-					</SELECT>
+						<SELECT name="difficulty" size="1">
+							<OPTION>Facile</OPTION>
+							<OPTION>Moyen</OPTION>
+							<OPTION>Difficile</OPTION>
+						</SELECT>
+					</div>
 				</div>
-			</div>
+				<div id="question1">
+					<label for="question">Question</label> <input type="text"
+						class="form-control" id="question" name="question" size=100%>
+					<div class="row">
+						<div class="col-xs-9"></div>
+						<div class="col-xs-3">
+
+							<label> Cocher les bonnes </br>réponses
+							</label>
+						</div>
+					</div>
+					<div id="removeT0">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse1"
+									name="reponse1" size=100%>
+							</div>
+							<div class="col-xs-1">
+								<label> <input type="checkbox" value="1" name="goodA1">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times" id="delete_answer"
+									onclick="removeDiv('removeT0');"></i>
+							</div>
+						</div>
+					</div>
+					<div id="removeT1">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse1"
+									name="reponse1" size=100%>
+							</div>
+							<div class="col-xs-1">
+								<label> <input type="checkbox" value="1" name="goodA1">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times" id="delete_answer"
+									onclick="removeDiv('removeT0');"></i>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<button type="button" class="btn btn-primary pull-right"
+					onclick="addAnswer('question1')">Ajouter une réponse</button>
+				</br> </br>
+
+
+				<div id="question2">
+					<label for="question">Question</label> <input type="text"
+						class="form-control" id="question" name="question" size=100%>
+					<div class="row">
+						<div class="col-xs-9"></div>
+						<div class="col-xs-3">
+
+							<label> Cocher les bonnes </br>réponses
+							</label>
+						</div>
+					</div>
+					<div id="removeT0">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse1"
+									name="reponse1" size=100%>
+							</div>
+							<div class="col-xs-1">
+								<label> <input type="checkbox" value="1" name="goodA1">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times" id="delete_answer"
+									onclick="removeDiv('removeT0');"></i>
+							</div>
+						</div>
+					</div>
+					<div id="removeT1">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse1"
+									name="reponse1" size=100%>
+							</div>
+							<div class="col-xs-1">
+								<label> <input type="checkbox" value="1" name="goodA1">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times" id="delete_answer"
+									onclick="removeDiv('removeT0');"></i>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<button type="button" class="btn btn-primary pull-right"
+					onclick="addAnswer('question2')">Ajouter une réponse</button>
+				</br>
+
+
+				<button type="button" class="btn btn-warning btn-lg pull-left">Ajouter
+					une question</button>
+				</br>
+				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
+
+			</form>
 
 		</div>
 
@@ -287,14 +398,12 @@
 				</div>
 				</br> <label for="time">Temps imparti : </label> <select name="hour"
 					id="hour"></select> Heures <select name="minute" id="minute"></select>
-				Minutes </br>
-				</br> <label for="positiveP">Nombre de points par bonne réponse
-					: </label> <input type="number" id="positiveP"> </br> </br> <label
+				Minutes </br> </br> <label for="positiveP">Nombre de points par bonne
+					réponse : </label> <input type="number" id="positiveP"> </br> </br> <label
 					for="negativeP">Nombre de points par mauvaise réponse : </label> <input
-					type="number" id="negativeP"> </br>
-				</br> <label for="nullP">Nombre de points par réponse vide: </label> <input
-					type="number" id="nullP"> </br>
-				</br>
+					type="number" id="negativeP"> </br> </br> <label for="nullP">Nombre
+					de points par réponse vide: </label> <input type="number" id="nullP">
+				</br> </br>
 
 				<!-- Trigger the modal with a button -->
 				<button type="button" class="btn btn-info btn-lg pull-right"
@@ -372,7 +481,8 @@
 
 													<div class="pull-right">
 														<button type="button" class="btn btn-primary"
-															onclick="add('addAnswer')">Ajouter une réponse</button>
+															onclick="addAnswer('addAnswer')">Ajouter une
+															réponse</button>
 													</div>
 												</form>
 												</br> </br>
