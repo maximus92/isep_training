@@ -41,6 +41,7 @@ public class ProfessorController extends Controller {
 		String forexam = form.get("forexam");
 		String file = form.get("file");
 		String token = session().get("token");
+		int reponse_counter = Integer.parseInt(form.get("reponse_counter"));
 		int createby = User.getIdByToken(token);
 		
 		
@@ -51,7 +52,7 @@ public class ProfessorController extends Controller {
 		int id_question = q.insertQuestion();
 		
 
-		for(int i = 1; i < 4; i++){
+		for(int i = 1; i <= reponse_counter; i++){
 			String answer = form.get("reponse"+i+"");
 			String istrue = isQuestionTrue(form.get("goodA"+i+""));
 			Answer a = new Answer(answer, id_question, istrue);
@@ -72,5 +73,7 @@ public class ProfessorController extends Controller {
 			return "0";
 		}
 	}
+	
+	
 
 }
