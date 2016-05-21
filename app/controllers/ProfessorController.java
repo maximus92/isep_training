@@ -42,8 +42,7 @@ public class ProfessorController extends Controller {
 		String file = form.get("file");
 		String token = session().get("token");
 		int createby = User.getIdByToken(token);
-		String answer = form.get("reponse1");
-		String istrue = isQuestionTrue(form.get("goodA1"));
+		
 		
 		Logger.debug(question+" "+correction+" "+level+" "+id_chapter+" "+forexam+" "+file+" "+createby+" "+token);
 
@@ -51,11 +50,16 @@ public class ProfessorController extends Controller {
 		
 		int id_question = q.insertQuestion();
 		
-		Logger.debug(Integer.toString(id_question)+" "+istrue);
 
+		for(int i = 1; i < 4; i++){
+			String answer = form.get("reponse"+i+"");
+			String istrue = isQuestionTrue(form.get("goodA"+i+""));
+			Answer a = new Answer(answer, id_question, istrue);
+			a.insertAnswer();
+		}
 		
-		Answer a = new Answer(answer, id_question, istrue);
-		a.insertAnswer();
+		//Logger.debug(Integer.toString(id_question)+" "+istrue);
+
 		return ok(home_prof.render(""));
 		
 	}
