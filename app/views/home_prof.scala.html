@@ -145,8 +145,7 @@
 				</br>
 
 				<button type="button" class="btn btn-primary pull-left"
-					onclick="addAnswer('addQuestion')" id="addAnswer">Ajouter
-					une réponse</button>
+					onclick="addAnswer('addQuestion');">Ajouter une réponse</button>
 				</br> </br> </br> <label for="correction">Correction détaillée</label>
 				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 				</br>
@@ -252,112 +251,117 @@
 						</SELECT>
 					</div>
 				</div>
-				<div id="question1">
-					<label for="question">Question</label> <input type="text"
-						class="form-control" id="question" name="question" size=100%>
-					<div class="row">
-						<div class="col-xs-9"></div>
-						<div class="col-xs-3">
-
-							<label> Cocher les bonnes </br>réponses
-							</label>
-						</div>
-					</div>
-					<div id="removeT0">
-						<label for="reponse">Réponse</label>
+				<div id="container_testQ">
+					<div id="question1" class="Qimpaire">
+						<label for="question">Question</label> <input type="text"
+							class="form-control" id="question" name="question" size=100%>
 						<div class="row">
-							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse1"
-									name="reponse1" size=100%>
-							</div>
-							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA1">
+							<div class="col-xs-9"></div>
+							<div class="col-xs-3">
+
+								<label> Cocher les bonnes </br>réponses
 								</label>
 							</div>
-							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('removeT0');"></i>
+						</div>
+						<div id="removeT0">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1"
+										name="reponse1" size=100%>
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="1" name="goodA1">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" id="delete_answer"
+										onclick="removeDiv('removeT0');"></i>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div id="removeT1">
-						<label for="reponse">Réponse</label>
-						<div class="row">
-							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse1"
-									name="reponse1" size=100%>
+						<div id="removeT1">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1"
+										name="reponse1" size=100%>
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="1" name="goodA1">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" id="delete_answer"
+										onclick="removeDiv('removeT0');"></i>
+								</div>
 							</div>
-							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA1">
+						</div>
+
+					</div>
+					<button type="button" class="btn btn-primary pull-right"
+						onclick="addAnswer('question1');">Ajouter une réponse</button>
+					</br> </br>
+
+
+					<div id="question2" class="Qpaire">
+						<label for="question">Question</label> <input type="text"
+							class="form-control" id="question" name="question" size=100%>
+						<div class="row">
+							<div class="col-xs-9"></div>
+							<div class="col-xs-3">
+
+								<label> Cocher les bonnes </br>réponses
 								</label>
 							</div>
-							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('removeT0');"></i>
+						</div>
+						<div id="removeT0">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1"
+										name="reponse1" size=100%>
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="1" name="goodA1">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" id="delete_answer"
+										onclick="removeDiv('removeT0');"></i>
+								</div>
 							</div>
 						</div>
+						<div id="removeT1">
+							<label for="reponse">Réponse</label>
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" class="form-control" id="reponse1"
+										name="reponse1" size=100%>
+								</div>
+								<div class="col-xs-1">
+									<label> <input type="checkbox" value="1" name="goodA1">
+									</label>
+								</div>
+								<div class="col-xs-1">
+									<i class="fa fa-times" id="delete_answer"
+										onclick="removeDiv('removeT0');"></i>
+								</div>
+							</div>
+						</div>
+
 					</div>
 
+
+					<button type="button" class="btn btn-primary pull-right"
+						onclick="addAnswer('question2');">Ajouter une réponse</button>
+					</br></br>
 				</div>
-				<button type="button" class="btn btn-primary pull-right"
-					onclick="addAnswer('question1')">Ajouter une réponse</button>
-				</br> </br>
 
 
-				<div id="question2">
-					<label for="question">Question</label> <input type="text"
-						class="form-control" id="question" name="question" size=100%>
-					<div class="row">
-						<div class="col-xs-9"></div>
-						<div class="col-xs-3">
-
-							<label> Cocher les bonnes </br>réponses
-							</label>
-						</div>
-					</div>
-					<div id="removeT0">
-						<label for="reponse">Réponse</label>
-						<div class="row">
-							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse1"
-									name="reponse1" size=100%>
-							</div>
-							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA1">
-								</label>
-							</div>
-							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('removeT0');"></i>
-							</div>
-						</div>
-					</div>
-					<div id="removeT1">
-						<label for="reponse">Réponse</label>
-						<div class="row">
-							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse1"
-									name="reponse1" size=100%>
-							</div>
-							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA1">
-								</label>
-							</div>
-							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('removeT0');"></i>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<button type="button" class="btn btn-primary pull-right"
-					onclick="addAnswer('question2')">Ajouter une réponse</button>
-				</br>
-
-
-				<button type="button" class="btn btn-warning btn-lg pull-left">Ajouter
-					une question</button>
+				<button type="button" class="btn btn-warning btn-lg pull-left"
+					onclick="addQuestion('container_testQ')">Ajouter une
+					question</button>
 				</br>
 				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
 

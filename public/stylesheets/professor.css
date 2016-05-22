@@ -47,7 +47,7 @@
 	height: 300px;
 }
 
-#question1 {
+.Qimpaire {
 	background-color: #ADD8E6;
 	padding-left: 2%;
 	padding-top: 2%;
@@ -59,7 +59,7 @@
 	color: #0D6186;
 }
 
-#question2 {
+.Qpaire {
 	background-color: #EDC353;
 	padding-left: 2%;
 	padding-top: 2%;
