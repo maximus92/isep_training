@@ -1,7 +1,7 @@
 //$(document).ready(function(){
 	
-	var i = 1;
 	function addAnswer(addQuestion) {
+		var i = 1;
 		i++;
 		var remove = 0;
 		id = remove + i;
