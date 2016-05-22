@@ -34,8 +34,7 @@
 			
 		}
 	}
-	
-	
+	/*
 	$(document).ready(function(){
 		countAnswer();
 
@@ -75,8 +74,6 @@
 	                          }
 	        });       
 		});
-	});
+	});*/
 	
-	
-
 //});
