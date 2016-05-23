@@ -60,32 +60,31 @@ public class Question {
 	
 
 	public int insertQuestion(){
-		 int id_question = 0;
-		  Connection connection = null;
-	      PreparedStatement stmt = null;
-	      try{
-  		  connection = DB.getConnection();
-	          stmt = connection.prepareStatement("INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-	          		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"', '"+this.createby+"')",Statement.RETURN_GENERATED_KEYS);
-	          stmt.executeUpdate();
-	          ResultSet resultat = stmt.getGeneratedKeys();
-	          if(resultat.next()){
-	        	   id_question = resultat.getInt(1);
-	          }
-	          stmt.close();
-	          return id_question;
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	    	  return id_question;
-	      }finally{
-	    	  if(connection != null){
-	    		  try{
-	    			 connection.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
-	      }
+		int id_question = 0;
+		Connection connection = null;
+	    PreparedStatement stmt = null;
+	    try{
+	    	connection = DB.getConnection();
+	        stmt = connection.prepareStatement("INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
+	        		+ "VALUES ('"+this.question+"', '"+this.correction+"', '"+this.level+"', '"+this.id_chapter+"', '"+this.forexam+"', '"+this.file+"', '"+this.createby+"')",Statement.RETURN_GENERATED_KEYS);
+	        stmt.executeUpdate();
+	        ResultSet resultat = stmt.getGeneratedKeys();
+	        if(resultat.next()){
+	        	id_question = resultat.getInt(1);
+	        }
+	        stmt.close();
+	        return id_question;
+	    }catch(SQLException e){
+	    	e.printStackTrace();
+	    	return id_question;
+	    }finally{
+	    	if(connection != null){
+	    		try{
+	    			connection.close(); 
+	    		}catch(SQLException ignore){
+	    			ignore.printStackTrace();
+	    		}
+	    	}
+	    }	
 	}
-
 }

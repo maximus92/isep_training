@@ -8,6 +8,10 @@ import java.util.List;
 
 import models.Chapter;
 import models.Module;
+import models.Qcm;
+import play.Logger;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -45,6 +49,23 @@ public class StudentController extends Controller {
 		
 		
 		return ok(student_qcm_settings.render("", modules, chapters));
+	}
+	
+	public Result studentDisplayTrainingQcm(){
+		DynamicForm form = Form.form().bindFromRequest();
+		String id_chapter = form.get("id_chapter");
+		String question_num = form.get("question_num");
+		String question_level = form.get("questino_level");
+		ArrayList<Integer> questionsArray = new ArrayList<Integer>();
+		
+		questionsArray = Qcm.getQuestionsIdArrayByParam(
+				Integer.parseInt(id_chapter), 
+				Integer.parseInt(question_num), 
+				Integer.parseInt(question_level)
+		);
+		
+		Logger.debug(Integer.toString(questionsArray.get(0)));
+		return ok(student_training_qcm.render("", questionsArray));
 	}
     
 

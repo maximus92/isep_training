@@ -44,7 +44,7 @@ $("#module > li").click(function(){
 	$(this).addClass("selected-module");
 	
 	// Récupération de l'id du module selectionné
-	id_module = $(this).attr("id").substring(10,11);
+	id_module = $(this).attr("id").substring(10);
 
 	// Cacher les Chapitres affichés
 	$(".chapters-list").hide();
@@ -68,7 +68,7 @@ $(".chapters-list > li").click(function(){
 	});
 	
 	// Récupération de l'id du chapitre selectionné
-	id_chapter = $(this).attr("id").substring(11,12);
+	id_chapter = $(this).attr("id").substring(11);
 	
 });
 
@@ -88,14 +88,18 @@ $("#send-qcm-settings").click(function(){
 	var question_level = parseInt($("#question-level").find(":selected").text());
 	
 	qcm_json_settings = {
-			"id_module": id_module,
 			"id_chapter": id_chapter,
 			"question_num": question_num,
 			"qcm_time": qcm_time,
 			"question_level": question_level
 	};
 	
-	alert(JSON.stringify(qcm_json_settings, null, '\t'));
+	$.ajax({
+		type:"POST",
+		url:"/student/trainingQcm",
+		data: qcm_json_settings,
+		dataType: "json"
+	});
 	
 });
 
