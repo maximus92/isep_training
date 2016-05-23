@@ -15,6 +15,8 @@ public class Module {
 	
 	private final static String GET_ALL_MODULES = "SELECT id_module, name FROM module";
 	private final static String INSERT_MODULE = "INSERT INTO module(name,id_user) VALUES (?, ?)";
+	private final static String DELETE_MODULE = "DELETE FROM module WHERE id_user=? AND id_module=?";
+	private final static String SELECT_BY_ID_USER_MODULE = "SELECT * FROM module WHERE id_user=?";
 	
 	private String module_name;
 	private int id_module;
@@ -110,7 +112,8 @@ public class Module {
 		ArrayList<Module> list = new ArrayList<Module>();
 	      try{
 	    	  connection = DB.getConnection();
-	    	  statement = connection.prepareStatement("SELECT * FROM module WHERE id_user='"+id+"'");
+	    	  statement = connection.prepareStatement(SELECT_BY_ID_USER_MODULE);
+	    	  statement.setInt(1,id);
 	    	  ResultSet rs = statement.executeQuery();
 	    	  while (rs.next()) {
 	                int module_id = rs.getInt("id_module");
@@ -133,5 +136,28 @@ public class Module {
 	    		  }
 	    	  }
 	      }
+	}
+	
+	public static void delete(int id_user, int id_module){
+		Connection connection = null;
+		PreparedStatement statement = null;
+      try{
+    	  connection = DB.getConnection();
+    	  statement = connection.prepareStatement(DELETE_MODULE);
+    	  statement.setInt(1,id_user);
+    	  statement.setInt(2,id_module);
+    	  statement.executeUpdate();
+    	  statement.close();
+      }catch(SQLException e){
+    	  e.printStackTrace();
+      }finally{
+    	  if(connection != null){
+    		  try{
+    			  connection.close(); 
+    		  }catch(SQLException ignore){
+    			  ignore.printStackTrace();
+    		  }
+    	  }
+      }
 	}
 }

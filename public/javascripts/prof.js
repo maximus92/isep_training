@@ -139,18 +139,30 @@ $(document).ready(function(){
 			  dataType: "json",
 	  
 			  success: function(data) { 
-				  $(".module-reponse").append('<div class="padding-10 col-sm-6">'+ data.name+ 
+				  $(".module-reponse").append('<div class="padding-10 col-sm-6 module-display'+data.id+'">'+ data.name+ 
 						  					'</div>'+ 
-						  					'<div class="padding-10 center col-sm-4">'+ 
+						  					'<div class="padding-10 center col-sm-4 module-display'+data.id+'">'+ 
 						  						'<button type="button" id="btn-delete-module'+data.id+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
 				  							'</div>'); 
 			  }
 		  }); 
 	  });
+	  $(".module-reponse").on('click', ".module-delete", function() {
+		  var id = $(this).attr('id').substring(17);
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/delete-module",
+			  data: {id : id}, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+				  var mod = ".module-display"+data.id_module;
+				  $(mod).css({display: "none"});
+			  }
+		  }); 
+		  
+		});
 	  
-	  $(".module-delete").click(function(){
-		  alert("ok");
-	  });
 	  
 	  $("#module-li").one("click",function(){ 
 		  var dataString = $("#module-form").serialize();
@@ -162,9 +174,9 @@ $(document).ready(function(){
 	  
 			  success: function(data) {
 				 for(var i=0; i<data.length;i++){ 
-				  $(".module-reponse").append('<div class="padding-10 col-sm-6">'+ data[i].module_name+ 
+				  $(".module-reponse").append('<div class="padding-10 col-sm-6 module-display'+data[i].id_module+'">'+ data[i].module_name+ 
 						  					'</div>'+ 
-						  					'<div class="padding-10 center col-sm-4">'+ 
+						  					'<div class="padding-10 center col-sm-4 module-display'+data[i].id_module+'">'+ 
 						  						'<button type="button" id="btn-delete-module'+data[i].id_module+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
 				  							'</div>'); 
 				  

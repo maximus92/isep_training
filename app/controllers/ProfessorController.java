@@ -103,6 +103,16 @@ public class ProfessorController extends Controller {
 	    return ok(json);
 	}
 	
+	public Result deleteModule(){
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_module = Integer.parseInt(form.get("id"));
+		String token = session().get("token");
+		int id_user = User.getIdByToken(token);
+		Module.delete(id_user, id_module);
+		ObjectNode result = Json.newObject();
+	    result.put("id_module", id_module);
+		return ok(result);
+	}
 	
 
 }
