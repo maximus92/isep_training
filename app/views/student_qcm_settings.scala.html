@@ -46,15 +46,15 @@
                 <div class="col-md-3 col-md-offset-1">
                     <h3>Temps imparti</h3>
                     <div class="col-md-4">
-                        <select name="time" id="time" class="form-control">
-                            @for(i <- 1 until 5){
+                        <select name="qcm-time-hours" id="qcm-time-hours" class="form-control">
+                            @for(i <- 1 until 4){
                                   <option>@(i)</option>
                             }
                         </select>
                     </div>
                     <p class="col-md-2">H</p>
                     <div class="col-md-4">
-                        <select name="time" id="time" class="form-control">
+                        <select name="qcm-time-minutes" id="qcm-time-minutes" class="form-control">
                             @for(i <- 1 until 13){
                                   <option>@(i*5)</option>
                             }
@@ -74,7 +74,7 @@
             </div>
             <div class="col-md-4 col-md-offset-6">
                 <button type="button" class="btn btn-lg btn-default" id="back-to-settings-first-part">Retour</button>
-                <button type="button" class="btn btn-lg btn-default col-md-offset-1">Commencer</button>
+                <button type="button" class="btn btn-lg btn-default col-md-offset-1" id="send-qcm-settings">Commencer</button>
             </div>
         </div>
     </div>
