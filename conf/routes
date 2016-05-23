@@ -15,6 +15,8 @@ POST    /signin                     controllers.SigninController.connexion
 GET     /logout                     controllers.SigninController.logout
 
 GET     /prof                       controllers.ProfessorController.index
+POST    /add-module                 controllers.ProfessorController.addModule
+POST    /select-module                 controllers.ProfessorController.selectModule
 POST    /addq                       controllers.ProfessorController.addQ
 
 GET		/student/qcmSettings		controllers.StudentController.studentQcmSettings
