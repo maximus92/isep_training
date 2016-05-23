@@ -1,5 +1,3 @@
-//$(document).ready(function(){
-	
 		var l = 1;
 		var i =1;
 
@@ -113,28 +111,65 @@
 		}
 	}
 	
-	/*
-	 * $(document).ready(function(){ countAnswer();
-	 * 
-	 * function countAnswer(){
-	 * 
-	 * var v = $("#reponse_counter").val(); $("#addAnswer").click(function(){
-	 * v++; $("#reponse_counter").val(v); });
-	 * $("#delete_answer").live("click",function(){ v = v-1;
-	 * $("#reponse_counter").val(v); }); }
-	 * 
-	 * $("#module-form").submit(function(event){ event.preventDefault(); });
-	 * 
-	 * $("#btn-ajout-module").click(function(){ var dataString =
-	 * $("#module-form").serialize(); $.ajax({ type: "POST", url: "/add-module",
-	 * data: dataString, dataType: "json",
-	 * 
-	 * success: function(data) { $(".module-reponse").append('<div
-	 * class="padding-10 col-sm-6">'+ data.name+ '<input type="hidden"
-	 * class="form-control" name="id_user" value="'+data.id+'">'+ '</div>'+ '<div
-	 * class="padding-10 center col-sm-4">'+ '<button type="submit"
-	 * id="btn-delete-module" class="btn btn-danger">Supprimer</button>'+ '</div>'); }
-	 * }); }); });
-	 */
-	
-// });
+
+$(document).ready(function(){ 
+	countAnswer();  
+	 function countAnswer(){
+		  var v = $("#reponse_counter").val(); 
+		  $("#addAnswer").click(function(){
+			  v++; 
+			  $("#reponse_counter").val(v); 
+		  });
+		  
+		  $("#delete_answer").click(function(){ 
+			  v = v-1;
+			  $("#reponse_counter").val(v); 
+		  });  
+	  } 
+	  $("#module-form").submit(function(event){ 
+		  event.preventDefault(); 
+	  });
+	  
+	  $("#btn-ajout-module").click(function(){ 
+		  var dataString = $("#module-form").serialize();
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/add-module",
+			  data: dataString, 
+			  dataType: "json",
+	  
+			  success: function(data) { 
+				  $(".module-reponse").append('<div class="padding-10 col-sm-6">'+ data.name+ 
+						  					'</div>'+ 
+						  					'<div class="padding-10 center col-sm-4">'+ 
+						  						'<button type="button" id="btn-delete-module'+data.id+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
+				  							'</div>'); 
+			  }
+		  }); 
+	  });
+	  
+	  $(".module-delete").click(function(){
+		  alert("ok");
+	  });
+	  
+	  $("#module-li").one("click",function(){ 
+		  var dataString = $("#module-form").serialize();
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/select-module",
+			  data: dataString, 
+			  dataType: "json",
+	  
+			  success: function(data) {
+				 for(var i=0; i<data.length;i++){ 
+				  $(".module-reponse").append('<div class="padding-10 col-sm-6">'+ data[i].module_name+ 
+						  					'</div>'+ 
+						  					'<div class="padding-10 center col-sm-4">'+ 
+						  						'<button type="button" id="btn-delete-module'+data[i].id_module+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
+				  							'</div>'); 
+				  
+				 }
+			  }	 
+		  }); 
+	  });
+});
