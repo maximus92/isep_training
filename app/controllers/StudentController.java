@@ -37,11 +37,11 @@ public class StudentController extends Controller {
 
 	
 	public Result studentQcmSettings(){
-		ArrayList<ArrayList<String>> modules = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> chapters = new ArrayList<ArrayList<String>>();
+		ArrayList<Module> modules = new ArrayList<Module>();
+		ArrayList<Chapter> chapters = new ArrayList<Chapter>();
 		
 		modules = Module.getAllModules();
-		chapters = Chapter.getChaptersByModuleId(Integer.parseInt(modules.get(0).get(0)));
+		chapters = Chapter.getAllChapters();
 		
 		
 		return ok(student_qcm_settings.render("", modules, chapters));

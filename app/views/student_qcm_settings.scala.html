@@ -1,4 +1,4 @@
-@(message: String, modules: ArrayList[ArrayList[String]], chapters: ArrayList[ArrayList[String]])
+@(message: String, modules: ArrayList[Module], chapters: ArrayList[Chapter])
 @main("Générer un Qcm"){
 
 <div class="container">
@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                     <ul class="list-group" id="module">
                         @for(module <- modules){
-                            <li class="list-group-item" id="id-module-@module(0)">@module(1)</li>
+                            <li class="list-group-item" id="id-module-@module.getId_module">@module.getModule_name</li>
                         }
                     </ul>
                 </div>
@@ -16,11 +16,15 @@
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </div>
                 <div class="col-md-4">
-                    <ul class="list-group" id="chapter">
-                        @for(chapter <- chapters){
-                            <li class="list-group-item" id="id-chapter-@chapter(0)"> @chapter(1) </li>
-                        }
-                    </ul>
+	                @for(module <- modules){
+	                	<ul class="chapters-list list-group" id="chapters-module-@module.getId_module">
+	                        @for(chapter <- chapters){
+	                        	@if(chapter.getId_module == module.getId_module){
+	                            	<li class="list-group-item" id="id-chapter-@chapter.getId_chapter"> @chapter.getChapter_name </li>
+                            	}
+	                        }
+	                    </ul>
+	                }
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-6">

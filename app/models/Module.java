@@ -13,16 +13,24 @@ public class Module {
 	
 	private final static String GET_ALL_MODULES = "SELECT id_module, name FROM module";
 	
-	private static String module_name;
-	private static String id_module;
+	private String module_name;
+	private int id_module;
 	
-	public Module(String module_name, String id_module){
+	public String getModule_name() {
+		return module_name;
+	}
+
+	public int getId_module() {
+		return id_module;
+	}
+
+	public Module(int id_module, String module_name){
 		this.module_name = module_name;
 		this.id_module = id_module;
 	}
 	
-	public static ArrayList<ArrayList<String>> getAllModules(){
-		ArrayList<ArrayList<String>> all_modules = new ArrayList<ArrayList<String>>();
+	public static ArrayList<Module> getAllModules(){
+		ArrayList<Module> all_modules = new ArrayList<Module>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -31,10 +39,8 @@ public class Module {
 			statement = connection.prepareStatement(GET_ALL_MODULES);
 			result = statement.executeQuery();
 			while(result.next()){
-				ArrayList<String> array = new ArrayList<String>();
-				array.add(Integer.toString(result.getInt("id_module")));
-				array.add(result.getString("name"));
-				all_modules.add(array);
+				Module module = new Module(result.getInt("id_module"), result.getString("name"));
+				all_modules.add(module);
 
 			}
 			statement.close();
