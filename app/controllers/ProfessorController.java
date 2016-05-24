@@ -62,7 +62,7 @@ public class ProfessorController extends Controller {
 
 		for(int i = 1; i <= reponse_counter; i++){
 			String answer = form.get("reponse"+i+"");
-			String istrue = isQuestionTrue(form.get("goodA"+i+""));
+			String istrue = isAnswerTrue(form.get("goodA"+i+""));
 			Answer a = new Answer(answer, id_question, istrue);
 			a.insertAnswer();
 		}
@@ -73,7 +73,7 @@ public class ProfessorController extends Controller {
 		
 	}
 	
-	public  String  isQuestionTrue(String s){
+	public  String  isAnswerTrue(String s){
 		if(s == "1"){
 			return "1";
 		}
