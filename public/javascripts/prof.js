@@ -184,4 +184,26 @@ $(document).ready(function(){
 			  }	 
 		  }); 
 	  });
+	  
+	  $("#bdd-li").one("click",function(){
+		  dataString = "";
+		  
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/select-question",
+			  data: dataString, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+					 for(var i=0; i<data.length;i++){ 
+					  $(".question-select").append('<div class="padding-10 col-sm-6 module-display'+data[i].id_question+'">'+ data[i].question+ 
+							  					'</div>'); 
+					  
+					 }
+				  }
+			  
+	  
+			
+		  }); 
+	  });
 });

@@ -7,10 +7,10 @@
 			<li><a href="#test" data-toggle="tab">Test de cours</a></li>
 			<li><a href="#examen" aria-controls="messages" role="tab"
 				data-toggle="tab">Examens</a></li>
-			<li><a href="#bdd" aria-controls="settings" role="tab"
-				data-toggle="tab">Base de données</a></li>
-			<li><a href="#module" id="module-li" aria-controls="settings" role="tab"
-				data-toggle="tab">Module</a></li>	
+			<li><a href="#bdd" id="bdd-li" aria-controls="settings"
+				role="tab" data-toggle="tab">Base de données</a></li>
+			<li><a href="#module" id="module-li" aria-controls="settings"
+				role="tab" data-toggle="tab">Module</a></li>
 		</ul>
 	</div>
 
@@ -357,7 +357,8 @@
 
 					<button type="button" class="btn btn-primary pull-right"
 						onclick="addAnswer('question2');">Ajouter une réponse</button>
-					</br></br>
+					</br>
+					</br>
 				</div>
 
 
@@ -517,30 +518,40 @@
 			</form>
 		</div>
 		<!-- Fin page Examen -->
+
+		<!-- BASE DE DONN�ES -->
+
+		<div id="bdd" class="tab-pane fade">
 		
-		<!-- Fin page Examen -->
-			
-			<!-- MODULE -->
-			<div id="module" class="tab-pane fade">
-				<div class="row">
-					<form id="module-form" action="@routes.ProfessorController.addModule()" method="POST">
-          				<div class="form-group padding-10">
-          					<div class="padding-10 col-sm-2">
-          						<label>Nom du module : </label>
-          					</div>	
-          					<div class="padding-10 col-sm-4">
-            					<input type="text" class="form-control" name="module_name">
-            				</div>	
-            				<div class="padding-10 center col-sm-4">
-                				<button type="submit" id="btn-ajout-module" class="btn btn-primary">Ajouter</button>
-              				</div>
-          				</div>
-        			</form>
-				</div>
-				<div class="row module-reponse"></div>
+					<div class="row question-select"></div>
+		
+		</div>
+
+		<!-- Fin page bdd -->
+
+		<!-- MODULE -->
+		<div id="module" class="tab-pane fade">
+			<div class="row">
+				<form id="module-form"
+					action="@routes.ProfessorController.addModule()" method="POST">
+					<div class="form-group padding-10">
+						<div class="padding-10 col-sm-2">
+							<label>Nom du module : </label>
+						</div>
+						<div class="padding-10 col-sm-4">
+							<input type="text" class="form-control" name="module_name">
+						</div>
+						<div class="padding-10 center col-sm-4">
+							<button type="submit" id="btn-ajout-module"
+								class="btn btn-primary">Ajouter</button>
+						</div>
+					</div>
+				</form>
 			</div>
-			
-			
+			<div class="row module-reponse"></div>
+		</div>
+
+
 	</div>
 </div>
 

@@ -114,5 +114,11 @@ public class ProfessorController extends Controller {
 		return ok(result);
 	}
 	
-
+	public Result selectQuestion(){
+		String token = session().get("token");
+		int id = User.getIdByToken(token);
+		ArrayList<Question> list = Question.select(id);
+		JsonNode json = Json.toJson(list);
+	    return ok(json);
+	}
 }

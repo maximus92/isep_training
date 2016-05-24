@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.UUID;
 
@@ -36,6 +37,7 @@ import play.data.Form;
 import play.db.*;
 
 public class Question {
+	public int id_question;
 	public String question;
 	public String correction;
 	public String level;
@@ -53,6 +55,17 @@ public class Question {
 		this.file = file;
 		this.createby = createby;	
 	}
+	
+	public Question(int id_question, String question,String correction, String level,String id_chapter, String forexam, String file){
+		this.id_question = id_question;
+		this.question = question;
+		this.correction = correction;
+		this.level = level;
+		this.id_chapter = id_chapter;
+		this.forexam = forexam;
+		this.file = file;
+	}
+
 	
 	public String getQuestion(){
 		return this.question;
@@ -87,4 +100,44 @@ public class Question {
 	    	}
 	    }	
 	}
+	
+	public static ArrayList<Question> select(int id){
+		Connection connection = null;
+		PreparedStatement statement = null;	
+		ArrayList<Question> list = new ArrayList<Question>();
+	      try{
+	    	  connection = DB.getConnection();
+	    	  statement = connection.prepareStatement("SELECT * FROM question WHERE createby=?");
+	    	  statement.setInt(1,id);
+	    	  ResultSet rs = statement.executeQuery();
+	    	  while (rs.next()) {
+	                int id_question = rs.getInt("id_question");
+	                String question = rs.getString("question");
+	                String correction = rs.getString("correction");
+	                String level = rs.getString("level");
+	                String id_chapter = rs.getString("id_chapter");
+	                String forexam = rs.getString("forexam");
+	                String file = rs.getString("file");
+	                Question q = new Question(id_question, question, correction, level,id_chapter, forexam, file);
+	                //add each employee to the list
+	                list.add(q);
+	            }
+	    	  statement.close();
+	          return list;
+	      }catch(SQLException e){
+	    	  e.printStackTrace();
+	    	  return list;
+	      }finally{
+	    	  if(connection != null){
+	    		  try{
+	    			  connection.close(); 
+	    		  }catch(SQLException ignore){
+	    			  ignore.printStackTrace();
+	    		  }
+	    	  }
+	      }
+	}
+	
+	
+	
 }
