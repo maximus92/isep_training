@@ -51,35 +51,25 @@ public class ProfessorController extends Controller {
 		String token = session().get("token");
 		int reponse_counter = Integer.parseInt(form.get("reponse_counter"));
 		int createby = User.getIdByToken(token);
-		
-		
-		Logger.debug(question+" "+correction+" "+level+" "+id_chapter+" "+forexam+" "+file+" "+createby+" "+token);
 
 		Question q = new Question(question, correction, level, id_chapter, forexam, file, createby);
-		
 		int id_question = q.insertQuestion();
-		
 
-		for(int i = 1; i <= reponse_counter; i++){
+		for(int i = 0; i <= reponse_counter; i++){
 			String answer = form.get("reponse"+i+"");
-			String istrue = isAnswerTrue(form.get("goodA"+i+""));
-			Answer a = new Answer(answer, id_question, istrue);
-			a.insertAnswer();
+			
+			if(answer != null && answer != ""){
+				String istrue = null;
+				if(form.get("goodA"+i+"") == null){
+					istrue = "0";
+				}else{
+					istrue = "1";
+				}
+				Answer a = new Answer(answer, id_question, istrue);
+				a.insertAnswer();
+			}
 		}
-		
-		//Logger.debug(Integer.toString(id_question)+" "+istrue);
-
-		return ok(home_prof.render(""));
-		
-	}
-	
-	public  String  isAnswerTrue(String s){
-		if(s == "1"){
-			return "1";
-		}
-		else{
-			return "0";
-		}
+		return redirect("/prof");
 	}
 	
 	public Result addModule(){
