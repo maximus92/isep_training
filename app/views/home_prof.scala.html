@@ -17,6 +17,8 @@
 
 	<!--  Page ajouter question -->
 	<div class="tab-content">
+		
+		<!-- AJOUT / IMPORTER -->
 		<div id="home" class="tab-pane fade in active">
 			<div class="col-sm-4 col-xs-8">
 				<div class="thumbnail thumbnail_prof">
@@ -30,6 +32,8 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- AJOUTER QUESTION -->
 		<div id="addManually" class="tab-pane fade">
 			<form method="post" action="@routes.ProfessorController.addQ()">
 				<div class="row">
@@ -80,64 +84,40 @@
 
 
 				<div class="form-group">
-					<label for="question">Question</label> <input type="text"
-						class="form-control" id="question" name="question">
+					<label for="question">Question</label> 
+					<input type="text" class="form-control" id="question" name="question">
 
 					<div class="pull-right">
 						<input type='file' id="imgInp" style="display: none" name="file" />
-						<!-- <img id="blah" src="#" alt="your image" /> -->
-						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter
-							support</button>
+						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter support</button>
 						<button type="button" class="btn btn-success btn-sm">&</button>
 					</div>
 				</div>
 				</br> </br>
+				
 				<div class="row">
-					<div class="col-xs-9"></div>
-					<div class="col-xs-3">
-
-						<label> Cocher les bonnes </br>réponses
-						</label>
+					<div class="col-xs-3 pull-right">
+						<label> Cocher les bonnes </br>réponses </label>
 					</div>
 				</div>
 				</br>
+				
 				<div id="addQuestion">
-					<input type="hidden" value="2" name="reponse_counter"
-						id="reponse_counter" />
-
+					<input type="hidden" value="1" name="reponse_counter" id="reponse_counter" />
+						
 					<div id="remove0">
 						<label for="reponse">Réponse</label>
 						<div class="row">
 							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse1"
-									name="reponse1">
+								<input type="text" class="form-control" id="reponse0" name="reponse0">
 							</div>
 							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA1">
+								<label> 
+									<input type="checkbox" value="1" name="goodA0">
 								</label>
 							</div>
 							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('remove0');"></i>
-							</div>
-						</div>
-					</div>
-					</br>
-
-					<div id="remove1">
-						<label for="reponse">Réponse</label>
-						<div class="row">
-							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse2"
-									name="reponse2">
-							</div>
-							<div class="col-xs-1">
-								<label> <input type="checkbox" value="1" name="goodA2">
-								</label>
-							</div>
-							<div class="col-xs-1">
-								<i class="fa fa-times" id="delete_answer"
-									onclick="removeDiv('remove1');"></i>
+								<i class="fa fa-times delete_answer" id="delete_answer0"></i>
 							</div>
 						</div>
 					</div>
@@ -145,10 +125,9 @@
 
 
 				</br>
-
-				<button type="button" class="btn btn-primary pull-left"
-					onclick="addAnswer('addQuestion');">Ajouter une réponse</button>
-				</br> </br> </br> <label for="correction">Correction détaillée</label>
+				<button type="button" class="btn btn-primary pull-left" id="addAnswer">Ajouter une réponse</button>
+				</br></br></br> 
+				<label for="correction">Correction détaillée</label>
 				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 				</br>
 				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
@@ -212,6 +191,8 @@
 		</div>
 
 
+
+	<!--  TEST DE COURS -->
 
 
 
@@ -519,11 +500,101 @@
 		</div>
 		<!-- Fin page Examen -->
 
-		<!-- BASE DE DONN�ES -->
+		<!-- BASE DE DONN�ES -->
 
 		<div id="bdd" class="tab-pane fade">
+					<div class="row question-select">	</div>
+					<!-- Modal -->
+  <div class="modal fade" id="modifyQ" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modifier la question</h4>
+        </div>
+        <div class="modal-body">
+        <form method="post">
+        <div class="row">
+					<div class="col-xs-2">
+						<label>Difficulté : </label>
+					</div>
+					<div class="col-xs-3">
+						<SELECT name="level">
+							<OPTION value="0">Facile</OPTION>
+							<OPTION value="1">Moyen</OPTION>
+							<OPTION value="2">Difficile</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-xs-3">
+						<label>Question pour : </label>
+					</div>
+					<div class="col-xs-2">
+						<SELECT name="forexam">
+							<OPTION value="0">Entrainement des élèves</OPTION>
+							<OPTION value="1">Examen</OPTION>
+						</SELECT>
+					</div>
+				</div>
+				</br>
+				<div class="form-group">
+					<label for="question">Question</label> 
+					<input type="text" class="form-control" id="question" name="question">
+
+					<div class="pull-right">
+						<input type='file' id="imgInp" style="display: none" name="file" />
+						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter support</button>
+						<button type="button" class="btn btn-success btn-sm">&</button>
+					</div>
+				</div>
+				</br> </br>
+				
+				<div class="row">
+					<div class="col-xs-3 pull-right">
+						<label> Cocher les bonnes </br>réponses </label>
+					</div>
+				</div>
+				</br>
+				
+				<div id="addQuestion">
+					<input type="hidden" value="1" name="reponse_counter" id="reponse_counter" />
+						
+					<div id="remove0">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse0" name="reponse0">
+							</div>
+							<div class="col-xs-1">
+								<label> 
+									<input type="checkbox" value="1" name="goodA0">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times delete_answer" id="delete_answer0"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				</br>
+				<button type="button" class="btn btn-primary pull-left" id="addAnswer">Ajouter une réponse</button>
+				</br></br></br> 
+				<label for="correction">Correction détaillée</label>
+				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
+				
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger" data-dismiss="modal">Valider</button>
+        </div>
+      </div>
+      
+    </div>
+    </form>
+  </div>					
 		
-					<div class="row question-select"></div>
 		
 		</div>
 

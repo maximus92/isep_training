@@ -65,6 +65,12 @@ public class Question {
 		this.forexam = forexam;
 		this.file = file;
 	}
+	
+	public Question(int id_question, int createby){
+		this.id_question = id_question;
+		this.createby = createby;	
+	}
+
 
 	
 	public String getQuestion(){
@@ -139,5 +145,26 @@ public class Question {
 	}
 	
 	
-	
+	public static void delete(int createby, int id_question){
+		Connection connection = null;
+		PreparedStatement statement = null;
+      try{
+    	  connection = DB.getConnection();
+    	  statement = connection.prepareStatement("DELETE FROM question WHERE createby=? AND id_question=?");
+    	  statement.setInt(1,createby);
+    	  statement.setInt(2,id_question);
+    	  statement.executeUpdate();
+    	  statement.close();
+      }catch(SQLException e){
+    	  e.printStackTrace();
+      }finally{
+    	  if(connection != null){
+    		  try{
+    			  connection.close(); 
+    		  }catch(SQLException ignore){
+    			  ignore.printStackTrace();
+    		  }
+    	  }
+      }
+	}
 }

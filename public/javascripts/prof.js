@@ -1,89 +1,49 @@
-		var l = 1;
+		
 		var i =1;
-
-	
-	function addAnswer(answer){
-		l++;
-		var remove = 0;
-		id = remove + l;
-		var newdiv = document.createElement('div');
-		newdiv.innerHTML = '<div id="'+id+'"><label for="reponse">Réponse</label><div class="row"><div class="col-sm-10"><input type="text" class="form-control" id="reponse1" size=100% name="reponse'+id+'"></div><div class="col-sm-1"><label><input type="checkbox" value="1" name="goodA'+id+'"></label></div><div class="col-sm-1"><i class="fa fa-times" id="delete_answer" onclick="removeDiv('+ id +');"></i></div></div></div>'
-		document.getElementById(answer).appendChild(newdiv);
-	}
-	
+		
 	function addQuestion(question) { 
 		var remove = 0; 
 		id = remove + i; 
+		var paire_ou_impaire;
 		var newdiv =document.createElement('div'); 
-		if(i/2 == Math.round(i/2)){ 
-			newdiv.innerHTML = '<div class="Qpaire">'+ 
-			'<label for="question">Question</label> <input type="text"class="form-control" id="question" name="question" size=100%>'+ 
-			'<div class="row">'+ 
-			'<div class="col-xs-9"></div>'+ '<div class="col-xs-3">'+ 
-			'<label>Cocher les bonnes </br>réponses</label>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '<div id="removeT0">'+ '<label for="reponse">Réponse</label>'+ 
-		  '<div class="row">'+ '<div class="col-xs-10">'+ 
-		  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-		  '</label>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '<div id="removeT1">'+ '<label for="reponse">Réponse</label>'+ 
-		  '<div class="row">'+ '<div class="col-xs-10">'+ 
-		  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-		  '</label>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div></br></br></br>'}
-		else{
-			newdiv.innerHTML = '<div class="Qimpaire">'+ 
-			'<label for="question">Question</label> <input type="text"class="form-control" id="question" name="question" size=100%>'+ 
-			'<div class="row">'+ 
-			'<div class="col-xs-9"></div>'+ '<div class="col-xs-3">'+ 
-			'<label>Cocher les bonnes </br>réponses</label>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '<div id="removeT0">'+ '<label for="reponse">Réponse</label>'+ 
-		  '<div class="row">'+ '<div class="col-xs-10">'+ 
-		  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-		  '</label>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '<div id="removeT1">'+ '<label for="reponse">Réponse</label>'+ 
-		  '<div class="row">'+ '<div class="col-xs-10">'+ 
-		  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-		  '</label>'+ 
-		  '</div>'+ 
-		  '<div class="col-xs-1">'+ 
-		  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div>'+ 
-		  '</div></br></br></br>'
+		if(i/2 == Math.round(i/2)){
+			paire_ou_impaire = "Qpaire";
+		}else{
+			paire_ou_impaire = "Qimpaire";
 		}
+		newdiv.innerHTML = '<div class="'+paire_ou_impaire+'">'+ 
+		'<label for="question">Question</label> <input type="text"class="form-control" id="question" name="question" size=100%>'+ 
+		'<div class="row">'+ 
+		'<div class="col-xs-9"></div>'+ '<div class="col-xs-3">'+ 
+		'<label>Cocher les bonnes </br>réponses</label>'+ 
+	  '</div>'+ 
+	  '</div>'+ 
+	  '<div id="removeT0">'+ '<label for="reponse">Réponse</label>'+ 
+	  '<div class="row">'+ '<div class="col-xs-10">'+ 
+	  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
+	  '</div>'+ 
+	  '<div class="col-xs-1">'+ '<label> <input type="checkbox" value="1" name="goodA1">'+ 
+	  '</label>'+ 
+	  '</div>'+ 
+	  '<div class="col-xs-1">'+ 
+	  '<i class="fa fa-times" id="delete_answer"></i>'+ 
+	  '</div>'+ 
+	  '</div>'+ 
+	  '</div>'+ 
+	  '<div id="removeT1">'+ '<label for="reponse">Réponse</label>'+ 
+	  '<div class="row">'+ '<div class="col-xs-10">'+ 
+	  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
+	  '</div>'+ 
+	  '<div class="col-xs-1">'+ 
+	  '<label> <input type="checkbox" value="1" name="goodA1">'+ 
+	  '</label>'+ 
+	  '</div>'+ 
+	  '<div class="col-xs-1">'+ 
+	  '<i class="fa fa-times" id="delete_answer"></i>'+ 
+	  '</div>'+ 
+	  '</div>'+ 
+	  '</div>'+ 
+	  '</div></br></br></br>'
 		 	  document.getElementById(question).appendChild(newdiv); i++; }
 
 	function removeDiv(divId) {
@@ -115,17 +75,44 @@
 $(document).ready(function(){ 
 	countAnswer();  
 	 function countAnswer(){
+		 var l = 0;
 		  var v = $("#reponse_counter").val(); 
 		  $("#addAnswer").click(function(){
+			  	l++;
+				 var newdiv = '<div id="remove'+l+'" >'+
+				 				'<label for="reponse">Réponse</label>'+
+				 				'<div class="row">'+
+				 					'<div class="col-xs-10">'+
+				 						'<input type="text" class="form-control" id="reponse'+l+'" name="reponse'+l+'">'+
+				 					'</div>'+
+				 					'<div class="col-xs-1">'+
+				 						'<label>'+
+				 							'<input type="checkbox" value="1" name="goodA'+l+'">'+
+				 						'</label>'+
+				 					'</div>'+
+			 						'<div class="col-xs-1">'+
+			 							'<i class="fa fa-times delete_answer" id="delete_answer'+l+'"></i>'+
+			 						'</div>'+
+			 					'</div>'+
+			 				'</div>';
+				$("#addQuestion").append(newdiv);
 			  v++; 
 			  $("#reponse_counter").val(v); 
 		  });
 		  
-		  $("#delete_answer").click(function(){ 
+		  $("#addQuestion").on('click', ".delete_answer", function() {
 			  v = v-1;
+			  var id = $(this).attr("id").substring(13);
+			  $("#remove"+id).remove();
 			  $("#reponse_counter").val(v); 
 		  });  
 	  } 
+	 
+	 
+	  $(".modal-content").on('click', "#addAnswer", function() {
+		  alert("ok");
+	  });  
+	  
 	  $("#module-form").submit(function(event){ 
 		  event.preventDefault(); 
 	  });
@@ -196,14 +183,29 @@ $(document).ready(function(){
 			  
 			  success: function(data) {
 					 for(var i=0; i<data.length;i++){ 
-					  $(".question-select").append('<div class="padding-10 col-sm-6 module-display'+data[i].id_question+'">'+ data[i].question+ 
-							  					'</div>'); 
+					  $(".question-select").append('<div class="padding-10 col-sm-8 question-display'+data[i].id_question+'">'+ data[i].question+ 
+							  					'</div>'+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyQ">Modifier</button></div> '+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div>');
 					  
 					 }
 				  }
-			  
-	  
-			
 		  }); 
 	  });
+	  
+	  $(".question-select").on('click', ".question-delete", function() {
+		  var id = $(this).attr('id').substring(7);
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/delete-question",
+			  data: {id : id}, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+				  var ques = ".question-display"+data.id_question;
+				  $(ques).css({display: "none"});
+			  }
+		  }); 
+		  
+		});
 });
