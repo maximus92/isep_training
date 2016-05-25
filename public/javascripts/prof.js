@@ -196,8 +196,10 @@ $(document).ready(function(){
 			  
 			  success: function(data) {
 					 for(var i=0; i<data.length;i++){ 
-					  $(".question-select").append('<div class="padding-10 col-sm-6 module-display'+data[i].id_question+'">'+ data[i].question+ 
-							  					'</div>'); 
+					  $(".question-select").append('<div class="padding-10 col-sm-8 question-display'+data[i].id_question+'">'+ data[i].question+ 
+							  					'</div>'+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning">Modifier</button></div> '+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div>');
 					  
 					 }
 				  }
@@ -206,4 +208,20 @@ $(document).ready(function(){
 			
 		  }); 
 	  });
+	  
+	  $(".question-select").on('click', ".question-delete", function() {
+		  var id = $(this).attr('id').substring(7);
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/delete-question",
+			  data: {id : id}, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+				  var ques = ".question-display"+data.id_question;
+				  $(ques).css({display: "none"});
+			  }
+		  }); 
+		  
+		});
 });

@@ -121,4 +121,16 @@ public class ProfessorController extends Controller {
 		JsonNode json = Json.toJson(list);
 	    return ok(json);
 	}
+	
+
+	public Result deleteQuestion(){
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_question = Integer.parseInt(form.get("id"));
+		String token = session().get("token");
+		int createby = User.getIdByToken(token);
+		Question.delete(createby, id_question);
+		ObjectNode result = Json.newObject();
+	    result.put("id_question", id_question);
+		return ok(result);
+	}
 }
