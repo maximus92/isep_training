@@ -107,6 +107,12 @@ $(document).ready(function(){
 			  $("#reponse_counter").val(v); 
 		  });  
 	  } 
+	 
+	 
+	  $(".modal-content").on('click', "#addAnswer", function() {
+		  alert("ok");
+	  });  
+	  
 	  $("#module-form").submit(function(event){ 
 		  event.preventDefault(); 
 	  });
@@ -179,7 +185,7 @@ $(document).ready(function(){
 					 for(var i=0; i<data.length;i++){ 
 					  $(".question-select").append('<div class="padding-10 col-sm-8 question-display'+data[i].id_question+'">'+ data[i].question+ 
 							  					'</div>'+
-							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning">Modifier</button></div> '+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyQ">Modifier</button></div> '+
 							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div>');
 					  
 					 }
