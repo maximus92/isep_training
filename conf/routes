@@ -22,7 +22,8 @@ POST    /delete-module                 controllers.ProfessorController.deleteMod
 POST    /addq                       controllers.ProfessorController.addQ
 
 GET		/student/qcmSettings		controllers.StudentController.studentQcmSettings
-POST	/student/trainingQcm		controllers.StudentController.studentDisplayTrainingQcm
+POST	/student/trainingQcmSettings	controllers.StudentController.studentPostTrainingQcmSettings
 
+GET 	/student/trainingQcm		controllers.StudentController.studentTrainingQcm
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

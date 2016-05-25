@@ -96,9 +96,13 @@ $("#send-qcm-settings").click(function(){
 	
 	$.ajax({
 		type:"POST",
-		url:"/student/trainingQcm",
+		url:"/student/trainingQcmSettings",
 		data: qcm_json_settings,
-		dataType: "json"
+		dataType: "json",
+		
+		success: function(data){
+			window.location.replace("trainingQcm", data);
+		}
 	});
 	
 });
