@@ -5,14 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.naming.directory.DirContext;
 
 import play.Logger;
 import play.db.DB;
-import play.mvc.Http.Context;
 
 public class Qcm {
 
@@ -21,7 +16,7 @@ public class Qcm {
                                                                                + "ORDER BY RAND() "
                                                                                + "LIMIT ?";
 
-    private static final String       CREATE_STUDENT_QCM               = "INSERT INTO qcm (createBy, time) "
+    private static final String       CREATE_STUDENT_QCM               = "INSERT INTO qcm (createby, time) "
                                                                                + "VALUES (? ,?)";
 
     private static final String       STUDENT_QCM_QUESTIONS            = "INSERT INTO join_qcm_question (id_qcm, id_question) "
@@ -29,11 +24,11 @@ public class Qcm {
 
     private static final String       GET_LAST_QCM_FOR_USER            = "SELECT id_qcm "
                                                                                + "FROM qcm "
-                                                                               + "WHERE createBy = ? "
+                                                                               + "WHERE createby = ? "
                                                                                + "ORDER BY id_qcm DESC "
                                                                                + "LIMIT 1";
 
-    private static final String       GET_QCM_QUESTION_NUM             = "SELECT question, q.id_question"
+    private static final String       GET_QCM_QUESTION_NUM             = "SELECT q.question, q.id_question "
                                                                                + "FROM question q "
                                                                                + "INNER JOIN join_qcm_question j "
                                                                                + "ON j.id_question = q.id_question "
@@ -132,8 +127,8 @@ public class Qcm {
             result.absolute( question_num );
             question.question = result.getString( "question" );
             question.id_question = result.getInt( "id_question" );
-            Logger.debug(question.question);
-            
+            Logger.debug( question.question );
+
         } catch ( SQLException e ) {
             e.printStackTrace();
         } finally {

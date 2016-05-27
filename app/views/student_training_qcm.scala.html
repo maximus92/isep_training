@@ -1,4 +1,7 @@
-@(message: String, question: String)
+@(message: String, question: String, answers: ArrayList[models.Answer])
 @main("Qcm Personnalisé"){
 <h1>@question</h1>
+@for(ans <- answers){
+	@ans.answer
+}
 }

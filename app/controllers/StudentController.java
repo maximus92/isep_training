@@ -1,28 +1,27 @@
 package controllers;
 
-import static play.libs.Json.toJson;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
+import models.Answer;
 import models.Chapter;
 import models.Module;
 import models.Qcm;
-import play.Logger;
+import models.Question;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
+import views.html.home_student;
+import views.html.student_qcm_settings;
+import views.html.student_training_qcm;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import controllers.security.Secured;
 import controllers.security.StudentSecurity;
-import views.html.*;
 
 /**
  * This controller contains an action to handle HTTP requests to the
@@ -76,20 +75,28 @@ public class StudentController extends Controller {
     }
 
     public Result studentTrainingQcm() {
-        
+
+        ArrayList<Answer> answers_list = null;
+        Question question = null;
         int id_qcm = -1;
-        String question = "";
+        int id_question = -1;
+        String questionString = "";
         String token = session().get( "token" );
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
         }
         if ( id_qcm != -1 ) {
-            question = Qcm.getQcmQuestions( id_qcm, 1 ).question;
+            question = Qcm.getQcmQuestions( id_qcm, 1 );
+            questionString = question.question;
+            id_question = question.id_question;
         }
-        
 
-        return ok( student_training_qcm.render( "", question ) );
+        if ( id_question != -1 ) {
+            answers_list = Answer.getAnswersByQuestionId( id_question );
+        }
+
+        return ok( student_training_qcm.render( "", questionString, answers_list ) );
     }
 
 }

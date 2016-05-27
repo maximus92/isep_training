@@ -96,7 +96,7 @@ $(document).ready(
 						var question_level = parseInt($("#question-level")
 								.find(":selected").text());
 
-						qcm_json_settings = {
+						qcm_json_settings = { 
 							"id_chapter" : id_chapter,
 							"question_num" : question_num,
 							"qcm_time" : qcm_time,
