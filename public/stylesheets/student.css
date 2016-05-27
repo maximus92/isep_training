@@ -1,3 +1,13 @@
 #student-qcm-settings-part-2{
 	display: none;	
 }
+
+.student-qcm-question{
+	text-align: center;
+}
+
+#student-qcm-question-container{
+	padding-left: 40px;
+	padding-right: 40px;
+	box-shadow: 1px 1px 12px #555;
+}

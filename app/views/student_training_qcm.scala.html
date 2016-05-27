@@ -1,7 +1,32 @@
 @(message: String, question: String, answers: ArrayList[models.Answer])
 @main("Qcm Personnalisé"){
-<h1>@question</h1>
-@for(ans <- answers){
-	@ans.answer
-}
+
+<div class="container">
+   <div class="col-md-12">
+       <div class="col-md-8 col-md-offset-2" id="student-qcm-question-container">
+        <h3 class="student-qcm-question">@question</h3>
+        
+        <form action="#" class="form-horizontal col-md-offset-2">
+            
+            @for(answer <- answers){
+            <div class="form-group">
+                <label class="col-md-12">
+                    <input type="checkbox">
+                    <span class="col-md-offset-1">@answer.answer</span>
+                </label>
+
+            </div>
+            }
+        </form>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-2 col-md-offset-2">
+            <button class="btn btn-default" id="last-question">Précédent</button>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+            <button class="btn btn-default" id="next-question">Suivant</button>
+        </div>
+    </div>
+   </div>
+</div>
 }

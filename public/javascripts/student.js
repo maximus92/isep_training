@@ -1,19 +1,26 @@
 $(document).ready(
 		function() {
+			
+			var getUrlParameter = function getUrlParameter(sParam) {
+			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
 
-			function hideDiv(divId) {
-				$("#" + divId).hide();
-			}
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
 
-			function showDiv(divId) {
-				$("#" + divId).show();
-			}
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : sParameterName[1];
+			        }
+			    }
+			};
 
 			/**
 			 * ************ Scripts pour la selection des paramètres d'un qcm
 			 * ****************
 			 */
-
+			
 			// Passer de la page de paramètre 1 à 2 et inversement
 			$("#pass-to-settings-second-part").click(function() {
 
@@ -84,36 +91,49 @@ $(document).ready(
 
 			var qcm_json_settings;
 
-			$("#send-qcm-settings").click(
-					function() {
-						var question_num = parseInt($("#number-of-questions")
-								.find(":selected").text());
-						var qcm_time = parseInt($("#qcm-time-hours").find(
-								":selected").text())
-								* 60
-								+ parseInt($("#qcm-time-minutes").find(
-										":selected").text());
-						var question_level = parseInt($("#question-level")
-								.find(":selected").text());
+			$("#send-qcm-settings").click(function() {
+				var question_num = parseInt($("#number-of-questions")
+						.find(":selected").text());
+				var qcm_time = parseInt($("#qcm-time-hours").find(
+						":selected").text())
+						* 60
+						+ parseInt($("#qcm-time-minutes").find(
+								":selected").text());
+				var question_level = parseInt($("#question-level")
+						.find(":selected").text());
 
-						qcm_json_settings = { 
-							"id_chapter" : id_chapter,
-							"question_num" : question_num,
-							"qcm_time" : qcm_time,
-							"question_level" : question_level
-						};
+				qcm_json_settings = { 
+					"id_chapter" : id_chapter,
+					"question_num" : question_num,
+					"qcm_time" : qcm_time,
+					"question_level" : question_level
+				};
 
-						$.ajax({
-							type : "POST",
-							url : "/student/trainingQcmSettings",
-							data : qcm_json_settings,
-							dataType : "json",
+				$.ajax({
+					type : "POST",
+					url : "/student/trainingQcmSettings",
+					data : qcm_json_settings,
+					dataType : "json",
 
-							success : function(data) {
-								window.location.replace("trainingQcm", data);
-							}
-						});
+					success : function(data) {
+						window.location.replace("trainingQcm?question_num=1", data);
+					}
+				});
 
-					});
-
+			});
+			
+			// Navigation dans les questions d'un qcm
+			
+			$("#next-question").click(function(){
+				var question_num = parseInt(getUrlParameter('question_num')) + 1;
+				
+				window.location.replace("trainingQcm?question_num=" + question_num);
+			});
+			
+			$("#last-question").click(function(){
+				var question_num = parseInt(getUrlParameter('question_num')) - 1;
+				
+				window.location.replace("trainingQcm?question_num=" + question_num);
+			});
+	
 		});

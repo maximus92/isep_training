@@ -74,7 +74,7 @@ public class StudentController extends Controller {
         return ok( json );
     }
 
-    public Result studentTrainingQcm() {
+    public Result studentTrainingQcm( Integer question_num ) {
 
         ArrayList<Answer> answers_list = null;
         Question question = null;
@@ -87,7 +87,10 @@ public class StudentController extends Controller {
             id_qcm = Qcm.getLastQcmForUser( token );
         }
         if ( id_qcm != -1 ) {
-            question = Qcm.getQcmQuestions( id_qcm, 1 );
+            if ( question_num <= 0 ) {
+                return redirect( "/student/trainingQcm?question_num=1" );
+            }
+            question = Qcm.getQcmQuestions( id_qcm, question_num );
             questionString = question.question;
             id_question = question.id_question;
         }
@@ -98,5 +101,4 @@ public class StudentController extends Controller {
 
         return ok( student_training_qcm.render( "", questionString, answers_list ) );
     }
-
 }
