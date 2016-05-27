@@ -46,6 +46,9 @@ public class Question {
 	public String file;
 	public int createby;
 	
+	public Question(){
+	}
+	
 	public Question(String question,String correction, String level,String id_chapter, String forexam, String file, int createby){
 		this.question = question;
 		this.correction = correction;
