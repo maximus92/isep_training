@@ -123,4 +123,46 @@ public class ProfessorController extends Controller {
 	    result.put("id_question", id_question);
 		return ok(result);
 	}
+	
+	public Result addTest(){
+		DynamicForm form = Form.form().bindFromRequest();
+		String token = session().get("token");
+		int createby = User.getIdByToken(token);
+		insertQandAFromTest(form,createby);
+		return redirect("/prof");
+	}
+	
+	private void insertQandAFromTest(DynamicForm form,int createby){
+		
+		int answer_test_counter = Integer.parseInt(form.get("answer_test_counter"));
+		int question_test_counter = Integer.parseInt(form.get("question_test_counter"));
+		String id_chapter = form.get("id_chapter");
+		
+		for(int i = 0; i <= question_test_counter; i++){
+			for(int j=0; j<= answer_test_counter;j++){
+				
+				String question = form.get("question"+i);
+				
+				if(question != null && question != ""){
+					Question q = new Question(question, "", "", id_chapter, "0", "", createby);
+					int id_question = q.insertQuestion();
+					String answer = form.get("question"+i+"_answer"+j);
+					
+					if(answer != null && answer != ""){
+						String istrue = null;
+						
+						if(form.get("question"+i+"_goodA"+j) == null){
+							istrue = "0";
+						}else{
+							istrue = "1";
+						}
+						Answer a = new Answer(answer, id_question, istrue);
+						a.insertAnswer();
+					}
+				}
+			}
+		}
+	}
+	
+	
 }

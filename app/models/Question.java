@@ -22,8 +22,7 @@ public class Question {
     public Question() {
     }
 
-    public Question( String question, String correction, String level, String id_chapter, String forexam, String file,
-            int createby ) {
+    public Question( String question, String correction, String level, String id_chapter, String forexam, String file, int createby ) {
         this.question = question;
         this.correction = correction;
         this.level = level;
@@ -33,8 +32,7 @@ public class Question {
         this.createby = createby;
     }
 
-    public Question( int id_question, String question, String correction, String level, String id_chapter,
-            String forexam, String file ) {
+    public Question( int id_question, String question, String correction, String level, String id_chapter, String forexam, String file ) {
         this.id_question = id_question;
         this.question = question;
         this.correction = correction;

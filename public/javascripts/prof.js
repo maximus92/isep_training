@@ -1,51 +1,3 @@
-		
-		var i =1;
-		
-	function addQuestion(question) { 
-		var remove = 0; 
-		id = remove + i; 
-		var paire_ou_impaire;
-		var newdiv =document.createElement('div'); 
-		if(i/2 == Math.round(i/2)){
-			paire_ou_impaire = "Qpaire";
-		}else{
-			paire_ou_impaire = "Qimpaire";
-		}
-		newdiv.innerHTML = '<div class="'+paire_ou_impaire+'">'+ 
-		'<label for="question">Question</label> <input type="text"class="form-control" id="question" name="question" size=100%>'+ 
-		'<div class="row">'+ 
-		'<div class="col-xs-9"></div>'+ '<div class="col-xs-3">'+ 
-		'<label>Cocher les bonnes </br>réponses</label>'+ 
-	  '</div>'+ 
-	  '</div>'+ 
-	  '<div id="removeT0">'+ '<label for="reponse">Réponse</label>'+ 
-	  '<div class="row">'+ '<div class="col-xs-10">'+ 
-	  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-	  '</div>'+ 
-	  '<div class="col-xs-1">'+ '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-	  '</label>'+ 
-	  '</div>'+ 
-	  '<div class="col-xs-1">'+ 
-	  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-	  '</div>'+ 
-	  '</div>'+ 
-	  '</div>'+ 
-	  '<div id="removeT1">'+ '<label for="reponse">Réponse</label>'+ 
-	  '<div class="row">'+ '<div class="col-xs-10">'+ 
-	  '<input type="text" class="form-control" id="reponse1" name="reponse1" size=100%>'+ 
-	  '</div>'+ 
-	  '<div class="col-xs-1">'+ 
-	  '<label> <input type="checkbox" value="1" name="goodA1">'+ 
-	  '</label>'+ 
-	  '</div>'+ 
-	  '<div class="col-xs-1">'+ 
-	  '<i class="fa fa-times" id="delete_answer"></i>'+ 
-	  '</div>'+ 
-	  '</div>'+ 
-	  '</div>'+ 
-	  '</div></br></br></br>'
-		 	  document.getElementById(question).appendChild(newdiv); i++; }
-
 	function removeDiv(divId) {
 		$("#" + divId).remove();
 	}
@@ -73,10 +25,9 @@
 	
 
 $(document).ready(function(){ 
-	countAnswer();  
-	 function countAnswer(){
 		 var l = 0;
-		  var v = $("#reponse_counter").val(); 
+		 var v = $("#reponse_counter").val(); 
+		  
 		  $("#addAnswer").click(function(){
 			  	l++;
 				 var newdiv = '<div id="remove'+l+'" >'+
@@ -101,12 +52,10 @@ $(document).ready(function(){
 		  });
 		  
 		  $("#addQuestion").on('click', ".delete_answer", function() {
-			  v = v-1;
 			  var id = $(this).attr("id").substring(13);
 			  $("#remove"+id).remove();
-			  $("#reponse_counter").val(v); 
 		  });  
-	  } 
+	 
 	 
 	 
 	  $(".modal-content").on('click', "#addAnswer", function() {
@@ -208,4 +157,102 @@ $(document).ready(function(){
 		  }); 
 		  
 		});
+	  
+	  /** TEST DE COURS **/
+	  	var answer_test_counter = $("#answer_test_counter").val();
+	  	var question_test_counter = $("#question_test_counter").val(); 
+	  	var i = 2;
+	  	var m = 1;
+		$("#ajouter-test-q").click(function(){
+			var paire_ou_impaire;
+			if(i/2 == Math.round(i/2)){
+				paire_ou_impaire = "Qpaire";
+			}else{
+				paire_ou_impaire = "Qimpaire";
+			}
+			var newdiv = '<div class="'+paire_ou_impaire+'" id="Test_Q'+i+'">'+
+							'<div id="question'+i+'">'+
+								'<div class="row">'+
+									'<div class="col-xs-12 padding-10">'+
+										'<label for="question">Question</label>'+
+									'</div>'+
+									'<div class="col-xs-8">'+
+										'<input type="text"class="form-control width-100" name="question'+i+'">'+
+									'</div>'+
+								'</div>'+	
+								'<div id="question'+i+'_answer1">'+
+									'<div class="row">'+
+										'<div class="col-xs-8 padding-10">'+
+											'<label for="reponse">Réponse</label>'+
+										'</div>'+
+										'<div class="col-xs-4 padding-left-100">'+
+											'<label>Cocher les bonnes </br>réponses</label>'+
+										'</div>'+	
+									'</div>'+	
+									'<div class="row">'+ 
+										'<div class="col-xs-8">'+ 
+											'<input type="text" class="form-control width-100" name="question'+i+'_ answer1">'+ 
+										'</div>'+ 
+										'<div class="col-xs-2 align-right">'+ 
+												'<input type="checkbox" value="1" name="question'+i+'_ goodA1">'+ 
+										'</div>'+ 
+									'</div>'+ 
+								'</div>'+ 
+							'</div>'+
+							'<br/>'+
+							'<div class="row padding-10">'+
+								'<div class="col-sm-9">'+
+									'<button type="button" class="btn btn-danger delete-test-q" id="delete-test-q'+i+'">Supprimer cette question</button>'+
+								'</div>'+
+								'<div class="col-sm-3">'+	
+									'<button type="button" class="btn btn-primary ajouter-test-r" id="ajouter-test-r'+i+'">Ajouter une réponse</button>'+
+								'</div>'+	
+							'</div>'+
+						'</div>';
+			$("#container_testQ").append(newdiv)
+			 	  i++;
+				m = 1;
+				question_test_counter++;
+				$("#question_test_counter").val(question_test_counter);
+		});
+		
+		$("#container_testQ").on('click', ".ajouter-test-r", function() {
+			var id = $(this).attr("id").substring(14);
+			m++;
+			 var newdiv = '<div id="question'+id+'_answer'+m+'">'+ 
+							 '<div class="row">'+
+								'<div class="col-xs-8 padding-10">'+
+									'<label for="reponse">Réponse</label>'+
+								'</div>'+
+							'</div>'+	
+							'<div class="row">'+ 
+								'<div class="col-xs-8">'+ 
+									'<input type="text" class="form-control width-100" name="question'+id+'_ answer'+m+'" >'+ 
+								'</div>'+ 
+								'<div class="col-xs-2 align-right">'+ 
+										'<input type="checkbox" value="1" name="question'+id+'_ goodA'+m+'">'+  
+								'</div>'+ 
+								'<div class="col-xs-2 center">'+ 
+									'<i class="fa fa-times test_cours_delete_answer" id="question'+id+'_delete_answer'+m+'"></i>'+ 
+								'</div>'+ 
+							'</div>'+ 
+						'</div>';
+			 
+			$("#question"+id).append(newdiv);
+			if(answer_test_counter <= m){
+				answer_test_counter = m;
+				$("#answer_test_counter").val(m);
+			}
+		});
+		
+		$("#container_testQ").on('click', ".test_cours_delete_answer", function() {
+			  var id = $(this).attr("id").replace(/_delete/g, '');
+			  $("#"+id).remove();
+		});
+		
+		$("#container_testQ").on('click', ".delete-test-q", function() {
+			  var id = $(this).attr("id").substring(13);
+			  $("#Test_Q"+id).remove();
+		});
+		
 });
