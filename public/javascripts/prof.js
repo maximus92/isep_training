@@ -164,6 +164,7 @@ $(document).ready(function(){
 	  	var i = 2;
 	  	var m = 1;
 		$("#ajouter-test-q").click(function(){
+			m++;
 			var paire_ou_impaire;
 			if(i/2 == Math.round(i/2)){
 				paire_ou_impaire = "Qpaire";
@@ -180,7 +181,7 @@ $(document).ready(function(){
 										'<input type="text"class="form-control width-100" name="question'+i+'">'+
 									'</div>'+
 								'</div>'+	
-								'<div id="question'+i+'_answer1">'+
+								'<div id="question'+i+'_answer'+m+'">'+
 									'<div class="row">'+
 										'<div class="col-xs-8 padding-10">'+
 											'<label for="reponse">Réponse</label>'+
@@ -191,10 +192,10 @@ $(document).ready(function(){
 									'</div>'+	
 									'<div class="row">'+ 
 										'<div class="col-xs-8">'+ 
-											'<input type="text" class="form-control width-100" name="question'+i+'_ answer1">'+ 
+											'<input type="text" class="form-control width-100" name="question'+i+'_answer'+m+'">'+ 
 										'</div>'+ 
 										'<div class="col-xs-2 align-right">'+ 
-												'<input type="checkbox" value="1" name="question'+i+'_ goodA1">'+ 
+												'<input type="checkbox" value="1" name="question'+i+'_goodA'+m+'">'+ 
 										'</div>'+ 
 									'</div>'+ 
 								'</div>'+ 
@@ -211,9 +212,10 @@ $(document).ready(function(){
 						'</div>';
 			$("#container_testQ").append(newdiv)
 			 	  i++;
-				m = 1;
 				question_test_counter++;
 				$("#question_test_counter").val(question_test_counter);
+				answer_test_counter++;
+				$("#answer_test_counter").val(answer_test_counter);
 		});
 		
 		$("#container_testQ").on('click', ".ajouter-test-r", function() {
@@ -227,10 +229,10 @@ $(document).ready(function(){
 							'</div>'+	
 							'<div class="row">'+ 
 								'<div class="col-xs-8">'+ 
-									'<input type="text" class="form-control width-100" name="question'+id+'_ answer'+m+'" >'+ 
+									'<input type="text" class="form-control width-100" name="question'+id+'_answer'+m+'" >'+ 
 								'</div>'+ 
 								'<div class="col-xs-2 align-right">'+ 
-										'<input type="checkbox" value="1" name="question'+id+'_ goodA'+m+'">'+  
+										'<input type="checkbox" value="1" name="question'+id+'_goodA'+m+'">'+  
 								'</div>'+ 
 								'<div class="col-xs-2 center">'+ 
 									'<i class="fa fa-times test_cours_delete_answer" id="question'+id+'_delete_answer'+m+'"></i>'+ 
@@ -239,10 +241,8 @@ $(document).ready(function(){
 						'</div>';
 			 
 			$("#question"+id).append(newdiv);
-			if(answer_test_counter <= m){
-				answer_test_counter = m;
-				$("#answer_test_counter").val(m);
-			}
+				answer_test_counter++;
+				$("#answer_test_counter").val(answer_test_counter);
 		});
 		
 		$("#container_testQ").on('click', ".test_cours_delete_answer", function() {
@@ -254,5 +254,21 @@ $(document).ready(function(){
 			  var id = $(this).attr("id").substring(13);
 			  $("#Test_Q"+id).remove();
 		});
+		
+		$("#test-li").click(function(){ 
+			  var dataString = $("#module-form").serialize();
+			  $.ajax({ 
+				  type: "POST", 
+				  url: "/select-module",
+				  data: dataString, 
+				  dataType: "json",
+				  success: function(data) {
+					  $('#test_module option').remove();
+					  $.each(data, function() {
+						    $("#test_module").append($("<option />").val(this.id_module).text(this.module_name));
+						});
+				  }	 
+			  }); 
+		  });
 		
 });

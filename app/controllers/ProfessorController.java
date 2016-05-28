@@ -2,8 +2,10 @@ package controllers;
 
 
 import models.Answer;
+import models.JoinTestQuestion;
 import models.Module;
 import models.Question;
+import models.Test;
 import models.User;
 
 import java.util.ArrayList;
@@ -125,43 +127,52 @@ public class ProfessorController extends Controller {
 	}
 	
 	public Result addTest(){
+		// Get form from view
 		DynamicForm form = Form.form().bindFromRequest();
-		String token = session().get("token");
-		int createby = User.getIdByToken(token);
-		insertQandAFromTest(form,createby);
+		// Get current user id
+		int createby = getUserID();
+		// Create Test in DB and catch the created id
+		Test test = new Test(form.get("test_title"), 0, 0, createby, "0");
+		int id_test = test.insert();
+		// Insert questions and answers in DB
+		insertQandAFromTest(form,createby,id_test);
 		return redirect("/prof");
 	}
 	
-	private void insertQandAFromTest(DynamicForm form,int createby){
-		
+	public void insertQandAFromTest(DynamicForm form,int createby,int id_test){
 		int answer_test_counter = Integer.parseInt(form.get("answer_test_counter"));
 		int question_test_counter = Integer.parseInt(form.get("question_test_counter"));
-		String id_chapter = form.get("id_chapter");
+		String id_chapter = form.get("chapter");
 		
 		for(int i = 0; i <= question_test_counter; i++){
-			for(int j=0; j<= answer_test_counter;j++){
-				
 				String question = form.get("question"+i);
 				
 				if(question != null && question != ""){
-					Question q = new Question(question, "", "", id_chapter, "0", "", createby);
+					Question q = new Question(question, "", "0", id_chapter, "0", "", createby);
 					int id_question = q.insertQuestion();
+					JoinTestQuestion jtq = new JoinTestQuestion(id_test,id_question);
+					jtq.insert();
+					for(int j=0; j<= answer_test_counter;j++){
 					String answer = form.get("question"+i+"_answer"+j);
-					
-					if(answer != null && answer != ""){
-						String istrue = null;
-						
-						if(form.get("question"+i+"_goodA"+j) == null){
-							istrue = "0";
-						}else{
-							istrue = "1";
+						if(answer != null && answer != ""){
+							String istrue = null;
+							
+							if(form.get("question"+i+"_goodA"+j) == null){
+								istrue = "0";
+							}else{
+								istrue = "1";
+							}
+							Answer a = new Answer(answer, id_question, istrue);
+							a.insertAnswer();
 						}
-						Answer a = new Answer(answer, id_question, istrue);
-						a.insertAnswer();
-					}
 				}
 			}
 		}
+	}
+	
+	public static int getUserID(){
+		String token = session().get("token");
+		return User.getIdByToken(token);
 	}
 	
 	

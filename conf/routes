@@ -2,8 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /student                    controllers.StudentController.index
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -14,21 +12,29 @@ POST    /signin                     controllers.SigninController.connexion
 
 GET     /logout                     controllers.SigninController.logout
 
+
+##### PROFESSOR ROUTES #####
+
 GET     /prof                       controllers.ProfessorController.index
 POST    /add-module                 controllers.ProfessorController.addModule
-POST    /select-module                 controllers.ProfessorController.selectModule
-POST    /delete-module                 controllers.ProfessorController.deleteModule
+POST    /select-module              controllers.ProfessorController.selectModule
+POST    /delete-module              controllers.ProfessorController.deleteModule
 
-POST    /select-question                controllers.ProfessorController.selectQuestion
-POST    /delete-question            	controllers.ProfessorController.deleteQuestion
+POST    /select-question            controllers.ProfessorController.selectQuestion
+POST    /delete-question            controllers.ProfessorController.deleteQuestion
 
 POST    /add-test                 	controllers.ProfessorController.addTest
-
 POST    /addq                       controllers.ProfessorController.addQ
 
-GET		/student/qcmSettings		controllers.StudentController.studentQcmSettings
+
+##### STUDENT ROUTES #####
+
+GET     /student                    	controllers.StudentController.index
+GET		/student/qcmSettings			controllers.StudentController.studentQcmSettings
 POST	/student/trainingQcmSettings	controllers.StudentController.studentPostTrainingQcmSettings
 
-GET 	/student/trainingQcm		controllers.StudentController.studentTrainingQcm(question_num: Integer)
+GET 	/student/trainingQcm			controllers.StudentController.studentTrainingQcm(question_num: Integer)
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
