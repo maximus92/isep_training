@@ -67,7 +67,7 @@ public class StudentController extends Controller {
                 Integer.parseInt( question_level )
                 );
 
-        Qcm.createStudentQcm( questionsArray, qcm_time, token );
+        Qcm.createStudentQcm( questionsArray, qcm_time, token, Integer.parseInt( question_num ) );
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
@@ -82,6 +82,7 @@ public class StudentController extends Controller {
         int id_question = -1;
         String questionString = "";
         String token = session().get( "token" );
+        Qcm qcm_info = new Qcm();
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
@@ -99,6 +100,10 @@ public class StudentController extends Controller {
             answers_list = Answer.getAnswersByQuestionId( id_question );
         }
 
-        return ok( student_training_qcm.render( "", questionString, answers_list ) );
+        if ( id_qcm != -1 ) {
+            qcm_info.getInfoById( id_qcm );
+        }
+
+        return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );
     }
 }

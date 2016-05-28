@@ -86,7 +86,7 @@ $(document).ready(
 			$(window).load(function() {
 				$(".chapters-list").hide();
 			});
-
+			
 			// Récupération des paramètres selectionnés
 
 			var qcm_json_settings;
@@ -136,4 +136,28 @@ $(document).ready(
 				window.location.replace("trainingQcm?question_num=" + question_num);
 			});
 	
+			// Affichage minuteur 
+			
+			var clock;
+			
+			$(window).load(function(){
+				clock = $('.clock').FlipClock({
+			        autoStart: false,
+			        callbacks: {
+			        	stop: function() {
+			        		$('.message').html('The clock has stopped!')
+			        	}
+			        }
+			    });
+					    
+			    clock.setTime(65*60);
+			    clock.setCountdown(true);
+			    clock.start();
+			})
+
+			$(".clock").click(function(){
+				alert(clock.getTime());
+			});
+
+			
 		});
