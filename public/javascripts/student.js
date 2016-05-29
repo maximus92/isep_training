@@ -138,15 +138,10 @@ $(document).ready(
 	
 			// Affichage minuteur 
 			
-			var clock;
+			var qcm_time = $('#qcm-time').html();
 			
-			$(window).load(function(){
-				$('#noDays').countdown({since: +300});
-			})
-
-			$(".clock").click(function(){
-				alert(clock.getTime());
-			});
-
+			$('#qcm-time').countdown({layout: '<b>{h<}{hn} : {h>}'+ 
+			    '{mn} : {sn} </b>', until: +(qcm_time*60)});
+			
 			
 		});
