@@ -12,6 +12,9 @@ public class Answer {
     private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer "
                                                                    + "FROM answer "
                                                                    + "WHERE id_question = ?";
+    private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
+                                                                   + "SET isselected = ? "
+                                                                   + "WHERE id_qcm = ? AND id_answer = ?";
     public String               answer;
     public int                  id_question;
     public String               istrue;
@@ -81,5 +84,31 @@ public class Answer {
         }
 
         return answers_list;
+    }
+
+    public void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DB.getConnection();
+            statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
+            statement.setBoolean( 1, is_selected );
+            statement.setInt( 2, id_qcm );
+            statement.setInt( 3, id_answer );
+            statement.executeUpdate();
+
+            statement.close();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        } finally {
+            if ( connection != null ) {
+                try {
+                    connection.close();
+                } catch ( SQLException ignore ) {
+                    ignore.printStackTrace();
+                }
+            }
+        }
     }
 }

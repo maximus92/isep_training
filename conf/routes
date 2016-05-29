@@ -35,6 +35,8 @@ POST	/student/trainingQcmSettings	controllers.StudentController.studentPostTrain
 
 GET 	/student/trainingQcm			controllers.StudentController.studentTrainingQcm(question_num: Integer)
 
+POST 	/student/updateQcm				controllers.StudentController.updateQcm
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

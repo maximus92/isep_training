@@ -11,8 +11,8 @@
             @for(answer <- answers){
             <div class="form-group">
                 <label class="col-md-12">
-                    <input type="checkbox">
-                    <span class="col-md-offset-1">@answer.answer</span>
+                    <input type="checkbox" name="answer" value="@answer.id_answer">
+                    <span class="col-md-offset-1" id="answer-@answer.id_answer">@answer.answer</span>
                 </label>
 
             </div>
@@ -21,12 +21,12 @@
     </div>
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-lg btn-primary" id="last-question">Précédent</button>
+            <button class="qcm_question_nav btn btn-lg btn-primary" id="last-question">Précédent</button>
         </div>
         <div class="col-md-1 col-md-offset-2" id="qcm-time">@qcm_info.getTime
         </div>
         <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-lg btn-primary" id="next-question">Suivant</button>
+            <button class="qcm_question_nav btn btn-lg btn-primary" id="next-question">Suivant</button>
         </div>
     </div>
    </div>

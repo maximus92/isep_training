@@ -67,7 +67,7 @@ public class StudentController extends Controller {
                 Integer.parseInt( question_level )
                 );
 
-        Qcm.createStudentQcm( questionsArray, qcm_time, token, Integer.parseInt( question_num ) );
+        Qcm.createStudentQcm( questionsArray, qcm_time, token, questionsArray.size() );
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
@@ -86,10 +86,14 @@ public class StudentController extends Controller {
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
+            qcm_info.getInfoById( id_qcm );
         }
         if ( id_qcm != -1 ) {
             if ( question_num <= 0 ) {
                 return redirect( "/student/trainingQcm?question_num=1" );
+            }
+            if ( question_num > qcm_info.getNumber_of_questions() ) {
+                return redirect( "/student/trainingQcm?question_num=" + qcm_info.getNumber_of_questions() );
             }
             question = Qcm.getQcmQuestions( id_qcm, question_num );
             questionString = question.question;
@@ -100,10 +104,13 @@ public class StudentController extends Controller {
             answers_list = Answer.getAnswersByQuestionId( id_question );
         }
 
-        if ( id_qcm != -1 ) {
-            qcm_info.getInfoById( id_qcm );
-        }
-
         return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );
+    }
+
+    public Result updateQcm() {
+
+        DynamicForm form = Form.form().bindFromRequest();
+
+        return ok();
     }
 }

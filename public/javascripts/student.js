@@ -124,18 +124,33 @@ $(document).ready(
 			
 			// Navigation dans les questions d'un qcm
 			
-			$("#next-question").click(function(){
-				var question_num = parseInt(getUrlParameter('question_num')) + 1;
+			var update_qcm_json;
+			
+			
+	
+			$(".qcm_question_nav").click(function(){
 				
-				window.location.replace("trainingQcm?question_num=" + question_num);
+				var question_num;
+				var update_qcm_json = $('form').serialize();
+				
+				if($(this).attr("id") == "next-question"){
+					question_num = parseInt(getUrlParameter('question_num')) + 1;
+				} 
+				if($(this).attr("id") == "last-question"){
+					question_num = parseInt(getUrlParameter('question_num')) - 1;
+				}
+				
+				$.ajax({
+					type: 'POST',
+					url: '/student/updateQcm',
+					data: update_qcm_json,
+					
+					success: function(){
+						window.location.replace("trainingQcm?question_num=" + question_num);
+					}
+				});
 			});
 			
-			$("#last-question").click(function(){
-				var question_num = parseInt(getUrlParameter('question_num')) - 1;
-				
-				window.location.replace("trainingQcm?question_num=" + question_num);
-			});
-	
 			// Affichage minuteur 
 			
 			var qcm_time = $('#qcm-time').html();

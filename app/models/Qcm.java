@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import play.Logger;
 import play.db.DB;
 
 public class Qcm {
@@ -178,7 +177,6 @@ public class Qcm {
             result.absolute( question_num );
             question.question = result.getString( "question" );
             question.id_question = result.getInt( "id_question" );
-            Logger.debug( question.question );
 
         } catch ( SQLException e ) {
             e.printStackTrace();
