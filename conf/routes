@@ -24,6 +24,7 @@ POST    /select-question            controllers.ProfessorController.selectQuesti
 POST    /delete-question            controllers.ProfessorController.deleteQuestion
 
 POST    /add-test                 	controllers.ProfessorController.addTest
+POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST    /addq                       controllers.ProfessorController.addQ
 
 

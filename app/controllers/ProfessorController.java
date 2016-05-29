@@ -142,7 +142,7 @@ public class ProfessorController extends Controller {
 	public void insertQandAFromTest(DynamicForm form,int createby,int id_test){
 		int answer_test_counter = Integer.parseInt(form.get("answer_test_counter"));
 		int question_test_counter = Integer.parseInt(form.get("question_test_counter"));
-		String id_chapter = form.get("chapter");
+		String id_chapter = form.get("test_chapter");
 		
 		for(int i = 0; i <= question_test_counter; i++){
 				String question = form.get("question"+i);
@@ -173,6 +173,14 @@ public class ProfessorController extends Controller {
 	public static int getUserID(){
 		String token = session().get("token");
 		return User.getIdByToken(token);
+	}
+	
+	public Result selectTest(){
+		int id = getUserID();
+		ArrayList<Test> list = Test.select(id);
+		JsonNode json = Json.toJson(list);
+		Logger.debug(json.toString());
+	    return ok(json);
 	}
 	
 	
