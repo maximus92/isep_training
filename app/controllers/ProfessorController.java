@@ -177,10 +177,20 @@ public class ProfessorController extends Controller {
 	
 	public Result selectTest(){
 		int id = getUserID();
-		ArrayList<Test> list = Test.select(id);
+		ArrayList<Test> list = Test.getTestByIduser(id);
 		JsonNode json = Json.toJson(list);
-		Logger.debug(json.toString());
 	    return ok(json);
+	}
+	
+	public Result enableTest(){
+		int id_user = getUserID();
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_test = Integer.parseInt(form.get("id"));
+		String isenable = form.get("isenable");
+		int res = Test.updateIsenable(isenable, id_user, id_test);
+		ObjectNode result = Json.newObject();
+	    result.put("res", res);
+		return ok(result);
 	}
 	
 	

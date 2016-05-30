@@ -307,11 +307,71 @@ $(document).ready(function(){
 					  if(data.length > 1){
 						  $('.nothing-in-test').remove();
 						  $.each(data, function() {
-							    $("#test-info").append('<div class="col-sm-8 nothing-in-test">'+this.title+'</div>');
+							  if(this.isenable == "0"){
+								  var dispo = '<div class="col-sm-2 red" id="dispo'+this.id_test+'">Indisponible</div>';
+								 var btn_dispo = '<button class="btn btn-success enable-test" id="enable-test'+this.id_test+'">Rendre disponible</button>';
+							  }else{
+								  var dispo = '<div class="col-sm-2 green" id="dispo'+this.id_test+'">Disponible</div>';
+								  var btn_dispo = '<button class="btn btn-danger disable-test" id="enable-test'+this.id_test+'">Rendre indisponible</button>';
+							  }
+							    $("#test-info").append('<div class="row padding-10 nothing-in-test">'+
+							    							'<div class="col-sm-4">'+this.title+'</div>'+
+							    								dispo+
+							    							'<div class="col-sm-3 align-right">'+
+						    									'<button class="btn btn-primary">Détail</button>'+
+							    							'</div>'+
+							    							'<div class="col-sm-3">'+
+							    								btn_dispo+
+							    							'</div></div>');
 							});
 					  }  
 				  }	 
 			  }); 
 		  });
+		
+		buttonEnable(".enable-test","1");
+		buttonEnable(".disable-test","0");
+		
+		function buttonEnable(btn,isenable){
+			$("#test-info").on('click', btn,function(){
+				var id = $(this).attr("id").substring(11);
+				$.ajax({ 
+					  type: "POST", 
+					  url: "/enable-test-prof",
+					  data: {id: id, isenable: isenable}, 
+					  dataType: "json",
+					  success: function(data) {
+						  if(data.res != "1"){
+							  return false;
+						  }
+						  if(btn == ".enable-test"){
+							  $("#enable-test"+id).removeClass("enable-test");
+							  $("#enable-test"+id).addClass("disable-test");
+							  
+							  $("#dispo"+id).removeClass("red");
+							  $("#dispo"+id).addClass("green");
+							  $("#dispo"+id).text("Disponible");
+							  
+							  $("#enable-test"+id).removeClass("btn-success");
+							  $("#enable-test"+id).addClass("btn-danger");
+							  $("#enable-test"+id).text("Rendre indisponible");
+						  }else{
+							  $("#enable-test"+id).removeClass("disable-test");
+							  $("#enable-test"+id).addClass("enable-test");
+							  
+							  $("#dispo"+id).removeClass("green");
+							  $("#dispo"+id).addClass("red");
+							  $("#dispo"+id).text("Indisponible");
+							  
+							  $("#enable-test"+id).removeClass("btn-danger");
+							  $("#enable-test"+id).addClass("btn-success");
+							  $("#enable-test"+id).text("Rendre disponible");
+						  }
+						  
+					  }	 
+				  }); 
+			});
+		}
+		
 		
 });
