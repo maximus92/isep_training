@@ -94,7 +94,7 @@ public class Answer {
         return answers_list;
     }
 
-    public void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) {
+    public static void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;

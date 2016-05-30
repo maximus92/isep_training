@@ -94,11 +94,11 @@ $(document).ready(
 			$("#send-qcm-settings").click(function() {
 				var question_num = parseInt($("#number-of-questions")
 						.find(":selected").text());
-				var qcm_time = parseInt($("#qcm-time-hours").find(
+				var qcm_time = (parseInt($("#qcm-time-hours").find(
 						":selected").text())
 						* 60
 						+ parseInt($("#qcm-time-minutes").find(
-								":selected").text());
+								":selected").text())) * 60;
 				var question_level = parseInt($("#question-level")
 						.find(":selected").text());
 
@@ -132,6 +132,8 @@ $(document).ready(
 				
 				var question_num;
 				var update_qcm_json = $('form').serialize();
+				var time = $("#qcm-time").countdown('getTimes');
+				var current_time = $.countdown.periodsToSeconds(time);
 				
 				if($(this).attr("id") == "next-question"){
 					question_num = parseInt(getUrlParameter('question_num')) + 1;
@@ -143,7 +145,7 @@ $(document).ready(
 				$.ajax({
 					type: 'POST',
 					url: '/student/updateQcm',
-					data: update_qcm_json,
+					data: update_qcm_json + '&time=' + current_time,
 					
 					success: function(){
 						window.location.replace("trainingQcm?question_num=" + question_num);
@@ -156,7 +158,8 @@ $(document).ready(
 			var qcm_time = $('#qcm-time').html();
 			
 			$('#qcm-time').countdown({layout: '<b>{h<}{hn} : {h>}'+ 
-			    '{mn} : {sn} </b>', until: +(qcm_time*60)});
+			    '{mn} : {sn} </b>', until: +(qcm_time)});
 			
+			// Auto check des questions
 			
 		});

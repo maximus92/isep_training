@@ -7,7 +7,6 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
-import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -111,12 +110,19 @@ public class StudentController extends Controller {
     public Result updateQcm() {
 
         DynamicForm form = Form.form().bindFromRequest();
-        for ( int i = 0; i <= 4; i++ ) {
+        int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
+
+        for ( int i = 0; i < Integer.parseInt( form.get( "nb-of-answers" ) ); i++ ) {
             if ( form.get( "answer" + i ) != null ) {
-                Logger.debug( form.get( "answer" + i ) );
+                Answer.updateStudentQcmAnswer( id_qcm,
+                        Integer.parseInt( form.get( "answer" + i ) ), true );
+            } else {
+                Answer.updateStudentQcmAnswer( id_qcm,
+                        Integer.parseInt( form.get( "id-answer-" + i ) ), false );
             }
         }
 
+        Qcm.updateQcmTime( id_qcm, Integer.parseInt( form.get( "time" ) ) );
         return ok();
     }
 }

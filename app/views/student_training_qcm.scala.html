@@ -7,11 +7,13 @@
         <h3 class="student-qcm-question">@question</h3>
         
         <form action="#" class="form-horizontal col-md-offset-2">
-
+			<input type="hidden" name="id_qcm" value=@qcm_info.getId_qcm>
+			<input type="hidden" id="nb-of-answers" name="nb-of-answers" value="@answers.size">
             @for((answer, index) <- answers.zipWithIndex){
             <div class="form-group">
                 <label class="col-md-12">
-                    <input type="checkbox" name="answer@index" value="@answer.id_answer">
+                	<input type="hidden" name="id-answer-@index" value=@answer.id_answer>
+                    <input type="checkbox" name="answer@index" value="@answer.id_answer" class="answer" id="@answer.id_answer">
                     <span class="col-md-offset-1" id="answer-@answer.id_answer">@answer.answer</span>
                 </label>
 
@@ -23,8 +25,7 @@
         <div class="col-md-2 col-md-offset-2">
             <button class="qcm_question_nav btn btn-lg btn-primary" id="last-question">Précédent</button>
         </div>
-        <div class="col-md-1 col-md-offset-2" id="qcm-time">@qcm_info.getTime
-        </div>
+        <div class="col-md-1 col-md-offset-2" id="qcm-time">@qcm_info.getTime</div>
         <div class="col-md-2 col-md-offset-2">
             <button class="qcm_question_nav btn btn-lg btn-primary" id="next-question">Suivant</button>
         </div>
