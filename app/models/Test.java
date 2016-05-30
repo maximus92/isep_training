@@ -59,15 +59,24 @@ public class Test {
 	public int getId_test() {
 		return id_test;
 	}
-
+	
 	public static ArrayList<Test> getTestByIduser(int id_user){
+		return getTestByIduser(id_user,0);
+	}
+
+	public static ArrayList<Test> getTestByIduser(int id_user,int idtest){
+		String add_sql = "";
+		if(idtest != 0){
+			add_sql = " AND id_test = '"+idtest+"'";
+  	  	}
 		Connection connection = null;
 		PreparedStatement statement = null;	
 		ArrayList<Test> list = new ArrayList<Test>();
 	      try{
 	    	  connection = DB.getConnection();
-	    	  statement = connection.prepareStatement(SELECT_TEST_BY_ID_USER);
+	    	  statement = connection.prepareStatement(SELECT_TEST_BY_ID_USER+add_sql);
 	    	  statement.setInt(1,id_user);
+	    	  
 	    	  ResultSet rs = statement.executeQuery();
 	    	  while (rs.next()) {
 	                int id_module = rs.getInt("id_module");

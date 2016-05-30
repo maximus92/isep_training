@@ -177,7 +177,12 @@ public class ProfessorController extends Controller {
 	
 	public Result selectTest(){
 		int id = getUserID();
-		ArrayList<Test> list = Test.getTestByIduser(id);
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_test = 0;
+		if(form.get("id_test") != null && form.get("id_test")!= ""){
+			id_test = Integer.parseInt(form.get("id_test"));
+		}
+		ArrayList<Test> list = Test.getTestByIduser(id,id_test);
 		JsonNode json = Json.toJson(list);
 	    return ok(json);
 	}
@@ -192,6 +197,5 @@ public class ProfessorController extends Controller {
 	    result.put("res", res);
 		return ok(result);
 	}
-	
 	
 }

@@ -170,6 +170,8 @@ $(document).ready(function(){
 	  
 	  /** TEST DE COURS **/
 	  $("#add-test").hide();
+	  $(".test-detail").hide();
+	  
 	  	$("#create-test").click(function(){
 	  		
 	  		$(".test-info").hide();
@@ -318,7 +320,7 @@ $(document).ready(function(){
 							    							'<div class="col-sm-4">'+this.title+'</div>'+
 							    								dispo+
 							    							'<div class="col-sm-3 align-right">'+
-						    									'<button class="btn btn-primary">Détail</button>'+
+						    									'<button class="btn btn-primary btn-test-detail" id="btn-test-detail'+this.id_test+'">Détail</button>'+
 							    							'</div>'+
 							    							'<div class="col-sm-3">'+
 							    								btn_dispo+
@@ -372,6 +374,27 @@ $(document).ready(function(){
 				  }); 
 			});
 		}
+		
+		$("#test-info").on('click', ".btn-test-detail",function(){
+			$(".test-info").hide();
+	  		$(".test-detail").fadeIn();
+	  		var id_test = $(this).attr("id").substring(15);
+				$.ajax({ 
+					  type: "POST", 
+					  url: "/select-test-prof",
+					  data: {id_test: id_test}, 
+					  dataType: "json",
+					  success: function(data) {
+						  $("#test-detail-title").text(data[0].title);
+						  
+					  }	 
+				  }); 
+		});
+		
+		$(".test-detail-back").click(function(){
+			$(".test-info").fadeIn();
+	  		$(".test-detail").hide();
+		});
 		
 		
 });
