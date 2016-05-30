@@ -61,6 +61,10 @@ $(document).ready(function(){
 	  $(".modal-content").on('click', "#addAnswer", function() {
 		  alert("ok");
 	  });  
+
+
+
+	  /**** MODULE ***/
 	  
 	  $("#module-form").submit(function(event){ 
 		  event.preventDefault(); 
@@ -77,8 +81,11 @@ $(document).ready(function(){
 			  success: function(data) { 
 				  $(".module-reponse").append('<div class="padding-10 col-sm-6 module-display'+data.id+'">'+ data.name+ 
 						  					'</div>'+ 
-						  					'<div class="padding-10 center col-sm-4 module-display'+data.id+'">'+ 
-						  						'<button type="button" id="btn-delete-module'+data.id+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
+						  					'<div class="padding-10 center col-sm-3 pull-right module-display'+data.id+'">'+ 
+						  						'<button type="button" id="btn-module-add-chapter'+data.id+'" class="btn btn-primary module-add-chapter">Ajouter un chapitre</button>'+ 
+				  							'</div>'+
+				  							'<div class="padding-10 col-sm-3 module-display'+data.id+'">'+ 
+				  								'<button type="button" id="btn-delete-module'+data.id+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
 				  							'</div>'); 
 			  }
 		  }); 
@@ -98,7 +105,7 @@ $(document).ready(function(){
 		  }); 
 		  
 		});
-	  
+	
 	  
 	  $("#module-li").one("click",function(){ 
 		  var dataString = $("#module-form").serialize();
@@ -112,9 +119,12 @@ $(document).ready(function(){
 				 for(var i=0; i<data.length;i++){ 
 				  $(".module-reponse").append('<div class="padding-10 col-sm-6 module-display'+data[i].id_module+'">'+ data[i].module_name+ 
 						  					'</div>'+ 
-						  					'<div class="padding-10 center col-sm-4 module-display'+data[i].id_module+'">'+ 
-						  						'<button type="button" id="btn-delete-module'+data[i].id_module+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
-				  							'</div>'); 
+						  					'<div class="padding-10 center col-sm-3 module-display'+data[i].id_module+'">'+ 
+						  					'<button type="button" id="btn-module-add-chapter'+data[i].id_module+'" class="btn btn-primary module-add-chapter">Ajouter un chapitre</button>'+ 
+				  							'</div>'+
+				  							'<div class="padding-10 col-sm-3 module-display'+data[i].id_module+'">'+ 
+				  							'<button type="button" id="btn-delete-module'+data[i].id_module+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
+			  							'</div>'); 
 				  
 				 }
 			  }	 
@@ -159,6 +169,37 @@ $(document).ready(function(){
 		});
 	  
 	  /** TEST DE COURS **/
+	  $("#add-test").hide();
+	  	$("#create-test").click(function(){
+	  		
+	  		$(".test-info").hide();
+	  		$("#add-test").fadeIn();
+	  		
+	  		var dataString = "";
+			  $.ajax({ 
+				  type: "POST", 
+				  url: "/select-module",
+				  data: dataString, 
+				  dataType: "json",
+				  success: function(data) {
+					  $('#test_module option').remove();
+					  $.each(data, function() {
+						    $("#test_module").append($("<option />").val(this.id_module).text(this.module_name));
+						});
+				  }	 
+			  });
+	  	});
+	  	
+	  	$("#add-test-cancel").click(function(){
+	  		$("#add-test").hide();
+	  		$(".test-info").fadeIn();
+	  		$(".Qpaire").remove();
+	  		$(".Qimpaire").not(":first").remove();
+	  		$("#test").find("input").val("");
+	  		$('#question1_goodA1').attr('checked', false);
+	  		return false;
+	  	});
+	  	
 	  	var answer_test_counter = $("#answer_test_counter").val();
 	  	var question_test_counter = $("#question_test_counter").val(); 
 	  	var i = 2;
@@ -256,17 +297,19 @@ $(document).ready(function(){
 		});
 		
 		$("#test-li").click(function(){ 
-			  var dataString = $("#module-form").serialize();
+			  var dataString = "";
 			  $.ajax({ 
 				  type: "POST", 
-				  url: "/select-module",
+				  url: "/select-test-prof",
 				  data: dataString, 
 				  dataType: "json",
 				  success: function(data) {
-					  $('#test_module option').remove();
-					  $.each(data, function() {
-						    $("#test_module").append($("<option />").val(this.id_module).text(this.module_name));
-						});
+					  if(data.length > 1){
+						  $('.nothing-in-test').remove();
+						  $.each(data, function() {
+							    $("#test-info").append('<div class="col-sm-8 nothing-in-test">'+this.title+'</div>');
+							});
+					  }  
 				  }	 
 			  }); 
 		  });
