@@ -7,11 +7,11 @@
         <h3 class="student-qcm-question">@question</h3>
         
         <form action="#" class="form-horizontal col-md-offset-2">
-            
-            @for(answer <- answers){
+
+            @for((answer, index) <- answers.zipWithIndex){
             <div class="form-group">
                 <label class="col-md-12">
-                    <input type="checkbox" name="answer" value="@answer.id_answer">
+                    <input type="checkbox" name="answer@index" value="@answer.id_answer">
                     <span class="col-md-offset-1" id="answer-@answer.id_answer">@answer.answer</span>
                 </label>
 

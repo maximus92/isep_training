@@ -7,6 +7,7 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -110,6 +111,11 @@ public class StudentController extends Controller {
     public Result updateQcm() {
 
         DynamicForm form = Form.form().bindFromRequest();
+        for ( int i = 0; i <= 4; i++ ) {
+            if ( form.get( "answer" + i ) != null ) {
+                Logger.debug( form.get( "answer" + i ) );
+            }
+        }
 
         return ok();
     }

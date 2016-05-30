@@ -15,6 +15,12 @@ public class Answer {
     private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
                                                                    + "SET isselected = ? "
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
+    private static final String GET_STUDENT_QCM_ANSWER     = "SELECT id_student_qcm_answer "
+                                                                   + "FROM student_qcm_answer "
+                                                                   + "WHERE id_qcm = ? AND id_answer = ?";
+    private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer) "
+                                                                   + "VALUES (?, ?)";
+
     public String               answer;
     public int                  id_question;
     public String               istrue;
@@ -71,6 +77,8 @@ public class Answer {
                 answers_list.add( answer );
             }
 
+            statement.close();
+
         } catch ( SQLException e ) {
             e.printStackTrace();
         } finally {
@@ -89,14 +97,28 @@ public class Answer {
     public void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet result = null;
 
         try {
             connection = DB.getConnection();
-            statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
-            statement.setBoolean( 1, is_selected );
-            statement.setInt( 2, id_qcm );
-            statement.setInt( 3, id_answer );
-            statement.executeUpdate();
+            statement = connection.prepareStatement( GET_STUDENT_QCM_ANSWER );
+            statement.setInt( 1, id_qcm );
+            statement.setInt( 2, id_answer );
+            result = statement.executeQuery();
+
+            if ( !result.next() ) {
+                statement = connection.prepareStatement( CREATE_STUDENT_QCM_ANSWER );
+                statement.setBoolean( 1, is_selected );
+                statement.setInt( 2, id_qcm );
+                statement.setInt( 3, id_answer );
+                statement.executeUpdate();
+            } else {
+                statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
+                statement.setBoolean( 1, is_selected );
+                statement.setInt( 2, id_qcm );
+                statement.setInt( 3, id_answer );
+                statement.executeUpdate();
+            }
 
             statement.close();
         } catch ( SQLException e ) {
