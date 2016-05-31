@@ -11,6 +11,7 @@ import models.User;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controllers.security.ProfessorSecurity;
@@ -125,6 +126,20 @@ public class ProfessorController extends Controller {
 	    result.put("id_question", id_question);
 		return ok(result);
 	}
+	
+	public Result selectAnswerWithQuestion(){
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_question = Integer.parseInt(form.get("id"));
+		ArrayList<Answer> list = Answer.getAnswersByQuestionId(id_question);
+		ArrayList<Question> list1 = Question.selectQuestionByIdQ(id_question);
+		JsonNode json = Json.toJson(list);
+		JsonNode json1 = Json.toJson(list1);
+		ArrayNode result = Json.newArray();
+		result.add(json);
+		result.add(json1);
+	    return ok(result);
+	    
+	}	
 	
 	public Result addTest(){
 		// Get form from view

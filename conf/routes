@@ -28,6 +28,8 @@ POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ
 
+POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
+
 
 ##### STUDENT ROUTES #####
 

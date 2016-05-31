@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Answer {
-    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer "
+    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer, istrue "
                                                                    + "FROM answer "
                                                                    + "WHERE id_question = ?";
     public String               answer;
     public int                  id_question;
     public String               istrue;
-    public int                  id_answer;
+	public int                  id_answer;
 
     public Answer( String answer, int id_answer ) {
         this.answer = answer;
@@ -27,7 +27,9 @@ public class Answer {
         this.id_question = id_question;
         this.istrue = istrue;
     }
-
+    public String getIstrue() {
+		return istrue;
+	}
     public void insertAnswer() {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -64,7 +66,7 @@ public class Answer {
             result = statement.executeQuery();
 
             while ( result.next() ) {
-                Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ) );
+                Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ), result.getString( "istrue" ) );
                 answers_list.add( answer );
             }
 
@@ -82,4 +84,6 @@ public class Answer {
 
         return answers_list;
     }
+    
+    
 }
