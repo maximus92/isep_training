@@ -235,13 +235,13 @@ $(document).ready(function(){
 							'</div>'+
 							'</br>'+
 							  '<div class="row">'+
-						'<div class="col-xs-1 padding-10">'+
+						'<div class="col-xs-2 ">'+
 							'<label for="module">Module: </label>'+
 						'</div>'+
 						'<div class="col-xs-3">'+
 							'<select id="test_module" name="test_module" size="1"></select>'+
 						'</div>'+
-						'<div class="col-xs-1 padding-10">'+
+						'<div class="col-xs-2">'+
 							'<label for="chapter">Chapitre: </label>'+
 						'</div>'+
 						'<div class="col-xs-3">'+

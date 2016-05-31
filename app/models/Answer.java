@@ -85,5 +85,28 @@ public class Answer {
         return answers_list;
     }
     
+    public void updateAnswer(int id_answer) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = DB.getConnection();
+            stmt = connection.prepareStatement( "UPDATE answer SET answer='"+this.answer+"', istrue ='"+this.istrue+"' WHERE id_answer?" );            
+            stmt.setInt( 1, id_answer );
+
+            
+            stmt.executeUpdate();
+            stmt.close();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        } finally {
+            if ( connection != null ) {
+                try {
+                    connection.close();
+                } catch ( SQLException ignore ) {
+                    ignore.printStackTrace();
+                }
+            }
+        }
+    }
     
 }
