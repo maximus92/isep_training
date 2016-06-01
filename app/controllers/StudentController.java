@@ -1,5 +1,6 @@
 package controllers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.Answer;
@@ -75,7 +76,7 @@ public class StudentController extends Controller {
         return ok( json );
     }
 
-    public Result studentTrainingQcm( Integer question_num ) {
+    public Result studentTrainingQcm( Integer question_num ) throws SQLException {
 
         ArrayList<Answer> answers_list = null;
         Question question = null;
@@ -109,7 +110,7 @@ public class StudentController extends Controller {
         return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );
     }
 
-    public Result updateQcm() {
+    public Result updateQcm() throws NumberFormatException, SQLException {
 
         DynamicForm form = Form.form().bindFromRequest();
         int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );

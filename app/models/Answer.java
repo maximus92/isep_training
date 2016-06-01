@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Answer {
-    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT a.answer, a.id_answer, s.isselected "
-                                                                   + "FROM answer a "
-                                                                   + "INNER JOIN student_qcm_answer s "
-                                                                   + "ON a.id_answer = s.id_answer "
-                                                                   + "WHERE a.id_question = ?";
+    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer "
+                                                                   + "FROM answer "
+                                                                   + "WHERE id_question = ?";
     private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
                                                                    + "SET isselected = ? "
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
@@ -29,10 +27,9 @@ public class Answer {
     public int                  id_answer;
     public boolean              is_select;
 
-    public Answer( String answer, int id_answer, boolean is_select ) {
+    public Answer( String answer, int id_answer ) {
         this.answer = answer;
         this.id_answer = id_answer;
-        this.is_select = is_select;
     }
 
     public Answer( String answer, int id_question, String istrue ) {
@@ -71,8 +68,7 @@ public class Answer {
         result = statement.executeQuery();
 
         while ( result.next() ) {
-            Answer answer = new Answer( result.getString( "a.answer" ), result.getInt( "a.id_answer" ),
-                    result.getBoolean( "s.isselected" ) );
+            Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ) );
             answers_list.add( answer );
         }
 
