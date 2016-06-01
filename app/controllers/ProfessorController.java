@@ -8,6 +8,7 @@ import models.Question;
 import models.Test;
 import models.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -143,7 +144,7 @@ public class ProfessorController extends Controller {
 	
 
 	
-	public Result addTest(){
+	public Result addTest() throws SQLException{
 		// Get form from view
 		DynamicForm form = Form.form().bindFromRequest();
 		// Get current user id
@@ -192,7 +193,7 @@ public class ProfessorController extends Controller {
 		return User.getIdByToken(token);
 	}
 	
-	public Result selectTest(){
+	public Result selectTest() throws SQLException{
 		int id = getUserID();
 		DynamicForm form = Form.form().bindFromRequest();
 		int id_test = 0;
@@ -204,7 +205,7 @@ public class ProfessorController extends Controller {
 	    return ok(json);
 	}
 	
-	public Result enableTest(){
+	public Result enableTest() throws SQLException{
 		int id_user = getUserID();
 		DynamicForm form = Form.form().bindFromRequest();
 		int id_test = Integer.parseInt(form.get("id"));
