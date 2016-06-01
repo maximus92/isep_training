@@ -8,9 +8,11 @@ import models.Question;
 import models.Test;
 import models.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controllers.security.ProfessorSecurity;
@@ -126,7 +128,23 @@ public class ProfessorController extends Controller {
 		return ok(result);
 	}
 	
-	public Result addTest(){
+	public Result selectAnswerWithQuestion(){
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_question = Integer.parseInt(form.get("id"));
+		ArrayList<Answer> list = Answer.getAnswersByQuestionId(id_question);
+		ArrayList<Question> list1 = Question.selectQuestionByIdQ(id_question);
+		JsonNode json = Json.toJson(list);
+		JsonNode json1 = Json.toJson(list1);
+		ArrayNode result = Json.newArray();
+		result.add(json);
+		result.add(json1);
+	    return ok(result);
+	    
+	}	
+	
+
+	
+	public Result addTest() throws SQLException{
 		// Get form from view
 		DynamicForm form = Form.form().bindFromRequest();
 		// Get current user id
@@ -175,13 +193,27 @@ public class ProfessorController extends Controller {
 		return User.getIdByToken(token);
 	}
 	
-	public Result selectTest(){
+	public Result selectTest() throws SQLException{
 		int id = getUserID();
-		ArrayList<Test> list = Test.select(id);
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_test = 0;
+		if(form.get("id_test") != null && form.get("id_test")!= ""){
+			id_test = Integer.parseInt(form.get("id_test"));
+		}
+		ArrayList<Test> list = Test.getTestByIduser(id,id_test);
 		JsonNode json = Json.toJson(list);
-		Logger.debug(json.toString());
 	    return ok(json);
 	}
 	
+	public Result enableTest() throws SQLException{
+		int id_user = getUserID();
+		DynamicForm form = Form.form().bindFromRequest();
+		int id_test = Integer.parseInt(form.get("id"));
+		String isenable = form.get("isenable");
+		int res = Test.updateIsenable(isenable, id_user, id_test);
+		ObjectNode result = Json.newObject();
+	    result.put("res", res);
+		return ok(result);
+	}
 	
 }

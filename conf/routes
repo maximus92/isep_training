@@ -25,7 +25,10 @@ POST    /delete-question            controllers.ProfessorController.deleteQuesti
 
 POST    /add-test                 	controllers.ProfessorController.addTest
 POST    /select-test-prof           controllers.ProfessorController.selectTest
+POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ
+
+POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 
 
 ##### STUDENT ROUTES #####
