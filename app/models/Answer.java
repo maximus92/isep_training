@@ -33,6 +33,11 @@ public class Answer {
     public int                  id_answer;
     public boolean              is_select;
 
+    public Answer( int id_answer, boolean is_select ) {
+        this.id_answer = id_answer;
+        this.is_select = is_select;
+    }
+
     public Answer( String answer, int id_answer ) {
         this.answer = answer;
         this.id_answer = id_answer;
@@ -132,9 +137,9 @@ public class Answer {
         }
     }
 
-    public static List getSelectedAnswers( int id_qcm, int id_question ) throws SQLException {
+    public static List<Answer> getSelectedAnswers( int id_qcm, int id_question ) throws SQLException {
 
-        List questionsSelected = new ArrayList();
+        List<Answer> questionsSelected = new ArrayList<Answer>();
         Connection connection = DB.getConnection();
         PreparedStatement statement = connection.prepareStatement( GET_SELECTED_ANSWERS );
         statement.setInt( 1, id_qcm );
@@ -142,9 +147,14 @@ public class Answer {
         ResultSet result = statement.executeQuery();
 
         while ( result.next() ) {
-            questionsSelected.add( result.getBoolean( "isselected" ) );
+            Answer answer = new Answer( result.getInt( "id_answer" ), result.getBoolean( "isselected" ) );
+            questionsSelected.add( answer );
         }
 
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
         return questionsSelected;
 
     }

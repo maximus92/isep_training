@@ -27,11 +27,11 @@ public class SigninController extends Controller {
     public Result connexion() {
         DynamicForm signinform = Form.form().bindFromRequest();
         ConnexionLDAP c = new ConnexionLDAP();
-        Logger.debug( "ok" );
 
         // User u = c.connectLDAP(signinform);
         User u = c.connect( signinform );
 
+        Logger.debug( "ok" );
         if ( u.exist().equals( "" ) ) {
             u.insert();
         } else {

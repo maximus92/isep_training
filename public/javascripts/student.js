@@ -175,7 +175,11 @@ $(document).ready(
 				success: function(data){
 					if(data != null){
 						for (i in data){
-							alert(i);
+							if (data[i].is_select){
+								$("#answer"+data[i].id_answer).prop("checked", true);
+							} else {
+								$("#answer"+data[i].id_answer).prop("checked", false);
+							}
 						}
 					}
 				}
