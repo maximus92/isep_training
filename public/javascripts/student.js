@@ -173,7 +173,11 @@ $(document).ready(
 				dataType: 'json',
 				
 				success: function(data){
-					alert("ok");
+					if(data != null){
+						for (i in data){
+							alert(i);
+						}
+					}
 				}
 			});
 		});

@@ -22,7 +22,7 @@ public class Answer {
     private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer) "
                                                                    + "VALUES (?, ?)";
     private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected "
-                                                                   + "FROM student-qcm-answer s "
+                                                                   + "FROM student_qcm_answer s "
                                                                    + "INNER JOIN answer a "
                                                                    + "ON a.id_answer = s.id_answer "
                                                                    + "WHERE id_qcm = ? and id_question = ?";
@@ -99,9 +99,8 @@ public class Answer {
 
         if ( !result.next() ) {
             statement = connection.prepareStatement( CREATE_STUDENT_QCM_ANSWER );
-            statement.setBoolean( 1, is_selected );
-            statement.setInt( 2, id_qcm );
-            statement.setInt( 3, id_answer );
+            statement.setInt( 1, id_qcm );
+            statement.setInt( 2, id_answer );
             statement.executeUpdate();
         } else {
             statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
