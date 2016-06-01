@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import play.db.DB;
 
@@ -20,6 +21,11 @@ public class Answer {
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
     private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer) "
                                                                    + "VALUES (?, ?)";
+    private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected "
+                                                                   + "FROM student-qcm-answer s "
+                                                                   + "INNER JOIN answer a "
+                                                                   + "ON a.id_answer = s.id_answer "
+                                                                   + "WHERE id_qcm = ? and id_question = ?";
 
     public String               answer;
     public int                  id_question;
@@ -111,28 +117,37 @@ public class Answer {
         }
     }
 
-    public void updateAnswer( int id_answer ) {
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        try {
-            connection = DB.getConnection();
-            stmt = connection.prepareStatement( "UPDATE answer SET answer='" + this.answer + "', istrue ='"
-                    + this.istrue + "' WHERE id_answer?" );
-            stmt.setInt( 1, id_answer );
+    public void updateAnswer( int id_answer ) throws SQLException {
 
-            stmt.executeUpdate();
-            stmt.close();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        Connection connection = DB.getConnection();
+        PreparedStatement stmt = connection.prepareStatement( "UPDATE answer SET answer='" + this.answer
+                + "', istrue ='"
+                + this.istrue + "' WHERE id_answer?" );
+        stmt.setInt( 1, id_answer );
+
+        stmt.executeUpdate();
+        stmt.close();
+
+        if ( connection != null ) {
+            connection.close();
         }
+    }
+
+    public static List getSelectedAnswers( int id_qcm, int id_question ) throws SQLException {
+
+        List questionsSelected = new ArrayList();
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement( GET_SELECTED_ANSWERS );
+        statement.setInt( 1, id_qcm );
+        statement.setInt( 2, id_question );
+        ResultSet result = statement.executeQuery();
+
+        while ( result.next() ) {
+            questionsSelected.add( result.getBoolean( "isselected" ) );
+        }
+
+        return questionsSelected;
+
     }
 
 }

@@ -1,10 +1,11 @@
-@(message: String, question: String, answers: ArrayList[models.Answer], qcm_info: models.Qcm)
+@(message: String, question: models.Question, answers: ArrayList[models.Answer], qcm_info: models.Qcm)
 @main("Qcm Personnalisé"){
 
 <div class="container">
    <div class="row">
+   <div class="qcm-container" id="qcm-@qcm_info.getId_qcm">
        <div class="col-md-8 col-md-offset-2" id="student-qcm-question-container">
-        <h3 class="student-qcm-question">@question</h3>
+        <h3 class="student-qcm-question" id="question@question.id_question">@question.question</h3>
         
         <form action="#" class="form-horizontal col-md-offset-2">
 			<input type="hidden" name="id_qcm" value=@qcm_info.getId_qcm>
@@ -30,6 +31,7 @@
             <button class="qcm_question_nav btn btn-lg btn-primary" id="next-question">Suivant</button>
         </div>
     </div>
+   </div>
    </div>
 </div>
 }

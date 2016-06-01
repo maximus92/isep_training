@@ -163,4 +163,17 @@ $(document).ready(
 			// Auto check des questions
 			
 			
+			id_question = $('.student-qcm-question').attr('id').substring(8);
+			id_qcm = $('.qcm-container').attr('id').substring(4);
+			
+			$.ajax({
+				type: 'POST',
+				url: '/student/checkbox',
+				data: {id_qcm : id_qcm, id_question : id_question},
+				dataType: 'json',
+				
+				success: function(data){
+					alert("ok");
+				}
+			});
 		});

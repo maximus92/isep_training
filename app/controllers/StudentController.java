@@ -2,6 +2,7 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import models.Answer;
 import models.Chapter;
@@ -81,8 +82,6 @@ public class StudentController extends Controller {
         ArrayList<Answer> answers_list = null;
         Question question = null;
         int id_qcm = -1;
-        int id_question = -1;
-        String questionString = "";
         String token = session().get( "token" );
         Qcm qcm_info = new Qcm();
 
@@ -98,16 +97,14 @@ public class StudentController extends Controller {
                 return redirect( "/student/trainingQcm?question_num=" + qcm_info.getNumber_of_questions() );
             }
             question = Qcm.getQcmQuestions( id_qcm, question_num );
-            questionString = question.question;
-            id_question = question.id_question;
         }
 
-        if ( id_question != -1 ) {
-            answers_list = Answer.getAnswersByQuestionId( id_question );
+        if ( question.id_question != -1 ) {
+            answers_list = Answer.getAnswersByQuestionId( question.id_question );
             Logger.debug( String.valueOf( answers_list.get( 1 ).is_select ) );
         }
 
-        return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );
+        return ok( student_training_qcm.render( "", question, answers_list, qcm_info ) );
     }
 
     public Result updateQcm() throws NumberFormatException, SQLException {
@@ -128,4 +125,18 @@ public class StudentController extends Controller {
         Qcm.updateQcmTime( id_qcm, Integer.parseInt( form.get( "time" ) ) );
         return ok();
     }
+
+    public Result answersSelected() throws SQLException {
+
+        List answersSelected = new ArrayList();
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_question = Integer.parseInt( form.get( "id_question" ) );
+        int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
+        answersSelected = Answer.getSelectedAnswers( id_qcm, id_question );
+
+        JsonNode json = Json.toJson( answersSelected );
+
+        return ok( json );
+    }
+
 }
