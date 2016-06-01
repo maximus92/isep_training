@@ -7,6 +7,7 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -102,6 +103,7 @@ public class StudentController extends Controller {
 
         if ( id_question != -1 ) {
             answers_list = Answer.getAnswersByQuestionId( id_question );
+            Logger.debug( String.valueOf( answers_list.get( 1 ).is_select ) );
         }
 
         return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );

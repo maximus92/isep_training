@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Answer {
-    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer "
-                                                                   + "FROM answer "
-                                                                   + "WHERE id_question = ?";
+    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT a.answer, a.id_answer, s.isselected "
+                                                                   + "FROM answer a "
+                                                                   + "INNER JOIN student_qcm_answer s "
+                                                                   + "ON a.id_answer = s.id_answer "
+                                                                   + "WHERE a.id_question = ?";
     private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
                                                                    + "SET isselected = ? "
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
@@ -25,10 +27,12 @@ public class Answer {
     public int                  id_question;
     public String               istrue;
     public int                  id_answer;
+    public boolean              is_select;
 
-    public Answer( String answer, int id_answer ) {
+    public Answer( String answer, int id_answer, boolean is_select ) {
         this.answer = answer;
         this.id_answer = id_answer;
+        this.is_select = is_select;
     }
 
     public Answer( String answer, int id_question, String istrue ) {
@@ -37,100 +41,73 @@ public class Answer {
         this.istrue = istrue;
     }
 
-    public void insertAnswer() {
+    public void insertAnswer() throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
-        try {
-            connection = DB.getConnection();
-            stmt = connection.prepareStatement( "INSERT INTO answer(answer, id_question, istrue) "
-                    + "VALUES ('" + this.answer + "', '" + this.id_question + "', '" + this.istrue + "')" );
+        connection = DB.getConnection();
+        stmt = connection.prepareStatement( "INSERT INTO answer(answer, id_question, istrue) "
+                + "VALUES ('" + this.answer + "', '" + this.id_question + "', '" + this.istrue + "')" );
 
-            stmt.executeUpdate();
-            stmt.close();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        stmt.executeUpdate();
+        stmt.close();
+        if ( connection != null ) {
+            connection.close();
         }
     }
 
-    public static ArrayList<Answer> getAnswersByQuestionId( int id_question ) {
+    public static ArrayList<Answer> getAnswersByQuestionId( int id_question ) throws SQLException {
         ArrayList<Answer> answers_list = new ArrayList<Answer>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
-        try {
-            connection = DB.getConnection();
-            statement = connection.prepareStatement( GET_ANSWERS_BY_QUESTION_ID );
-            statement.setInt( 1, id_question );
-            result = statement.executeQuery();
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_ANSWERS_BY_QUESTION_ID );
+        statement.setInt( 1, id_question );
+        result = statement.executeQuery();
 
-            while ( result.next() ) {
-                Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ) );
-                answers_list.add( answer );
-            }
-
-            statement.close();
-
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        while ( result.next() ) {
+            Answer answer = new Answer( result.getString( "a.answer" ), result.getInt( "a.id_answer" ),
+                    result.getBoolean( "s.isselected" ) );
+            answers_list.add( answer );
         }
 
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
         return answers_list;
     }
 
-    public static void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) {
+    public static void updateStudentQcmAnswer( int id_qcm, int id_answer, boolean is_selected ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
-        try {
-            connection = DB.getConnection();
-            statement = connection.prepareStatement( GET_STUDENT_QCM_ANSWER );
-            statement.setInt( 1, id_qcm );
-            statement.setInt( 2, id_answer );
-            result = statement.executeQuery();
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_STUDENT_QCM_ANSWER );
+        statement.setInt( 1, id_qcm );
+        statement.setInt( 2, id_answer );
+        result = statement.executeQuery();
 
-            if ( !result.next() ) {
-                statement = connection.prepareStatement( CREATE_STUDENT_QCM_ANSWER );
-                statement.setBoolean( 1, is_selected );
-                statement.setInt( 2, id_qcm );
-                statement.setInt( 3, id_answer );
-                statement.executeUpdate();
-            } else {
-                statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
-                statement.setBoolean( 1, is_selected );
-                statement.setInt( 2, id_qcm );
-                statement.setInt( 3, id_answer );
-                statement.executeUpdate();
-            }
+        if ( !result.next() ) {
+            statement = connection.prepareStatement( CREATE_STUDENT_QCM_ANSWER );
+            statement.setBoolean( 1, is_selected );
+            statement.setInt( 2, id_qcm );
+            statement.setInt( 3, id_answer );
+            statement.executeUpdate();
+        } else {
+            statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
+            statement.setBoolean( 1, is_selected );
+            statement.setInt( 2, id_qcm );
+            statement.setInt( 3, id_answer );
+            statement.executeUpdate();
+        }
 
-            statement.close();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
         }
     }
 }
