@@ -37,8 +37,8 @@ public class SigninController extends Controller {
         Logger.debug("ok");
 
 
-       User u = c.connectLDAP(signinform);
-        //User u = c.connect(signinform);
+       //User u = c.connectLDAP(signinform);
+        User u = c.connect(signinform);
 
         if(u.exist().equals("")){
         	u.insert();

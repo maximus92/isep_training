@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Answer {
-    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer "
+    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer, istrue "
                                                                    + "FROM answer "
                                                                    + "WHERE id_question = ?";
     private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
@@ -68,7 +68,7 @@ public class Answer {
         result = statement.executeQuery();
 
         while ( result.next() ) {
-            Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ) );
+            Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ),result.getString( "istrue" ) );
             answers_list.add( answer );
         }
 
