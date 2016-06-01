@@ -42,9 +42,10 @@ public class Answer {
     }
 
     public String getIstrue() {
-		return istrue;
-	}
-    public void insertAnswer() {
+        return istrue;
+    }
+
+    public void insertAnswer() throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         connection = DB.getConnection();
@@ -113,16 +114,16 @@ public class Answer {
             connection.close();
         }
     }
-    
-    public void updateAnswer(int id_answer) {
+
+    public void updateAnswer( int id_answer ) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = DB.getConnection();
-            stmt = connection.prepareStatement( "UPDATE answer SET answer='"+this.answer+"', istrue ='"+this.istrue+"' WHERE id_answer?" );            
+            stmt = connection.prepareStatement( "UPDATE answer SET answer='" + this.answer + "', istrue ='"
+                    + this.istrue + "' WHERE id_answer?" );
             stmt.setInt( 1, id_answer );
 
-            
             stmt.executeUpdate();
             stmt.close();
         } catch ( SQLException e ) {
@@ -137,5 +138,5 @@ public class Answer {
             }
         }
     }
-    
+
 }
