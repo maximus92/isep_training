@@ -82,6 +82,42 @@ public class Question {
             }
         }
     }
+    
+    public static ArrayList<Question> selectQuestionByIdQ( int id_question ) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Question> list = new ArrayList<Question>();
+        try {
+            connection = DB.getConnection();
+            statement = connection.prepareStatement( "SELECT * FROM question WHERE id_question=?" );
+            statement.setInt( 1, id_question );
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() ) {
+                String question = rs.getString( "question" );
+                String correction = rs.getString( "correction" );
+                String level = rs.getString( "level" );
+                String id_chapter = rs.getString( "id_chapter" );
+                String forexam = rs.getString( "forexam" );
+                String file = rs.getString( "file" );
+                Question q = new Question( id_question, question, correction, level, id_chapter, forexam, file );
+                // add each employee to the list
+                list.add( q );
+            }
+            statement.close();
+            return list;
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            return list;
+        } finally {
+            if ( connection != null ) {
+                try {
+                    connection.close();
+                } catch ( SQLException ignore ) {
+                    ignore.printStackTrace();
+                }
+            }
+        }
+    }
 
     public static ArrayList<Question> select( int id ) {
         Connection connection = null;

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.Answer;
@@ -7,6 +8,7 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -67,14 +69,14 @@ public class StudentController extends Controller {
                 Integer.parseInt( question_level )
                 );
 
-        Qcm.createStudentQcm( questionsArray, qcm_time, token, Integer.parseInt( question_num ) );
+        Qcm.createStudentQcm( questionsArray, qcm_time, token, questionsArray.size() );
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
         return ok( json );
     }
 
-    public Result studentTrainingQcm( Integer question_num ) {
+    public Result studentTrainingQcm( Integer question_num ) throws SQLException {
 
         ArrayList<Answer> answers_list = null;
         Question question = null;
@@ -86,10 +88,14 @@ public class StudentController extends Controller {
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
+            qcm_info.getInfoById( id_qcm );
         }
         if ( id_qcm != -1 ) {
             if ( question_num <= 0 ) {
                 return redirect( "/student/trainingQcm?question_num=1" );
+            }
+            if ( question_num > qcm_info.getNumber_of_questions() ) {
+                return redirect( "/student/trainingQcm?question_num=" + qcm_info.getNumber_of_questions() );
             }
             question = Qcm.getQcmQuestions( id_qcm, question_num );
             questionString = question.question;
@@ -98,12 +104,28 @@ public class StudentController extends Controller {
 
         if ( id_question != -1 ) {
             answers_list = Answer.getAnswersByQuestionId( id_question );
-        }
-
-        if ( id_qcm != -1 ) {
-            qcm_info.getInfoById( id_qcm );
+            Logger.debug( String.valueOf( answers_list.get( 1 ).is_select ) );
         }
 
         return ok( student_training_qcm.render( "", questionString, answers_list, qcm_info ) );
+    }
+
+    public Result updateQcm() throws NumberFormatException, SQLException {
+
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
+
+        for ( int i = 0; i < Integer.parseInt( form.get( "nb-of-answers" ) ); i++ ) {
+            if ( form.get( "answer" + i ) != null ) {
+                Answer.updateStudentQcmAnswer( id_qcm,
+                        Integer.parseInt( form.get( "answer" + i ) ), true );
+            } else {
+                Answer.updateStudentQcmAnswer( id_qcm,
+                        Integer.parseInt( form.get( "id-answer-" + i ) ), false );
+            }
+        }
+
+        Qcm.updateQcmTime( id_qcm, Integer.parseInt( form.get( "time" ) ) );
+        return ok();
     }
 }

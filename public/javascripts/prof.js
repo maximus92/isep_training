@@ -144,7 +144,7 @@ $(document).ready(function(){
 					 for(var i=0; i<data.length;i++){ 
 					  $(".question-select").append('<div class="padding-10 col-sm-8 question-display'+data[i].id_question+'">'+ data[i].question+ 
 							  					'</div>'+
-							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modifyQ">Modifier</button></div> '+
+							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
 							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div>');
 					  
 					 }
@@ -167,6 +167,157 @@ $(document).ready(function(){
 		  }); 
 		  
 		});
+	  
+	  $(".question-select").on('click', ".modifyQA", function() {
+		  var id = $(this).attr('id').substring(8);
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/select-answer",
+			  data: {id : id}, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+				  $(".form_update_question").remove();
+				 if(data[1][0].level == "0"){
+					var difficulty = '<div class="col-xs-3">'+
+					'<SELECT name="level">'+
+					'<OPTION value="0" selected>Facile</OPTION>'+
+					'<OPTION value="1">Moyen</OPTION>'+
+					'<OPTION value="2" selected>Difficile</OPTION>'+
+				'</SELECT>'+
+			'</div>';	 
+				 }
+				 if(data[1][0].level == "1"){
+						var difficulty = '<div class="col-xs-3">'+
+						'<SELECT name="level">'+
+						'<OPTION value="0" >Facile</OPTION>'+
+						'<OPTION value="1" selected>Moyen</OPTION>'+
+						'<OPTION value="2" >Difficile</OPTION>'+
+					'</SELECT>'+
+				'</div>';	 
+					 }
+				 if(data[1][0].level == "2"){
+						var difficulty = '<div class="col-xs-3">'+
+						'<SELECT name="level">'+
+						'<OPTION value="0" >Facile</OPTION>'+
+						'<OPTION value="1">Moyen</OPTION>'+
+						'<OPTION value="2" selected>Difficile</OPTION>'+
+					'</SELECT>'+
+				'</div>';	 
+					 }
+				 if(data[1][0].forexam == "0"){
+						var forexam = '<div class="col-xs-2">'+
+						'<SELECT name="forexam">'+
+						'<OPTION value="0" selected>Entrainement des élèves</OPTION>'+
+						'<OPTION value="1">Examen</OPTION>'+
+					'</SELECT>'+
+				'</div>';	 
+					 }
+				 else{
+					 var forexam = '<div class="col-xs-2">'+
+						'<SELECT name="forexam">'+
+						'<OPTION value="0" >Entrainement des élèves</OPTION>'+
+						'<OPTION value="1" selected>Examen</OPTION>'+
+					'</SELECT>'+
+				'</div>';
+					 
+				 }
+					  var formulaire1 = '<form method="post" class="form_update_question">'+
+								'<div class="row">'+
+								'<div class="col-xs-2">'+
+									'<label>Difficulté : </label>'+
+								'</div>'+difficulty+
+								
+								'<div class="col-xs-3">'+
+									'<label>Question pour : </label>'+
+								'</div>'+forexam+
+								
+							'</div>'+
+							'</br>'+
+							  '<div class="row">'+
+						'<div class="col-xs-2 ">'+
+							'<label for="module">Module: </label>'+
+						'</div>'+
+						'<div class="col-xs-3">'+
+							'<select id="test_module" name="test_module" size="1"></select>'+
+						'</div>'+
+						'<div class="col-xs-2">'+
+							'<label for="chapter">Chapitre: </label>'+
+						'</div>'+
+						'<div class="col-xs-3">'+
+							'<select name="test_chapter" size="1">'+
+								'<option value="">Aucun</option>'+
+							'</select>'+
+						'</div>'+
+					'</div>'+
+							'</br>'+
+
+
+							'<div class="form-group">'+
+								'<label for="question">Question</label> <input type="text"'+
+									'class="form-control" id="question" name="question" value="'+data[1][0].question+'">'+
+
+								'<div class="pull-right">'+
+									
+									'<button type="button" class="btn btn-success btn-sm">&</button>'+
+								'</div>'+
+							'</div>'+
+							'</br> </br>'+
+
+							'<div class="row">'+
+								'<div class="col-xs-3 pull-right">'+
+									'<label> Cocher les bonnes </br>réponses'+
+									'</label>'+
+								'</div>'+
+							'</div>'+
+							'</br>';
+
+					  for(var i=0; i< data[0].length; i++){ 
+						  if(data[0][i].istrue == "0"){
+							var isTrue =  '<div class="col-xs-1">'+
+								'<label> <input type="checkbox" value="0" name="goodA0">'+
+								'</label>'+
+							'</div>';
+						  }
+						  else{
+							  var isTrue =  '<div class="col-xs-1">'+
+								'<label> <input type="checkbox" value="'+data[0][i].istrue+'" name="goodA0"checked>'+
+								'</label>'+
+							'</div>';
+						  }
+						  formulaire1 = formulaire1 + '<div id="addQuestionA">'+
+							'<input type="hidden" value="1" name="reponse_counter"'+
+								'id="reponse_counter" />'+
+
+							'<div id="remove0">'+
+								'<label for="reponse">Réponse</label>'+
+								'<div class="row">'+
+									'<div class="col-xs-10">'+
+										'<input type="text" class="form-control" id="reponse0"'+
+											'name="reponse0" value="'+data[0][i].answer+'">'+
+									'</div>'+isTrue+
+									
+									'<div class="col-xs-1">'+
+										'<i class="fa fa-times delete_answer" id="delete_answer0"></i>'+
+									'</div>'+
+								'</div>'+
+							'</div>'+
+						'</div>';
+					  }
+					  
+					  formulaire1 =formulaire1 +'</br>'+
+						'<button type="button" class="btn btn-primary pull-left"'+
+						'id="addAnswer">Ajouter une réponse</button>'+
+					'</br> </br> </br> <label for="correction">Correction détaillée</label>'+
+					'<textarea rows="4" cols="50" class="form-control" name="correction">'+data[1][0].correction+'</textarea>'+
+					'</br>'+
+				'</form>'; 
+					  $(".answer-select").append(formulaire1);
+
+					 
+				  }
+		  }); 
+	  });
 	  
 	  /** TEST DE COURS **/
 	  $("#add-test").hide();

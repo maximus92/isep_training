@@ -28,6 +28,8 @@ POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ
 
+POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
+
 
 ##### STUDENT ROUTES #####
 
@@ -36,6 +38,8 @@ GET		/student/qcmSettings			controllers.StudentController.studentQcmSettings
 POST	/student/trainingQcmSettings	controllers.StudentController.studentPostTrainingQcmSettings
 
 GET 	/student/trainingQcm			controllers.StudentController.studentTrainingQcm(question_num: Integer)
+
+POST 	/student/updateQcm				controllers.StudentController.updateQcm
 
 
 # Map static resources from the /public folder to the /assets URL path

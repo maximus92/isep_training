@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import play.Logger;
 import play.db.DB;
 
 public class Qcm {
@@ -43,6 +42,9 @@ public class Qcm {
     private static final String       GET_QCM_INFO_BY_ID               = "SELECT time, level, nbofquestions "
                                                                                + "FROM qcm "
                                                                                + "WHERE id_qcm = ? ";
+    private static final String       UPDATE_QCM_TIME                  = "UPDATE qcm "
+                                                                               + "SET time = ? "
+                                                                               + "WHERE id_qcm = ?";
 
     private static ArrayList<Integer> questions_id_array               = new ArrayList<Integer>();
 
@@ -178,7 +180,6 @@ public class Qcm {
             result.absolute( question_num );
             question.question = result.getString( "question" );
             question.id_question = result.getInt( "id_question" );
-            Logger.debug( question.question );
 
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -238,10 +239,36 @@ public class Qcm {
             result = statement.executeQuery();
 
             while ( result.next() ) {
+                this.setId_qcm( id_qcm );
                 this.setNumber_of_questions( result.getInt( "nbofquestions" ) );
                 this.setTime( result.getInt( "time" ) );
                 this.setLevel( result.getInt( "level" ) );
             }
+
+            statement.close();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        } finally {
+            if ( connection != null ) {
+                try {
+                    connection.close();
+                } catch ( SQLException ignore ) {
+                    ignore.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void updateQcmTime( int id_qcm, int time ) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DB.getConnection();
+            statement = connection.prepareStatement( UPDATE_QCM_TIME );
+            statement.setInt( 1, time );
+            statement.setInt( 2, id_qcm );
+            statement.executeUpdate();
 
             statement.close();
         } catch ( SQLException e ) {
