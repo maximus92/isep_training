@@ -53,7 +53,7 @@ public class StudentController extends Controller {
         return ok( student_qcm_settings.render( "", modules, chapters ) );
     }
 
-    public Result studentPostTrainingQcmSettings() {
+    public Result studentPostTrainingQcmSettings() throws NumberFormatException, SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         String id_chapter = form.get( "id_chapter" );
         String question_num = form.get( "question_num" );
@@ -156,6 +156,12 @@ public class StudentController extends Controller {
 
         JsonNode json = Json.toJson( answersSelected );
         return ok( json );
+    }
+
+    public Result correctQcm( int id_qcm ) throws SQLException {
+        Qcm qcm = new Qcm();
+        qcm.calculateScore( id_qcm );
+        return ok();
     }
 
 }
