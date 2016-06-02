@@ -73,6 +73,9 @@ public class StudentController extends Controller {
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
+        for ( int i = 0; i < session().size(); i++ ) {
+            session().get( "answer" );
+        }
         return ok( json );
     }
 
@@ -102,6 +105,18 @@ public class StudentController extends Controller {
             answers_list = Answer.getAnswersByQuestionId( question.id_question );
         }
 
+        // for ( int i = 0; i < answers_list.size(); i++ ) {
+        // if ( session().get( "answer" + answers_list.get( i ).id_answer ) !=
+        // null &&
+        // session().get( "answer" + answers_list.get( i ).id_answer ).equals(
+        // "1" ) ) {
+        //
+        // answers_list.get( i ).is_select = true;
+        // } else {
+        // answers_list.get( i ).is_select = false;
+        // }
+        // }
+
         return ok( student_training_qcm.render( "", question, answers_list, qcm_info ) );
     }
 
@@ -112,9 +127,16 @@ public class StudentController extends Controller {
 
         for ( int i = 0; i < Integer.parseInt( form.get( "nb-of-answers" ) ); i++ ) {
             if ( form.get( "answer" + i ) != null ) {
+
+                // changement depuis l'id de la checkbox
+                // session().put( "answer" + form.get( "answer" + i ), "1" );
                 Answer.updateStudentQcmAnswer( id_qcm,
                         Integer.parseInt( form.get( "answer" + i ) ), true );
             } else {
+
+                // changement depuis l'id d'un input caché (ajax ne renvoie pas
+                // l'id des réponses non cochées)
+                // session().put( "answer" + form.get( "id-answer-" + i ), "0");
                 Answer.updateStudentQcmAnswer( id_qcm,
                         Integer.parseInt( form.get( "id-answer-" + i ) ), false );
             }

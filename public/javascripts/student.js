@@ -16,12 +16,12 @@ $(document).ready(
 			    }
 			};
 
-			/**
-			 * ************ Scripts pour la selection des paramètres d'un qcm
-			 * ****************
-			 */
+			/**************Scripts pour la selection des paramètres d'un qcm******************/
+			
+			
 			
 			// Passer de la page de paramètre 1 à 2 et inversement
+			
 			$("#pass-to-settings-second-part").click(function() {
 
 				$("#student-qcm-settings-part-1").hide();
@@ -36,6 +36,8 @@ $(document).ready(
 
 			});
 
+			
+			
 			// Sélection du modules
 			var id_module;
 			var id_chapter;
@@ -63,6 +65,8 @@ $(document).ready(
 				$("#chapters-module-" + id_module).show();
 
 			});
+			
+			
 
 			// selection du chapitre
 
@@ -81,11 +85,15 @@ $(document).ready(
 
 			});
 
+			
+			
 			// Cacher les chapitres au chargement de la page
 
 			$(window).load(function() {
 				$(".chapters-list").hide();
 			});
+			
+			
 			
 			// Récupération des paramètres selectionnés
 
@@ -122,12 +130,14 @@ $(document).ready(
 
 			});
 			
+			/*******************Scripts pour la réalisation du qcm*************************/
+			
+			
+			
 			// Navigation dans les questions d'un qcm
 			
 			var update_qcm_json;
 			
-			
-	
 			$(".qcm_question_nav").click(function(){
 				
 				var question_num;
@@ -153,12 +163,16 @@ $(document).ready(
 				});
 			});
 			
+			
+			
 			// Affichage minuteur 
 			
 			var qcm_time = $('#qcm-time').html();
 			
 			$('#qcm-time').countdown({layout: '<b>{h<}{hn} : {h>}'+ 
 			    '{mn} : {sn} </b>', until: +(qcm_time)});
+			
+			
 			
 			// Auto check des questions
 			
@@ -169,7 +183,7 @@ $(document).ready(
 			$.ajax({
 				type: 'POST',
 				url: '/student/checkbox',
-				data: {id_qcm : id_qcm, id_question : id_question},
+				data: {id_qcm : id_qcm, id_question : id_question, id_answer : {answer1: "d"}},
 				dataType: 'json',
 				
 				success: function(data){
