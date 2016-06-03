@@ -40,7 +40,9 @@ public class ProfessorController extends Controller {
     public Result index() {
         return ok( home_prof.render( "" ) );
     }
-
+   
+    
+    
     public Result addQ() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         String question = form.get( "question" );
@@ -208,6 +210,18 @@ public class ProfessorController extends Controller {
         ObjectNode result = Json.newObject();
         result.put( "res", res );
         return ok( result );
+    }
+    
+    public Result updateAnswer() throws SQLException{
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_answer = Integer.parseInt( form.get( "id" ) );
+        
+        	String answer = form.get( "reponse");
+    		String istrue = form.get( "goodA");
+    		Answer a = new Answer( answer, istrue );
+    		a.updateAnswer(id_answer);  
+            return redirect( "/prof" );
+
     }
 
 }
