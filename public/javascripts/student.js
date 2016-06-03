@@ -154,7 +154,6 @@ $(document).ready(
 				var update_qcm_json = $('form').serialize();
 				var time = $("#qcm-time").countdown('getTimes');
 				var current_time = $.countdown.periodsToSeconds(time);
-				
 				if($(this).attr("id") == "next-question"){
 					question_num = parseInt(getUrlParameter('question_num')) + 1;
 				} 

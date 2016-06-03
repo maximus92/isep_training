@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import play.Logger;
 import play.db.DB;
 
 public class Qcm {
@@ -258,7 +257,6 @@ public class Qcm {
         result1 = statement.executeQuery();
 
         while ( result1.next() ) {
-            Logger.debug( Integer.toString( result1.getInt( "id_question" ) ) );
             int run_score = 0;
             int counter_answers = 0;
             statement = connection.prepareStatement( GET_USER_ANSWERS_AND_GOOD_ANSWERS );
@@ -267,8 +265,6 @@ public class Qcm {
             result2 = statement.executeQuery();
 
             while ( result2.next() ) {
-                Logger.debug( Boolean.toString( result2.getBoolean( "isselected" ) ) + "=="
-                        + Boolean.toString( result2.getBoolean( "istrue" ) ) );
                 if ( result2.getBoolean( "isselected" ) == result2.getBoolean( "istrue" ) ) {
                     run_score++;
                 }

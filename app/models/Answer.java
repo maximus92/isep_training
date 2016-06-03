@@ -19,8 +19,8 @@ public class Answer {
     private static final String GET_STUDENT_QCM_ANSWER     = "SELECT id_student_qcm_answer "
                                                                    + "FROM student_qcm_answer "
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
-    private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer) "
-                                                                   + "VALUES (?, ?)";
+    private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer, isselected) "
+                                                                   + "VALUES (?, ?, ?)";
     private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected "
                                                                    + "FROM student_qcm_answer s "
                                                                    + "INNER JOIN answer a "
@@ -38,17 +38,17 @@ public class Answer {
         this.is_select = is_select;
     }
 
-    public Answer( String answer, int id_answer ) {
+    public Answer( String answer, int id_answer, String istrue ) {
         this.answer = answer;
         this.id_answer = id_answer;
-    }
-
-    public Answer( String answer, int id_question, String istrue ) {
-        this.answer = answer;
-        this.id_question = id_question;
         this.istrue = istrue;
     }
-    
+
+    public Answer( String answer, int id_question ) {
+        this.answer = answer;
+        this.id_question = id_question;
+    }
+
     public Answer( String answer, String istrue ) {
         this.answer = answer;
         this.istrue = istrue;
@@ -84,7 +84,9 @@ public class Answer {
         result = statement.executeQuery();
 
         while ( result.next() ) {
-            Answer answer = new Answer( result.getString( "answer" ), result.getInt( "id_answer" ), result.getString( "istrue" ) );
+            Answer answer = new Answer( result.getString( "answer" ),
+                    result.getInt( "id_answer" ),
+                    result.getString( "istrue" ) );
             answers_list.add( answer );
         }
 
@@ -111,6 +113,7 @@ public class Answer {
             statement = connection.prepareStatement( CREATE_STUDENT_QCM_ANSWER );
             statement.setInt( 1, id_qcm );
             statement.setInt( 2, id_answer );
+            statement.setBoolean( 3, is_selected );
             statement.executeUpdate();
         } else {
             statement = connection.prepareStatement( UPDATE_STUDENT_QCM_ANSWER );
