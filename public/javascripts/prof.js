@@ -168,6 +168,8 @@ $(document).ready(function(){
 		  
 		});
 	  
+	  
+	  
 	  $(".question-select").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
 		  $.ajax({ 
@@ -222,7 +224,7 @@ $(document).ready(function(){
 				'</div>';
 					 
 				 }
-					  var formulaire1 = '<form method="post" class="form_update_question">'+
+					  var formulaire1 = '<form method="post" class="form_update_question" action="@routes.ProfessorController.updateA()">'+
 								'<div class="row">'+
 								'<div class="col-xs-2">'+
 									'<label>Difficulté : </label>'+
@@ -275,13 +277,13 @@ $(document).ready(function(){
 					  for(var i=0; i< data[0].length; i++){ 
 						  if(data[0][i].istrue == "0"){
 							var isTrue =  '<div class="col-xs-1">'+
-								'<label> <input type="checkbox" value="0" name="goodA0">'+
+								'<label> <input type="checkbox" value="0" name="goodA'+data[0][i].id_answer+'">'+
 								'</label>'+
 							'</div>';
 						  }
 						  else{
 							  var isTrue =  '<div class="col-xs-1">'+
-								'<label> <input type="checkbox" value="'+data[0][i].istrue+'" name="goodA0"checked>'+
+								'<label> <input type="checkbox" value="'+data[0][i].istrue+'" name="goodA'+data[0][i].id_answer+'"checked>'+
 								'</label>'+
 							'</div>';
 						  }
@@ -293,8 +295,8 @@ $(document).ready(function(){
 								'<label for="reponse">Réponse</label>'+
 								'<div class="row">'+
 									'<div class="col-xs-10">'+
-										'<input type="text" class="form-control" id="reponse0"'+
-											'name="reponse0" value="'+data[0][i].answer+'">'+
+										'<input type="text" class="form-control answer-label" id="reponse'+data[0][i].id_answer+'"'+
+											'value="'+data[0][i].answer+'">'+
 									'</div>'+isTrue+
 									
 									'<div class="col-xs-1">'+
@@ -318,6 +320,25 @@ $(document).ready(function(){
 				  }
 		  }); 
 	  });
+	  
+	  $(".answer-select").on('click', "#validateModification", function() {
+		  var id_answer = $(".answer-select").$(".answer-label").attr('id').substring(7);
+		  $.ajax({ 
+			  type: "POST", 
+			  url: "/update-answer",
+			  data: {id : id}, 
+			  dataType: "json",
+			  
+			  success: function(data) {
+				  alert("La reponse a été modifiée!");
+			  }
+		  }); 
+		  
+		});
+	  
+	  
+	  
+	  
 	  
 	  /** TEST DE COURS **/
 	  $("#add-test").hide();
