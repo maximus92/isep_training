@@ -96,7 +96,7 @@ public class StudentController extends Controller {
                 return redirect( "/student/trainingQcm?question_num=1" );
             }
             if ( question_num > qcm_info.getNumber_of_questions() ) {
-                return redirect( "/student/trainingQcm?question_num=" + qcm_info.getNumber_of_questions() );
+                return redirect( "/student/resultat?id_qcm=" + id_qcm );
             }
             question = Qcm.getQcmQuestions( id_qcm, question_num );
         }
@@ -158,10 +158,10 @@ public class StudentController extends Controller {
         return ok( json );
     }
 
-    public Result correctQcm( int id_qcm ) throws SQLException {
+    public Result qcmResultat( int id_qcm ) throws SQLException {
         Qcm qcm = new Qcm();
-        qcm.calculateScore( id_qcm );
-        return ok();
+        int score = qcm.calculateScore( id_qcm );
+        return ok( Integer.toString( score ) );
     }
 
 }

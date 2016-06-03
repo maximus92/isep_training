@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import play.Logger;
 import play.db.DB;
 
 public class Qcm {
@@ -48,11 +49,14 @@ public class Qcm {
     private static final String       GET_QCM_ID_QUESTIONS              = "SELECT id_question "
                                                                                 + "FROM join_qcm_question "
                                                                                 + "WHERE id_qcm = ?";
-    private static final String       GET_USER_ANSWERS_AND_GOOD_ANSWERS = "SELECT s.isselect, a.istrue "
+    private static final String       GET_USER_ANSWERS_AND_GOOD_ANSWERS = "SELECT isselected, istrue "
                                                                                 + "FROM answer a "
                                                                                 + "INNER JOIN student_qcm_answer s "
                                                                                 + "ON a.id_answer = s.id_answer "
-                                                                                + "WHERE id_question = ?";
+                                                                                + "WHERE id_question = ? AND id_qcm = ?";
+    private static final String       UPDATE_QCM_SCORE                  = "UPDATE qcm "
+                                                                                + "SET score = ? "
+                                                                                + "WHERE id_qcm = ?";
 
     private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
@@ -241,8 +245,7 @@ public class Qcm {
         }
     }
 
-    public static void calculateScore( int id_qcm ) throws SQLException {
-        int run_score = 0;
+    public static int calculateScore( int id_qcm ) throws SQLException {
         int score = 0;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -255,16 +258,34 @@ public class Qcm {
         result1 = statement.executeQuery();
 
         while ( result1.next() ) {
+            Logger.debug( Integer.toString( result1.getInt( "id_question" ) ) );
+            int run_score = 0;
+            int counter_answers = 0;
             statement = connection.prepareStatement( GET_USER_ANSWERS_AND_GOOD_ANSWERS );
             statement.setInt( 1, result1.getInt( "id_question" ) );
+            statement.setInt( 2, id_qcm );
             result2 = statement.executeQuery();
 
             while ( result2.next() ) {
+                Logger.debug( Boolean.toString( result2.getBoolean( "isselected" ) ) + "=="
+                        + Boolean.toString( result2.getBoolean( "istrue" ) ) );
                 if ( result2.getBoolean( "isselected" ) == result2.getBoolean( "istrue" ) ) {
                     run_score++;
                 }
+                counter_answers++;
+            }
+
+            if ( run_score == counter_answers ) {
+                score++;
             }
         }
+
+        statement = connection.prepareStatement( UPDATE_QCM_SCORE );
+        statement.setInt( 1, score );
+        statement.setInt( 2, id_qcm );
+        statement.executeUpdate();
+
+        return score;
     }
 
 }

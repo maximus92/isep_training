@@ -138,6 +138,16 @@ $(document).ready(
 			
 			var update_qcm_json;
 			
+			if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
+				$("#next-question").text("valider");
+			}
+			
+			if(getUrlParameter('question_num') <= 1){
+				$("#last-question").hide();
+			} else {
+				$("#last-question").show();
+			}
+			
 			$(".qcm_question_nav").click(function(){
 				
 				var question_num;
