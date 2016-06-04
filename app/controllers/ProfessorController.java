@@ -15,7 +15,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.home_prof;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -40,9 +39,7 @@ public class ProfessorController extends Controller {
     public Result index() {
         return ok( home_prof.render( "" ) );
     }
-   
-    
-    
+
     public Result addQ() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         String question = form.get( "question" );
@@ -68,7 +65,10 @@ public class ProfessorController extends Controller {
                 } else {
                     istrue = "1";
                 }
-                Answer a = new Answer( answer, id_question, istrue );
+                Answer a = new Answer();
+                a.setAnswer( answer );
+                a.setId_question( id_question );
+                a.setIstrue( istrue );
                 a.insertAnswer();
             }
         }
@@ -146,7 +146,7 @@ public class ProfessorController extends Controller {
         // Get current user id
         int createby = getUserID();
         // Create Test in DB and catch the created id
-        Test test = new Test( form.get( "test_title" ), Integer.parseInt(form.get("test_module")), 0, createby, "0" );
+        Test test = new Test( form.get( "test_title" ), Integer.parseInt( form.get( "test_module" ) ), 0, createby, "0" );
         int id_test = test.insert();
         // Insert questions and answers in DB
         insertQandAFromTest( form, createby, id_test );
@@ -175,7 +175,10 @@ public class ProfessorController extends Controller {
                         } else {
                             istrue = "1";
                         }
-                        Answer a = new Answer( answer, id_question, istrue );
+                        Answer a = new Answer();
+                        a.setAnswer( answer );
+                        a.setId_question( id_question );
+                        a.setIstrue( istrue );
                         a.insertAnswer();
                     }
                 }
@@ -210,15 +213,15 @@ public class ProfessorController extends Controller {
         result.put( "res", res );
         return ok( result );
     }
-    
-    public Result updateQuestion() throws SQLException{
+
+    public Result updateQuestion() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
-        int id_question = Integer.parseInt(form.get( "id_question" ) );
-        
-        	String question = form.get( "question");
-    		Question q = new Question( question );
-    		q.updateQuestion(id_question);  
-            return redirect( "/prof" );
+        int id_question = Integer.parseInt( form.get( "id_question" ) );
+
+        String question = form.get( "question" );
+        Question q = new Question( question );
+        q.updateQuestion( id_question );
+        return redirect( "/prof" );
 
     }
 

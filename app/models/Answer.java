@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import play.Logger;
 import play.db.DB;
 
 public class Answer {
@@ -27,55 +26,63 @@ public class Answer {
                                                                    + "INNER JOIN answer a "
                                                                    + "ON a.id_answer = s.id_answer "
                                                                    + "WHERE id_qcm = ? and id_question = ?";
-    
-    private static final String INSERT_ANSWER =  "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
 
-    public String               answer;
-    public int                  id_question;
-    public String               istrue;
-    public int                  id_answer;
-    public boolean              is_select;
+    private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
 
-    public Answer( int id_answer, boolean is_select ) {
-        this.id_answer = id_answer;
-        this.is_select = is_select;
+    private String              answer;
+    private int                 id_question;
+    private String              istrue;
+    private int                 id_answer;
+    private boolean             is_select;
+
+    public String getAnswer() {
+        return answer;
     }
 
-/*
-    public Answer( String answer, int id_answer, String istrue ) {
+    public void setAnswer( String answer ) {
         this.answer = answer;
-        this.id_answer = id_answer;
-        this.istrue = istrue;
     }
-*/
-    public Answer( String answer, int id_question, String istrue ) {
-        this.answer = answer;
+
+    public int getId_question() {
+        return id_question;
+    }
+
+    public void setId_question( int id_question ) {
         this.id_question = id_question;
-        this.istrue = istrue;
-    }
-    
-    public Answer( String answer, int id_question ) {
-        this.answer = answer;
-        this.id_question = id_question;
-    }
-
-    public Answer( String answer, String istrue ) {
-        this.answer = answer;
-        this.istrue = istrue;
     }
 
     public String getIstrue() {
         return istrue;
     }
 
+    public void setIstrue( String istrue ) {
+        this.istrue = istrue;
+    }
+
+    public int getId_answer() {
+        return id_answer;
+    }
+
+    public void setId_answer( int id_answer ) {
+        this.id_answer = id_answer;
+    }
+
+    public boolean isIs_select() {
+        return is_select;
+    }
+
+    public void setIs_select( boolean is_select ) {
+        this.is_select = is_select;
+    }
+
     public void insertAnswer() throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         connection = DB.getConnection();
-        stmt = connection.prepareStatement(INSERT_ANSWER);
-        stmt.setString(1, this.answer);
-        stmt.setInt(2, this.id_question);
-        stmt.setString(3, this.istrue);
+        stmt = connection.prepareStatement( INSERT_ANSWER );
+        stmt.setString( 1, this.answer );
+        stmt.setInt( 2, this.id_question );
+        stmt.setString( 3, this.istrue );
         stmt.executeUpdate();
         stmt.close();
         if ( connection != null ) {
@@ -95,9 +102,10 @@ public class Answer {
         result = statement.executeQuery();
 
         while ( result.next() ) {
-            Answer answer = new Answer( result.getString( "answer" ),
-                    result.getInt( "id_answer" ),
-                    result.getString( "istrue" ) );
+            Answer answer = new Answer();
+            answer.setAnswer( result.getString( "answer" ) );
+            answer.setId_answer( result.getInt( "id_answer" ) );
+            answer.setIstrue( result.getString( "istrue" ) );
             answers_list.add( answer );
         }
 
@@ -165,7 +173,9 @@ public class Answer {
         ResultSet result = statement.executeQuery();
 
         while ( result.next() ) {
-            Answer answer = new Answer( result.getInt( "id_answer" ), result.getBoolean( "isselected" ) );
+            Answer answer = new Answer();
+            answer.setId_answer( result.getInt( "id_answer" ) );
+            answer.setIs_select( result.getBoolean( "isselected" ) );
             questionsSelected.add( answer );
         }
 
