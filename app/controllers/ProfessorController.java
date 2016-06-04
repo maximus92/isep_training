@@ -225,5 +225,36 @@ public class ProfessorController extends Controller {
         return redirect( "/prof" );
 
     }
+    
+    public Result selectAnswerWithQuestionByIdTest() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+        int id_test = Integer.parseInt(form.get("id_test"));
+        int id_user = getUserID();
+        ArrayList<ArrayList<Answer>> answer_list = new ArrayList<>(); 
+        ArrayList<Question> question_list = Question.selectQuestionByIdTest(id_test,id_user);
+        
+        for(int i=0;i<question_list.size();i++){
+        	int id_question = question_list.get(i).getId_question();
+        	answer_list.add(Answer.getAnswersByQuestionId(id_question));
+        }
+        
+        JsonNode json = Json.toJson(question_list);
+        JsonNode json1 = Json.toJson(answer_list);
+        ArrayNode result = Json.newArray();
+        result.add( json );
+        result.add( json1 );
+        return ok( result );
+    }
+    
+    public Result deleteTest() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_user = getUserID();
+    	int id_test = Integer.parseInt(form.get("id_test"));
+    	Test.delete(id_user, id_test);
+    	ObjectNode result = Json.newObject();
+        result.put( "res", "ok" );
+        return ok( result );
+    }
+
 
 }

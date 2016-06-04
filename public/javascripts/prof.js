@@ -196,7 +196,7 @@ $(document).ready(function(){
 			  ajaxBody("/select-test-prof","",
 				function(data) {
 					if(data.length >= 1){
-						$('.nothing-in-test').remove();
+						$('.nothing-in-test').hide();
 						$.each(data, function() {
 								$("#test-info").append(displayTestDiv(this.isenable,this.id_test,this.title));
 						});
@@ -248,16 +248,20 @@ $(document).ready(function(){
 		  		$(".test-detail").fadeIn();
 		  		var id_test = $(this).attr("id").substring(15);
 						dataString = {id_test: id_test};
-						ajaxBody("/select-test-prof",dataString,
-								function(data){
+						ajaxBody("/select-test-prof",dataString,function(data){
 									$("#test-detail-title").text(data[0].title);
-									if(this.isenable == "1"){
-										$("#test-detail-status").text("Disponible");
+									if(data[0].isenable == "1"){
+										$("#test-detail-status").html("Statut : <span class='green'>Disponible</span>");
 									}else{
-										$("#test-detail-status").text("Indisponible");
+										$("#test-detail-status").html("Statut : <span class='red'>Indisponible</span>");
 									}
-									displayModuleInSelect("#test-detail-module",data[0].id_module);
-									
+									$("#test-detail-delete").html("<button id='test-detail-delete"+id_test+"' class='btn btn-danger test-detail-delete'>Supprimer</button>");
+									displayModuleInSelect("#test-detail-module",data[0].id_module);		
+						});
+						
+						ajaxBody("/select-test-answer",dataString,function(data){
+							$(".test-detail-ul").remove();
+							$("#test-detail-question").append(displayTestDetailQuestionDiv(data));
 						});		
 			});
 			
@@ -265,7 +269,18 @@ $(document).ready(function(){
 				$(".test-info").fadeIn();
 		  		$(".test-detail").hide();
 			});
-		
+			
+			$("#test-detail").on('click', '.test-detail-delete', function(){
+				var id_test = $(this).attr("id").substring(18);
+				var dataString = {id_test: id_test};
+				ajaxBody("/delete-test",dataString,function(data) {
+					$("#test-detail-list"+id_test).remove();
+					$(".test-info").fadeIn();
+			  		$(".test-detail").remove();
+			  		$('.nothing-in-test').fadeIn();
+				});
+			});
+			
 		function ajaxBody(url,dataString,successFunction){
 			$.ajax({ 
 					type: "POST", 

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Question {
+	private static String GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
+			+ "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
+			+ "WHERE jtq.id_test=? AND q.createby=?";
+	
     public int    id_question;
     public String question;
     public String correction;
@@ -52,6 +56,10 @@ public class Question {
     public String getQuestion() {
         return this.question;
     }
+    
+    public int getId_question() {
+		return id_question;
+	}
 
     public int insertQuestion() throws SQLException {
         	int id_question = 0;
@@ -179,5 +187,29 @@ public class Question {
         if ( connection != null ) {
             connection.close();
         }
+    }
+    
+    public static ArrayList<Question> selectQuestionByIdTest(int id_test,int id_user) throws SQLException{
+        ArrayList<Question> list = new ArrayList<Question>();
+    	Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement(GET_QUESTION_BY_ID_TEST);
+        statement.setInt(1, id_test);
+        statement.setInt(2, id_user);
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+        	int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+            Question q = new Question( id_question, question, correction, level, id_chapter, forexam, file );
+            // add each employee to the list
+            list.add( q );
+        }
+        statement.close();
+        Test.closeConnection(connection);
+        return list;
     }
 }

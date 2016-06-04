@@ -109,25 +109,25 @@
     }
     
     function displayTestDiv(isenable,id_test,title){
-      if(isenable == "0"){
-        var dispo = '<div class="col-sm-2 red" id="dispo'+id_test+'">Indisponible</div>';
-       var btn_dispo = '<button class="btn btn-success enable-test" id="enable-test'+id_test+'">Rendre disponible</button>';
-      }else{
-        var dispo = '<div class="col-sm-2 green" id="dispo'+id_test+'">Disponible</div>';
-        var btn_dispo = '<button class="btn btn-danger disable-test" id="enable-test'+id_test+'">Rendre indisponible</button>';
+        if(isenable == "0"){
+          var dispo = '<div class="col-sm-2 red" id="dispo'+id_test+'">Indisponible</div>';
+         var btn_dispo = '<button class="btn btn-success enable-test" id="enable-test'+id_test+'">Rendre disponible</button>';
+        }else{
+          var dispo = '<div class="col-sm-2 green" id="dispo'+id_test+'">Disponible</div>';
+          var btn_dispo = '<button class="btn btn-danger disable-test" id="enable-test'+id_test+'">Rendre indisponible</button>';
+        }
+        
+        var div = '<div class="row padding-10 nothing-in-test" id="test-detail-list'+id_test+'">'+
+                      '<div class="col-sm-4">'+title+'</div>'+
+                        dispo+
+                      '<div class="col-sm-3 align-right">'+
+                        '<button class="btn btn-primary btn-test-detail" id="btn-test-detail'+id_test+'">Détail</button>'+
+                      '</div>'+
+                      '<div class="col-sm-3">'+
+                        btn_dispo+
+                      '</div></div>';
+        return div;              
       }
-      
-      var div = '<div class="row padding-10 nothing-in-test">'+
-                    '<div class="col-sm-4">'+title+'</div>'+
-                      dispo+
-                    '<div class="col-sm-3 align-right">'+
-                      '<button class="btn btn-primary btn-test-detail" id="btn-test-detail'+id_test+'">Détail</button>'+
-                    '</div>'+
-                    '<div class="col-sm-3">'+
-                      btn_dispo+
-                    '</div></div>';
-      return div;              
-    }
     
     function questionUpdateDiv(data){
       var option1 = "";
@@ -251,6 +251,26 @@
                          '<button type="submit" class="btn btn-danger btn-lg pull-right" id="validateModification'+data[1][0].id_question+'">Valider</button>'+
                        '</form>';
      return formulaire1;  
+    }
+    
+    function displayTestDetailQuestionDiv(data){
+    	var div = "";
+    	for(var i=0; i< data[0].length;i++){
+    			var num = i + 1;
+    			div += '<ul class="list-group test-detail-ul">'+
+				'<li class="list-group-item active">Question '+num+' : '+data[0][i].question+'</li>';
+    			
+    			for(var j=0; j< data[1][i].length;j++){
+    				var success ="";
+    				if(data[1][i][j].istrue == "1"){
+    					success = "list-group-item-success";
+    				}
+    				div += '<li class="list-group-item '+success+'">'+data[1][i][j].answer+'</li>';
+    			}
+    			div += '</ul>';
+    			  	
+    	}
+    	return div;
     }
 
   

@@ -32,7 +32,8 @@ POST    /select-answer            controllers.ProfessorController.selectAnswerWi
 
 POST    /update-question            controllers.ProfessorController.updateQuestion
 
-
+POST    /select-test-answer       controllers.ProfessorController.selectAnswerWithQuestionByIdTest
+POST    /delete-test              controllers.ProfessorController.deleteTest
 
 ##### STUDENT ROUTES #####
 
