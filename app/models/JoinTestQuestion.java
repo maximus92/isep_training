@@ -18,27 +18,13 @@ public class JoinTestQuestion {
 		this.id_question = id_question;
 	}
 	
-	public void insert(){
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultat = null;
-      try{
-    	  connection = DB.getConnection();
-    	  statement = connection.prepareStatement(INSERT_JOIN_TEST_QUESTION);
-    	  statement.setInt(1,this.id_test);
-    	  statement.setInt(2,this.id_question);
-    	  statement.executeUpdate();
-    	  statement.close();
-      }catch(SQLException e){
-    	  e.printStackTrace();
-      }finally{
-    	  if(connection != null){
-    		  try{
-    			  connection.close(); 
-    		  }catch(SQLException ignore){
-    			  ignore.printStackTrace();
-    		  }
-    	  }
-      }
+	public void insert() throws SQLException{
+		Connection connection = DB.getConnection();
+		PreparedStatement statement = connection.prepareStatement(INSERT_JOIN_TEST_QUESTION);
+    	statement.setInt(1,this.id_test);
+    	statement.setInt(2,this.id_question);
+    	statement.executeUpdate();
+    	statement.close();
+    	Test.closeConnection(connection);
 	}
 }

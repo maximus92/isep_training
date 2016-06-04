@@ -194,7 +194,7 @@
 
 	<!--  TEST DE COURS -->
 
-		<div id="test" class="tab-pane container fade">
+		<div id="test" class="tab-pane container-fluid fade">
 		
 			<div id="test-info" class="padding-10 test-info">
 				<div class="row nothing-in-test">
@@ -217,10 +217,17 @@
 					<div id="test-detail-title" class="col-sm-12 center"></div>
 				</div>
 				<div class="row">
-					<div id="test-detail-module" class="col-sm-3"></div>
-					<div id="test-detail-chapter" class="col-sm-3"></div>
+					<div id="test-detail-module-div" class="col-sm-3">
+						<label>Module : </label>
+						<select id="test-detail-module" name="test-detail-module"></select>
+					</div>
+					<div id="test-detail-chapter-div" class="col-sm-3">
+						<label>Chapitre : </label>
+						<select id="test-detail-chapter" name="test-detail-chapter"></select>
+					</div>
 				</div>
-				<div class="row" id="test-detail-question"></div>
+				<div class="row" id="test-detail-question">
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 test-detail">

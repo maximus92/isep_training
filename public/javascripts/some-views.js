@@ -108,8 +108,8 @@
            return div;
     }
     
-    function displayTestDiv(id_test,title){
-      if(this.isenable == "0"){
+    function displayTestDiv(isenable,id_test,title){
+      if(isenable == "0"){
         var dispo = '<div class="col-sm-2 red" id="dispo'+id_test+'">Indisponible</div>';
        var btn_dispo = '<button class="btn btn-success enable-test" id="enable-test'+id_test+'">Rendre disponible</button>';
       }else{

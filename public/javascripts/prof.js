@@ -131,11 +131,7 @@ $(document).ready(function(){
 		  }); 
 		  
 		});
-	  
-	  
-	  
-	  
-	  
+  
 	  /** TEST DE COURS **/
 		$("#add-test").hide();
 	  $(".test-detail").hide();
@@ -143,13 +139,7 @@ $(document).ready(function(){
 	  $("#create-test").click(function(){
 	  		$(".test-info").hide();
 	  		$("#add-test").fadeIn();
-	  		ajaxBody("/select-module","",
-				function(data){
-						$('#test_module option').remove();
-						$.each(data, function() {
-								$("#test_module").append($("<option />").val(this.id_module).text(this.module_name));
-						});
-				});
+	  		displayModuleInSelect("#test_module", 0);
 	  	});
 	  	
 		$("#add-test-cancel").click(function(){
@@ -157,7 +147,7 @@ $(document).ready(function(){
 	  		$(".test-info").fadeIn();
 	  		$(".Qpaire").remove();
 	  		$(".Qimpaire").not(":first").remove();
-	  		$("#test").find("input").val("");
+	  		$("#test").find("input").not("#answer_test_counter, #question_test_counter").val("");
 	  		$('#question1_goodA1').attr('checked', false);
 	  		return false;
 	  });
@@ -208,7 +198,7 @@ $(document).ready(function(){
 					if(data.length >= 1){
 						$('.nothing-in-test').remove();
 						$.each(data, function() {
-								$("#test-info").append(displayTestDiv(this.id_test,this.title));
+								$("#test-info").append(displayTestDiv(this.isenable,this.id_test,this.title));
 						});
 					}  
 				});	  
@@ -261,7 +251,14 @@ $(document).ready(function(){
 						ajaxBody("/select-test-prof",dataString,
 								function(data){
 									$("#test-detail-title").text(data[0].title);
-						});			
+									if(this.isenable == "1"){
+										$("#test-detail-status").text("Disponible");
+									}else{
+										$("#test-detail-status").text("Indisponible");
+									}
+									displayModuleInSelect("#test-detail-module",data[0].id_module);
+									
+						});		
 			});
 			
 			$(".test-detail-back").click(function(){
@@ -279,6 +276,22 @@ $(document).ready(function(){
 						successFunction(data);
 					}	 
 				}); 
+		}
+		
+		function displayModuleInSelect(select_id,option_selected){
+			ajaxBody("/select-module","",
+					function(data){
+							$(select_id+' option').remove();
+							$(select_id).append($("<option />").val("0").text("Aucun"));
+							$.each(data, function() {
+								if(this.id_module == option_selected){
+									var selected_value = "<option selected />";
+								}else{
+									var selected_value = "<option />";
+								}
+								$(select_id).append($(selected_value).val(this.id_module).text(this.module_name));
+							});
+					});
 		}
 		
 });

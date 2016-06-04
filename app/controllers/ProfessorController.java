@@ -146,7 +146,7 @@ public class ProfessorController extends Controller {
         // Get current user id
         int createby = getUserID();
         // Create Test in DB and catch the created id
-        Test test = new Test( form.get( "test_title" ), 0, 0, createby, "0" );
+        Test test = new Test( form.get( "test_title" ), Integer.parseInt(form.get("test_module")), 0, createby, "0" );
         int id_test = test.insert();
         // Insert questions and answers in DB
         insertQandAFromTest( form, createby, id_test );
@@ -157,15 +157,14 @@ public class ProfessorController extends Controller {
         int answer_test_counter = Integer.parseInt( form.get( "answer_test_counter" ) );
         int question_test_counter = Integer.parseInt( form.get( "question_test_counter" ) );
         String id_chapter = form.get( "test_chapter" );
-
         for ( int i = 0; i <= question_test_counter; i++ ) {
             String question = form.get( "question" + i );
 
             if ( question != null && question != "" ) {
                 Question q = new Question( question, "", "0", id_chapter, "0", "", createby );
                 int id_question = q.insertQuestion();
-                JoinTestQuestion jtq = new JoinTestQuestion( id_test, id_question );
-                jtq.insert();
+                JoinTestQuestion join_test_question = new JoinTestQuestion( id_test, id_question );
+                join_test_question.insert();
                 for ( int j = 0; j <= answer_test_counter; j++ ) {
                     String answer = form.get( "question" + i + "_answer" + j );
                     if ( answer != null && answer != "" ) {

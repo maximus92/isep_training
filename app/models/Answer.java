@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
 import play.db.DB;
 
 public class Answer {
@@ -26,6 +27,8 @@ public class Answer {
                                                                    + "INNER JOIN answer a "
                                                                    + "ON a.id_answer = s.id_answer "
                                                                    + "WHERE id_qcm = ? and id_question = ?";
+    
+    private static final String INSERT_ANSWER =  "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
 
     public String               answer;
     public int                  id_question;
@@ -38,12 +41,19 @@ public class Answer {
         this.is_select = is_select;
     }
 
+/*
     public Answer( String answer, int id_answer, String istrue ) {
         this.answer = answer;
         this.id_answer = id_answer;
         this.istrue = istrue;
     }
-
+*/
+    public Answer( String answer, int id_question, String istrue ) {
+        this.answer = answer;
+        this.id_question = id_question;
+        this.istrue = istrue;
+    }
+    
     public Answer( String answer, int id_question ) {
         this.answer = answer;
         this.id_question = id_question;
@@ -62,9 +72,10 @@ public class Answer {
         Connection connection = null;
         PreparedStatement stmt = null;
         connection = DB.getConnection();
-        stmt = connection.prepareStatement( "INSERT INTO answer(answer, id_question, istrue) "
-                + "VALUES ('" + this.answer + "', '" + this.id_question + "', '" + this.istrue + "')" );
-
+        stmt = connection.prepareStatement(INSERT_ANSWER);
+        stmt.setString(1, this.answer);
+        stmt.setInt(2, this.id_question);
+        stmt.setString(3, this.istrue);
         stmt.executeUpdate();
         stmt.close();
         if ( connection != null ) {
