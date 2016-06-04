@@ -118,15 +118,15 @@ $(document).ready(function(){
 	  });
 	  
 	  $(".answer-select").on('click', "#validateModification", function() {
-		  var id_answer = $(".answer-select").$(".answer-label").attr('id').substring(7);
+		  var id_question = $(this).attr('id').substring(20);
 		  $.ajax({ 
 			  type: "POST", 
-			  url: "/update-answer",
+			  url: "/update-question",
 			  data: {id : id}, 
 			  dataType: "json",
 			  
 			  success: function(data) {
-				  alert("La reponse a été modifiée!");
+				  alert("La question a été modifiée!");
 			  }
 		  }); 
 		  

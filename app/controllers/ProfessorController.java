@@ -211,14 +211,13 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
     
-    public Result updateAnswer() throws SQLException{
+    public Result updateQuestion() throws SQLException{
         DynamicForm form = Form.form().bindFromRequest();
-        int id_answer = Integer.parseInt( form.get( "id" ) );
+        int id_question = Integer.parseInt( form.get( "id_question" ) );
         
-        	String answer = form.get( "reponse");
-    		String istrue = form.get( "goodA");
-    		Answer a = new Answer( answer, istrue );
-    		a.updateAnswer(id_answer);  
+        	String question = form.get( "question");
+    		Question q = new Question( question );
+    		q.updateQuestion(id_question);  
             return redirect( "/prof" );
 
     }

@@ -41,7 +41,9 @@ public class Question {
         this.forexam = forexam;
         this.file = file;
     }
-
+    public Question(String question){
+        this.question = question;
+    }
     public Question( int id_question, int createby ) {
         this.id_question = id_question;
         this.createby = createby;
@@ -162,6 +164,20 @@ public class Question {
                     ignore.printStackTrace();
                 }
             }
+        }
+    }
+    
+    public void updateQuestion( int id_question ) throws SQLException {
+
+        Connection connection = DB.getConnection();
+        PreparedStatement stmt = connection.prepareStatement( "UPDATE question SET question='" + this.question
+                 + "' WHERE id_question=?" );
+        stmt.setInt( 1, id_question );
+        stmt.executeUpdate();
+        stmt.close();
+
+        if ( connection != null ) {
+            connection.close();
         }
     }
 }

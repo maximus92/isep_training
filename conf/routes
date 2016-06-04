@@ -30,7 +30,7 @@ POST    /addq                       controllers.ProfessorController.addQ
 
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 
-POST    /update-answer            controllers.ProfessorController.updateAnswer
+POST    /update-question            controllers.ProfessorController.updateQuestion
 
 
 
