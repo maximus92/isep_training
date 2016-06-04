@@ -67,7 +67,7 @@ public class Answer {
         this.id_answer = id_answer;
     }
 
-    public boolean isIs_select() {
+    public boolean isSelect() {
         return is_select;
     }
 
