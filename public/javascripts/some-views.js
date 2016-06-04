@@ -170,7 +170,7 @@
                         '</SELECT>'+
                     '</div>';
                     	 
-     var formulaire1 = '<form method="post" class="form_update_question" action="'+@routes.ProfessorController.updateQuestion()+'">'+
+     var formulaire1 = '<form method="post" class="form_update_question" action="/update-question">'+
                             '<div class="row">'+
                               '<div class="col-xs-2">'+
                                 '<label>Difficulté : </label>'+
@@ -248,7 +248,7 @@
                          '</br> </br> </br> <label for="correction">Correction détaillée</label>'+
                          '<textarea rows="4" cols="50" class="form-control" name="correction">'+data[1][0].correction+'</textarea>'+
                          '</br>'+
-                         '<button type="submit" class="btn btn-danger btn-lg pull-right" id="validateModification"'+data[1][0].id_question+'>Valider</button>'+
+                         '<button type="submit" class="btn btn-danger btn-lg pull-right" id="validateModification'+data[1][0].id_question+'">Valider</button>'+
                        '</form>';
      return formulaire1;  
     }
