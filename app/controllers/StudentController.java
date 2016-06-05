@@ -17,9 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
-import views.html.home_student;
-import views.html.student_qcm_settings;
-import views.html.student_training_qcm;
+import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -162,8 +160,8 @@ public class StudentController extends Controller {
 
     public Result qcmResultat( int id_qcm ) throws SQLException {
         Qcm qcm = new Qcm();
-        int score = qcm.calculateScore( id_qcm );
-        return ok( Integer.toString( score ) );
+        int score = qcm.calculateScore( id_qcm ); 
+        return ok( student_qcm_result.render( "" ) );
     }
 
 }
