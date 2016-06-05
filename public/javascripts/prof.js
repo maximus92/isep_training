@@ -109,6 +109,16 @@ $(document).ready(function(){
 			$(".module-info").fadeIn();
 			$("#module-detail").hide();
 		});
+		
+		$("#module-detail").on('click',".btn-delete-chapter",function(){
+			var id_chapter = $(this).attr('id').substring(18);
+			var id_module = $("#hidden-id_module").val();
+			var dataString = {id_chapter: id_chapter, id_module: id_module};
+			ajaxBody("/delete-chapter",dataString,function(data) {
+				$("#div-chapter"+id_chapter).remove();
+				
+			});
+		});
 	  
 	/*** FIN MODULE ***/
 		

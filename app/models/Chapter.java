@@ -14,6 +14,8 @@ public class Chapter {
 	private static final String GET_CHAPTERS_BY_MODULE_ID = "SELECT id_chapter, chapter_name FROM chapter WHERE id_module = ?";
 	private static final String GET_ALL_CHAPTERS = "SELECT id_chapter, chapter_name, id_module FROM chapter";
 	private static final String INSERT_CHAPTER = "INSERT INTO chapter (chapter_name, id_module) VALUES ( ?, ?)";
+	private static final String DELETE_CHAPTER = "DELETE FROM chapter WHERE id_chapter=? AND id_module=?";
+	
 	private int id_chapter;
 	private String chapter_name;
 	private int id_module;
@@ -109,6 +111,16 @@ public class Chapter {
     	 return id;
 	      
 	 }
+	 
+	 public static void delete(int id_chapter, int id_module) throws SQLException{	
+		  Connection connection = DB.getConnection();
+		  PreparedStatement statement = connection.prepareStatement(DELETE_CHAPTER);
+    	  statement.setInt(1,id_chapter);
+    	  statement.setInt(2,id_module);
+    	  statement.executeUpdate();
+    	  statement.close();
+	      Test.closeConnection(connection);
+		}
 	
 
 }

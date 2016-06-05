@@ -21,6 +21,7 @@ POST    /select-module              controllers.ProfessorController.selectModule
 POST    /delete-module              controllers.ProfessorController.deleteModule
 POST    /detail-module              controllers.ProfessorController.detailModule
 POST    /add-chapter              	controllers.ProfessorController.addChapter
+POST    /delete-chapter             controllers.ProfessorController.deleteChapter
 
 POST    /select-question            controllers.ProfessorController.selectQuestion
 POST    /delete-question            controllers.ProfessorController.deleteQuestion

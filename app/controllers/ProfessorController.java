@@ -259,7 +259,6 @@ public class ProfessorController extends Controller {
     
     public Result detailModule() throws SQLException{
     	DynamicForm form = Form.form().bindFromRequest();
-    	int id_user = getUserID();
     	int id_module = Integer.parseInt(form.get("id_module"));
     	ArrayList<Chapter> chapter_array = Chapter.getChaptersByModuleId(id_module);
     	JsonNode json = Json.toJson(chapter_array);
@@ -268,13 +267,22 @@ public class ProfessorController extends Controller {
     
     public Result addChapter() throws SQLException{
     	DynamicForm form = Form.form().bindFromRequest();
-    	int id_user = getUserID();
     	int id_module = Integer.parseInt(form.get("id_module"));
     	String chapter_name = form.get("chapter_name");
     	Chapter chap = new Chapter(chapter_name,id_module);
     	int id_chapter = chap.insert();
     	ObjectNode result = Json.newObject();
     	result.put("id_chapter", id_chapter);
+        return ok( result );
+    }
+    
+    public Result deleteChapter() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_chapter = Integer.parseInt(form.get("id_chapter"));
+    	int id_module = Integer.parseInt(form.get("id_module"));
+    	Chapter.delete(id_chapter, id_module);
+    	ObjectNode result = Json.newObject();
+        result.put( "res", "ok" );
         return ok( result );
     }
 

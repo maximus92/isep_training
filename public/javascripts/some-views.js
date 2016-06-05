@@ -277,8 +277,8 @@
     	var div = "";
     	for(var i=0;i<data.length;i++){
     		div += '<div class="padding-10 div-chapter" id="div-chapter'+data[i].id_chapter+'">'+
-    				'<div class="col-sm-7 padding-10 div-chapter">'+data[i].chapter_name+'</div>'+
-    				'<div class="col-sm-5 div-chapter center padding-10">'+
+    				'<div class="col-sm-7 padding-10 div-chapter" id="div-chapter'+data[i].id_chapter+'">'+data[i].chapter_name+'</div>'+
+    				'<div class="col-sm-5 div-chapter center padding-10" id="div-chapter'+data[i].id_chapter+'">'+
     					'<button class="btn btn-danger btn-delete-chapter" id="btn-delete-chapter'+data[i].id_chapter+'">Supprimer</button>'+
     				'</div></div>';	
     					
@@ -288,8 +288,8 @@
     
     function addChapterDiv(chapter_name,id_chapter){
     	var div = '<div  class="padding-10 div-chapter" id="div-chapter'+id_chapter+'">'+
-    				'<div class="col-sm-7 padding-10 div-chapter">'+chapter_name+'</div>'+
-    				'<div class="col-sm-5 center padding-10 div-chapter">'+
+    				'<div class="col-sm-7 padding-10 div-chapter" id="div-chapter'+data[i].id_chapter+'">'+chapter_name+'</div>'+
+    				'<div class="col-sm-5 center padding-10 div-chapter" id="div-chapter'+data[i].id_chapter+'">'+
     					'<button class="btn btn-danger btn-delete-chapter" id="btn-delete-chapter'+id_chapter+'">Supprimer</button>'+
     				'</div></div>';	
     					
