@@ -67,7 +67,8 @@ $(document).ready(function(){
 			});
 		});
 	
-		$("#module-li").one("click",function(){ 
+		$("#module-li").one("click",function(){
+			$("#module-detail").hide();
 		  var dataString = $("#module-form").serialize();
 			ajaxBody("/select-module",dataString,function(data) {
 			 		for(var i=0; i<data.length;i++){ 
@@ -75,7 +76,42 @@ $(document).ready(function(){
 			 		}
 			});
 	  });
+		
+		$(".module-reponse").on('click',".btn-module-detail",function(){
+			$(".div-chapter").remove();
+			$(".module-info").hide();
+			$("#module-detail").fadeIn();
+			var id_module = $(this).attr('id').substring(17);
+			$("#hidden-id_module").val(id_module);
+			var module_title = $("#module-info-name"+id_module).text();
+			$("#module-detail-title").text(module_title);
+			var dataString = {id_module: id_module};
+			ajaxBody("/detail-module",dataString,function(data) {
+				if(data.length){
+					$(".chapter-reponse").html(displayChapterDiv(data)); 
+				}
+					
+			});
+				
+		});
+		
+		$("#module-detail").on('click',".btn-module-add-chapter",function(){
+			var id_module = $("#hidden-id_module").val();
+			var chapter_name = $("#input-chapter_name").val();
+			var dataString = {id_module: id_module, chapter_name: chapter_name};
+			ajaxBody("/add-chapter",dataString,function(data) {
+					$(".chapter-reponse").append(addChapterDiv(chapter_name,data.id_chapter));
+			});
+				
+		});
+		
+		$("#module-detail").on('click',"#module-detail-cancel",function(){
+			$(".module-info").fadeIn();
+			$("#module-detail").hide();
+		});
 	  
+	/*** FIN MODULE ***/
+		
 	  $("#bdd-li").one("click",function(){
 		  dataString = "";
 		  

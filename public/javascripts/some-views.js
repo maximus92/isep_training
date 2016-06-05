@@ -20,10 +20,10 @@
     }
     
     function addModuleDiv(id,name){
-      var div = '<div class="padding-10 col-sm-6 module-display'+id+'">'+ name+ 
+      var div = '<div class="padding-10 col-sm-6 module-display'+id+'" id="module-info-name'+data[i].id_module+'">'+ name+ 
                     '</div>'+ 
                     '<div class="padding-10 center col-sm-3 center module-display'+id+'">'+ 
-                      '<button type="button" id="btn-module-add-chapter'+id+'" class="btn btn-primary module-add-chapter">Ajouter un chapitre</button>'+ 
+                      '<button type="button" id="btn-module-detail'+id+'" class="btn btn-primary btn-module-detail">Détail</button>'+ 
                     '</div>'+
                     '<div class="padding-10 col-sm-3 module-display'+id+'">'+ 
                       '<button type="button" id="btn-delete-module'+id+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
@@ -32,10 +32,10 @@
     }
     
     function displayModuleDiv(data,i){
-      var div = '<div class="padding-10 col-sm-6 module-display'+data[i].id_module+'">'+ data[i].module_name+ 
+      var div = '<div class="padding-10 col-sm-6 module-display'+data[i].id_module+'" id="module-info-name'+data[i].id_module+'">'+ data[i].module_name+ 
                     '</div>'+ 
                     '<div class="padding-10 center col-sm-3 module-display'+data[i].id_module+'">'+ 
-                    '<button type="button" id="btn-module-add-chapter'+data[i].id_module+'" class="btn btn-primary module-add-chapter">Ajouter un chapitre</button>'+ 
+                    '<button type="button" id="btn-module-detail'+data[i].id_module+'" class="btn btn-primary btn-module-detail">Détail</button>'+ 
                     '</div>'+
                     '<div class="padding-10 col-sm-3 module-display'+data[i].id_module+'">'+ 
                     '<button type="button" id="btn-delete-module'+data[i].id_module+'" class="btn btn-danger module-delete">Supprimer</button>'+ 
@@ -272,5 +272,28 @@
     	}
     	return div;
     }
-
+    
+    function displayChapterDiv(data){
+    	var div = "";
+    	for(var i=0;i<data.length;i++){
+    		div += '<div class="padding-10 div-chapter" id="div-chapter'+data[i].id_chapter+'">'+
+    				'<div class="col-sm-7 padding-10 div-chapter">'+data[i].chapter_name+'</div>'+
+    				'<div class="col-sm-5 div-chapter center padding-10">'+
+    					'<button class="btn btn-danger btn-delete-chapter" id="btn-delete-chapter'+data[i].id_chapter+'">Supprimer</button>'+
+    				'</div></div>';	
+    					
+    	}
+    	return div;        
+    }
+    
+    function addChapterDiv(chapter_name,id_chapter){
+    	var div = '<div  class="padding-10 div-chapter" id="div-chapter'+id_chapter+'">'+
+    				'<div class="col-sm-7 padding-10 div-chapter">'+chapter_name+'</div>'+
+    				'<div class="col-sm-5 center padding-10 div-chapter">'+
+    					'<button class="btn btn-danger btn-delete-chapter" id="btn-delete-chapter'+id_chapter+'">Supprimer</button>'+
+    				'</div></div>';	
+    					
+    	
+    	return div;        
+    }
   
