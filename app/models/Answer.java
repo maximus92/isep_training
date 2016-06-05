@@ -174,8 +174,8 @@ public class Answer {
 
         while ( result.next() ) {
             Answer answer = new Answer();
-            answer.setId_answer( result.getInt( "id_answer" ) );
-            answer.setIs_select( result.getBoolean( "isselected" ) );
+            answer.setId_answer( result.getInt( "s.id_answer" ) );
+            answer.setIs_select( result.getBoolean( "s.isselected" ) );
             questionsSelected.add( answer );
         }
 

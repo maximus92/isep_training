@@ -15,11 +15,8 @@
                 <label class="col-md-12">
                 	<input type="hidden" name="id-answer-@index" value=@answer.getId_answer>
                     
-                    @if(answer.isSelect){
-                    	<input type="checkbox" name="answer@index" value="@answer.getId_answer" class="answer" id="answer@answer.getId_answer" checked >
-                    } else{
                     	<input type="checkbox" name="answer@index" value="@answer.getId_answer" class="answer" id="answer@answer.getId_answer" >
-                    }
+                  
                     
                     
                     <span class="col-md-offset-1" id="answer-@answer.getId_answer">@answer.getAnswer</span>

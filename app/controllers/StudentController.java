@@ -9,6 +9,7 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -155,6 +156,7 @@ public class StudentController extends Controller {
         answersSelected = Answer.getSelectedAnswers( id_qcm, id_question );
 
         JsonNode json = Json.toJson( answersSelected );
+        Logger.debug( json.toString() );
         return ok( json );
     }
 

@@ -188,17 +188,16 @@ $(document).ready(
 			
 			id_question = $('.student-qcm-question').attr('id').substring(8);
 			id_qcm = $('.qcm-container').attr('id').substring(4);
-			
 			$.ajax({
 				type: 'POST',
 				url: '/student/checkbox',
-				data: {id_qcm : id_qcm, id_question : id_question, id_answer : {answer1: "d"}},
+				data: {id_qcm : id_qcm, id_question : id_question},
 				dataType: 'json',
 				
 				success: function(data){
 					if(data != null){
 						for (i in data){
-							if (data[i].is_select){
+							if (data[i].select){
 								$("#answer"+data[i].id_answer).prop("checked", true);
 							} else {
 								$("#answer"+data[i].id_answer).prop("checked", false);
