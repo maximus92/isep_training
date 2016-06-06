@@ -246,17 +246,31 @@ public class ProfessorController extends Controller {
         int id_question = Integer.parseInt( form.get( "id_question" ) );
         //Logger.debug( form.get( "question" ));
         String question = form.get( "question" );
-        //String correction = form.get( "correction" );
-        //String level = form.get( "level" );
-        
+        String correction = form.get( "correction" );
+        String level = form.get( "level" );
+        String id_chapter = form.get( "id_chapter" );
+        String forexam = form.get( "forexam" );
+        String file = form.get( "file" );
 
         Question q = new Question();
         q.setQuestion(question);
+        q.setCorrection(correction);
+        q.setLevel(level);
+        q.setId_chapter(id_chapter);
+        q.setForexam(forexam);
+        q.setFile(file);
         q.updateQuestion( id_question );
         return redirect( "/prof" );
 
     }
     
+    public Result updateAnswer() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_answer = Integer.parseInt( form.get( "id_answer" ) );
+        //Logger.debug( form.get( "question" ));
+        return redirect( "/prof" );
+
+    }
     public Result selectAnswerWithQuestionByIdTest() throws SQLException{
     	DynamicForm form = Form.form().bindFromRequest();
         int id_test = Integer.parseInt(form.get("id_test"));

@@ -28,14 +28,14 @@ public class Question {
                                                                                 + "WHERE createby=?";
     private static final String DELETE_QUESTION_BY_USER_AND_ID_QUESTION = "DELETE FROM question "
                                                                                 + "WHERE createby=? AND id_question=?";
-    private static final String UPDATE_QUESTION_BY_ID_QUESTION          = "UPDATE question "
-                                                                                + "SET question=? "
-                                                                                + " WHERE id_question=?";
 
     private static final String GET_QUESTIONS_BY_QCM_ID                 = "SELECT q.id_question, q.question, j.points FROM question q "
                                                                                 + "INNER JOIN join_qcm_question j "
                                                                                 + "ON q.id_question = j.id_question "
                                                                                 + "WHERE j.id_qcm = ?";
+    private static final String UPDATE_QUESTION_BY_ID_QUESTION          = "UPDATE question "
+                                                                                + "SET question=?, correction=?, level=?, id_chapter=?, forexam=?, file=? "
+                                                                                + " WHERE id_question=?";
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -226,9 +226,15 @@ public class Question {
     public void updateQuestion( int id_question ) throws SQLException {
 
         Connection connection = DB.getConnection();
+
         PreparedStatement stmt = connection.prepareStatement( UPDATE_QUESTION_BY_ID_QUESTION );
         stmt.setString( 1, this.question );
-        stmt.setInt( 2, id_question );
+        stmt.setString( 2, this.correction );
+        stmt.setString( 3, this.level );
+        stmt.setString( 4, this.id_chapter );
+        stmt.setString( 5, this.forexam );
+        stmt.setString( 6, this.file );
+        stmt.setInt( 7, id_question );
 
         stmt.executeUpdate();
         stmt.close();
