@@ -250,7 +250,7 @@ public class Question {
             list.add( q );
         }
         statement.close();
-        Test.closeConnection( connection );
+        Model.closeConnection( connection );
         return list;
     }
 

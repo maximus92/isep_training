@@ -12,10 +12,15 @@ import play.Logger;
 import play.db.DB;
 
 public class Test {
-	private final static String SELECT_TEST_BY_ID_USER = "SELECT * FROM test WHERE createby = ?";
-	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable) VALUES (?, ?, ?, ?, ?)";
-	private final static String UPDATE_IS_ENABLE = "UPDATE test SET isenable = ? WHERE createby = ? AND id_test = ?";
-	private final static String DELETE_TEST = "DELETE FROM test WHERE createby=? AND id_test=?";
+	private final static String SELECT_TEST_BY_ID_USER = "SELECT * FROM test "
+			+ "WHERE createby = ?";
+	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable) "
+			+ "VALUES (?, ?, ?, ?, ?)";
+	private final static String UPDATE_IS_ENABLE = "UPDATE test "
+			+ "SET isenable = ? "
+			+ "WHERE createby = ? AND id_test = ?";
+	private final static String DELETE_TEST = "DELETE FROM test "
+			+ "WHERE createby=? AND id_test=?";
 	
 	private String title;
 	private int id_module;

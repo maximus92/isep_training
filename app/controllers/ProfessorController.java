@@ -157,7 +157,13 @@ public class ProfessorController extends Controller {
         // Get current user id
         int createby = getUserID();
         // Create Test in DB and catch the created id
-        Test test = new Test( form.get( "test_title" ), Integer.parseInt( form.get( "test_module" ) ), 0, createby, "0" );
+        Test test = new Test();
+        test.setTitle(form.get( "test_title" ));
+        test.setId_module(Integer.parseInt(form.get( "test_module" )));
+        test.setId_chapter(0);
+        test.setCreateby(createby);
+        test.setIsenable("0");
+        
         int id_test = test.insert();
         // Insert questions and answers in DB
         insertQandAFromTest( form, createby, id_test );
