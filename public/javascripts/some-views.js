@@ -198,7 +198,7 @@
                            '</div>'+
                            '</br>'+
                            '<div class="form-group">'+
-                           '<input type="hidden" value="'+data[1][0].id_question+'" name="id_question" id="id_question" />'
+                           '<input type="hidden" value="'+data[1][0].id_question+'" name="id_question" id="id_question" />'+
                              '<label for="question">Question</label> <input type="text"'+
                                'class="form-control" id="question" name="question" value="'+data[1][0].question+'">'+
                              '<div class="pull-right">'+
