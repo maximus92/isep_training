@@ -19,7 +19,14 @@ public class Question {
                                                                 + "INNER JOIN join_qcm_question j "
                                                                 + "ON j.id_question = q.id_question "
                                                                 + "WHERE j.id_qcm = ? ";
-
+    private static final String INSERT_QUESTION = "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
+            													+ "VALUES (?,?,?,?,?,?,?)";
+    private static final String SELECT_QUESTION_BY_ID_QUESTION = "SELECT * FROM question "
+    															+ "WHERE id_question=?";
+    private static final String SELECT_QUESTION_BY_USER = "SELECT * FROM question "
+    															+ "WHERE createby=?";
+    private static final String SELECT_QUESTION_BY_USER"DELETE FROM question WHERE createby=? AND id_question=?"
+    
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -97,12 +104,16 @@ public class Question {
         int id_question = 0;
 
         Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(
-                "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-                        + "VALUES ('" + this.question + "', '" + this.correction + "', '" + this.level + "', '"
-                        + this.id_chapter + "', '" + this.forexam + "', '" + this.file + "', '" + this.createby
-                        + "')", Statement.RETURN_GENERATED_KEYS );
-        stmt.executeUpdate();
+        PreparedStatement stmt = connection.prepareStatement(INSERT_QUESTION, Statement.RETURN_GENERATED_KEYS );
+            
+        stmt.setString(1, this.question);
+        stmt.setString(2, this.correction);
+        stmt.setString(3, this.level);
+        stmt.setString(4, this.id_chapter);
+        stmt.setString(5, this.forexam);
+        stmt.setString(6, this.file);
+        stmt.setInt(7, this.createby);
+     stmt.executeUpdate();
         ResultSet resultat = stmt.getGeneratedKeys();
         if ( resultat.next() ) {
             id_question = resultat.getInt( 1 );
@@ -116,7 +127,7 @@ public class Question {
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
         connection = DB.getConnection();
-        statement = connection.prepareStatement( "SELECT * FROM question WHERE id_question=?" );
+        statement = connection.prepareStatement( SELECT_QUESTION_BY_ID_QUESTION );
         statement.setInt( 1, id_question );
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {
@@ -150,7 +161,7 @@ public class Question {
         ArrayList<Question> list = new ArrayList<Question>();
 
         connection = DB.getConnection();
-        statement = connection.prepareStatement( "SELECT * FROM question WHERE createby=?" );
+        statement = connection.prepareStatement( SELECT_QUESTION_BY_USER );
         statement.setInt( 1, id );
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {

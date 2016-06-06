@@ -149,7 +149,7 @@
       }
       
        var difficulty = '<div class="col-xs-3">'+
-                          '<select name="level">'+
+                          '<select name="level" id="level">'+
                                '<option value="0" '+option1+'>Facile</option>'+
                                '<option value="1" '+option2+'>Moyen</option>'+
                                '<option value="2" '+option3+'>Difficile</option>'+
@@ -247,7 +247,7 @@
                            '<button type="button" class="btn btn-primary pull-left"'+
                            'id="addAnswer">Ajouter une réponse</button>'+
                          '</br> </br> </br> <label for="correction">Correction détaillée</label>'+
-                         '<textarea rows="4" cols="50" class="form-control" name="correction">'+data[1][0].correction+'</textarea>'+
+                         '<textarea rows="4" cols="50" class="form-control" name="correction" id="correction">'+data[1][0].correction+'</textarea>'+
                          '</br>'+
                          '<button type="submit" class="btn btn-danger btn-lg pull-right" id="validateModification'+data[1][0].id_question+'">Valider</button>'+
                        '</form>';

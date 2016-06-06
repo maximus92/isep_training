@@ -55,7 +55,13 @@ public class ProfessorController extends Controller {
         int reponse_counter = Integer.parseInt( form.get( "reponse_counter" ) );
         int createby = User.getIdByToken( token );
 
-        Question q = new Question( question, correction, level, id_chapter, forexam, file, createby );
+        Question q = new Question();
+        q.setQuestion(question);
+        q.setCorrection(correction);
+        q.setLevel(level);
+        q.setId_chapter(id_chapter);
+        q.setForexam(forexam);
+        q.setCreateby(createby);
         int id_question = q.insertQuestion();
 
         for ( int i = 0; i <= reponse_counter; i++ ) {
@@ -78,12 +84,14 @@ public class ProfessorController extends Controller {
         return redirect( "/prof" );
     }
 
-    public Result addModule() {
+    public Result addModule() throws SQLException{
         DynamicForm form = Form.form().bindFromRequest();
         String name = form.get( "module_name" );
         String token = session().get( "token" );
         int id_user = User.getIdByToken( token );
-        Module mod = new Module( name, id_user );
+        Module mod = new Module();
+        mod.setModule_name(name);
+        mod.setId_user(id_user);        
         int id_module = mod.insert();
         ObjectNode result = Json.newObject();
         result.put( "name", name );
@@ -91,7 +99,7 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
 
-    public Result selectModule() {
+    public Result selectModule() throws SQLException{
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
         ArrayList<Module> list = Module.select( id );
@@ -99,7 +107,7 @@ public class ProfessorController extends Controller {
         return ok( json );
     }
 
-    public Result deleteModule() {
+    public Result deleteModule() throws SQLException{
         DynamicForm form = Form.form().bindFromRequest();
         int id_module = Integer.parseInt( form.get( "id" ) );
         String token = session().get( "token" );
@@ -110,7 +118,7 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
 
-    public Result selectQuestion() {
+    public Result selectQuestion() throws SQLException {
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
         ArrayList<Question> list = Question.select( id );
@@ -118,7 +126,7 @@ public class ProfessorController extends Controller {
         return ok( json );
     }
 
-    public Result deleteQuestion() {
+    public Result deleteQuestion() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id" ) );
         String token = session().get( "token" );
@@ -164,8 +172,15 @@ public class ProfessorController extends Controller {
             String question = form.get( "question" + i );
 
             if ( question != null && question != "" ) {
-                Question q = new Question( question, "", "0", id_chapter, "0", "", createby );
-                int id_question = q.insertQuestion();
+                Question q = new Question();
+                q.setQuestion(question);
+                q.setCorrection("");
+                q.setLevel("0");
+                q.setId_chapter(id_chapter);
+                q.setForexam("0");
+                q.setFile("");
+                q.setCreateby(createby);
+            	int id_question = q.insertQuestion();
                 JoinTestQuestion join_test_question = new JoinTestQuestion( id_test, id_question );
                 join_test_question.insert();
                 for ( int j = 0; j <= answer_test_counter; j++ ) {
@@ -220,9 +235,14 @@ public class ProfessorController extends Controller {
     public Result updateQuestion() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
-        Logger.debug( form.get( "question" ));
+        //Logger.debug( form.get( "question" ));
         String question = form.get( "question" );
-        Question q = new Question( question );
+        //String correction = form.get( "correction" );
+        //String level = form.get( "level" );
+        
+
+        Question q = new Question();
+        q.setQuestion(question);
         q.updateQuestion( id_question );
         return redirect( "/prof" );
 
