@@ -28,7 +28,12 @@ public class Answer {
                                                                    + "WHERE id_qcm = ? and id_question = ?";
 
     private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
-
+   
+    private static final String UPDATE_ANSWER_BY_ID_ANSWER = "UPDATE answer "
+			+ "SET answer=?, istrue=? "
+			+ " WHERE id_answer=?";
+    
+    
     private String              answer;
     private int                 id_question;
     private String              istrue;
@@ -148,20 +153,7 @@ public class Answer {
         }
     }
 
-    public void updateAnswer( int id_answer ) throws SQLException {
-
-        Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement( "UPDATE answer SET answer='" + this.answer
-                + "', istrue ='"
-                + this.istrue + "' WHERE id_answer=?" );
-        stmt.setInt( 1, id_answer );
-        stmt.executeUpdate();
-        stmt.close();
-
-        if ( connection != null ) {
-            connection.close();
-        }
-    }
+    
 
     public static List<Answer> getSelectedAnswers( int id_qcm, int id_question ) throws SQLException {
 
@@ -185,6 +177,22 @@ public class Answer {
         }
         return questionsSelected;
 
+    }
+    
+    public void updateAnswer( int id_answer ) throws SQLException {
+        Connection connection = DB.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(UPDATE_ANSWER_BY_ID_ANSWER);
+        stmt.setString(1, this.answer);
+        stmt.setString(2, this.istrue);
+        
+        stmt.setInt( 3, id_answer );
+    
+        stmt.executeUpdate();
+        stmt.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
     }
 
 }

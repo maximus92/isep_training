@@ -28,7 +28,7 @@ public class Question {
     private static final String DELETE_QUESTION_BY_USER_AND_ID_QUESTION = "DELETE FROM question "
     															+"WHERE createby=? AND id_question=?";
     private static final String UPDATE_QUESTION_BY_ID_QUESTION = "UPDATE question "
-    															+ "SET question=? "
+    															+ "SET question=?, correction=?, level=?, id_chapter=?, forexam=?, file=? "
     															+ " WHERE id_question=?";
     private int                 id_question;
     private String              question;
@@ -213,8 +213,13 @@ public class Question {
         Connection connection = DB.getConnection();
         PreparedStatement stmt = connection.prepareStatement(UPDATE_QUESTION_BY_ID_QUESTION);
         stmt.setString(1, this.question);
-        stmt.setInt( 2, id_question );
-        
+        stmt.setString(2, this.correction);
+        stmt.setString(3, this.level);
+        stmt.setString(4, this.id_chapter);
+        stmt.setString(5, this.forexam);
+        stmt.setString(6, this.file);
+        stmt.setInt( 7, id_question );
+    
         stmt.executeUpdate();
         stmt.close();
 

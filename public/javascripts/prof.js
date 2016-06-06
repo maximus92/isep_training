@@ -41,10 +41,7 @@ $(document).ready(function(){
 			 $("#remove"+id).remove();
 		 });
 		 
-	 $(".modal-content").on('click', "#addAnswer", function() {
-		 alert("ok");
-	 });  
-
+	
 	  /**** MODULE ***/
 	  
 		$("#module-form").submit(function(event){ 
@@ -121,7 +118,7 @@ $(document).ready(function(){
 		});
 	  
 	/*** FIN MODULE ***/
-		
+	/** BDD **/
 	  $("#bdd-li").one("click",function(){
 		  dataString = "";
 		  
@@ -153,13 +150,13 @@ $(document).ready(function(){
 		});
 	  
 	  
-	  
 	  $(".question-select").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
 			var dataString = {id : id};
 			ajaxBody("/select-answer",dataString,function(data) {
 				$(".form_update_question").remove();
 				$(".answer-select").append(questionUpdateDiv(data));
+				$("#reponse_counter_modify").val(data[0].length);
 			});
 	  });
 	  
@@ -178,6 +175,19 @@ $(document).ready(function(){
 		  }); 
 		  
 		});
+	  
+	  $(".modal-content").on('click', "#addAnswer", function() {
+			var counter_answer_modify = $("#reponse_counter_modify").val();
+			counter_answer_modify++;
+			 $("#reponse_counter_modify").val(counter_answer_modify);
+			 var newdiv = addAnswerDiv(counter_answer_modify);
+			 $("#addQuestionA").append(newdiv);
+			
+		 });  
+	  
+	  
+	  
+
   
 	  /** TEST DE COURS **/
 		$("#add-test").hide();

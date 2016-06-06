@@ -164,7 +164,7 @@
       }
       
       var forexam = '<div class="col-xs-2">'+
-                        '<SELECT name="forexam">'+
+                        '<SELECT name="forexam" id="forexam">'+
                             '<OPTION value="0" '+option4+'>Entrainement des élèves</OPTION>'+
                             '<OPTION value="1" '+option5+'>Examen</OPTION>'+
                         '</SELECT>'+
@@ -212,7 +212,7 @@
                                '</label>'+
                              '</div>'+
                            '</div>'+
-                           '</br>';
+                           '</br><div id="addQuestionA">';
 
          for(var i=0; i< data[0].length; i++){
               if(data[0][i].istrue == "0"){
@@ -225,13 +225,13 @@
                              '</label>'+
                            '</div>';
            
-                formulaire1 += '<div id="addQuestionA">'+
-                             '<input type="hidden" value="1" name="reponse_counter"'+
-                               'id="reponse_counter" />'+
+                formulaire1 += '<input type="hidden" value="1" name="reponse_counter_modify"'+
+                               'id="reponse_counter_modify" />'+
                              '<div id="remove0">'+
                                '<label for="reponse">Réponse</label>'+
                                '<div class="row">'+
                                  '<div class="col-xs-10">'+
+                                 '<input type="hidden" id="id_answer" value="'+data[0][i].id_answer+'">'+
                                    '<input type="text" class="form-control answer-label" id="reponse'+data[0][i].id_answer+'"'+
                                      'value="'+data[0][i].answer+'">'+
                                  '</div>'+isTrue+
@@ -239,11 +239,10 @@
                                    '<i class="fa fa-times delete_answer" id="delete_answer0"></i>'+
                                  '</div>'+
                                '</div>'+
-                             '</div>'+
-                           '</div>';
+                             '</div>';
         }
          
-         formulaire1 += '</br>'+
+         formulaire1 += '</div></br>'+
                            '<button type="button" class="btn btn-primary pull-left"'+
                            'id="addAnswer">Ajouter une réponse</button>'+
                          '</br> </br> </br> <label for="correction">Correction détaillée</label>'+
