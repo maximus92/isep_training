@@ -164,11 +164,12 @@ $(document).ready(function(){
 	  });
 	  
 	  $(".answer-select").on('click', "#validateModification", function() {
-		  var id = $(this).attr('id').substring(20);
+		  dataString = "";
+
 		  $.ajax({ 
 			  type: "POST", 
 			  url: "/update-question",
-			  data: {id : id}, 
+			  data: dataString, 
 			  dataType: "json",
 			  
 			  success: function(data) {
