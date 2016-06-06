@@ -164,7 +164,7 @@ $(document).ready(function(){
 	  });
 	  
 	  $(".answer-select").on('click', "#validateModification", function() {
-		  var id_question = $(this).attr('id').substring(20);
+		  var id = $(this).attr('id').substring(20);
 		  $.ajax({ 
 			  type: "POST", 
 			  url: "/update-question",

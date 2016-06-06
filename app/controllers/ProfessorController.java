@@ -10,6 +10,7 @@ import models.Module;
 import models.Question;
 import models.Test;
 import models.User;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -219,7 +220,7 @@ public class ProfessorController extends Controller {
     public Result updateQuestion() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
-
+        Logger.debug( form.get( "question" ));
         String question = form.get( "question" );
         Question q = new Question( question );
         q.updateQuestion( id_question );
@@ -269,7 +270,9 @@ public class ProfessorController extends Controller {
     	DynamicForm form = Form.form().bindFromRequest();
     	int id_module = Integer.parseInt(form.get("id_module"));
     	String chapter_name = form.get("chapter_name");
-    	Chapter chap = new Chapter(chapter_name,id_module);
+    	Chapter chap = new Chapter();
+    	chap.setChapter_name(chapter_name);
+    	chap.setId_module(id_module);
     	int id_chapter = chap.insert();
     	ObjectNode result = Json.newObject();
     	result.put("id_chapter", id_chapter);

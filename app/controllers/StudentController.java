@@ -42,7 +42,7 @@ public class StudentController extends Controller {
         return ok( home_student.render( "" ) );
     }
 
-    public Result studentQcmSettings() {
+    public Result studentQcmSettings() throws NumberFormatException, SQLException{
         ArrayList<Module> modules = new ArrayList<Module>();
         ArrayList<Chapter> chapters = new ArrayList<Chapter>();
 
