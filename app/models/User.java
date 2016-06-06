@@ -14,138 +14,117 @@ import play.data.Form;
 import play.db.*;
 
 public class User {
-	public String username;
-	public String firstname;
-	public String lastname;
-	public int isProf;
-	public String token;
-	public static Connection conn = null;
-	public static PreparedStatement stmt = null;
-	public static ResultSet rs =null;
+	private final static String INSERT_USER = "INSERT INTO user(username,firstname,lastname,token,isprof) VALUES (?, ?, ?, ?, ?)";
+	private final static String GET_USER_BY_USERNAME = "SELECT * FROM user WHERE username= ? ";
+	private final static String GET_USER_BY_TOKEN = "SELECT * FROM user WHERE token= ? ";
 	
-	public User(String username,String firstname, String lastname,int isProf, String uuid){
+	private String username;
+	private String firstname;
+	private String lastname;
+	private int isProf;
+	private String token;
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
 		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	public int getIsProf() {
+		return isProf;
+	}
+
+	public void setIsProf(int isProf) {
 		this.isProf = isProf;
-		this.token = uuid;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void insert() throws SQLException{
+		  Connection connection = DB.getConnection();
+		  PreparedStatement stmt = connection.prepareStatement(INSERT_USER);
+		  stmt.setString(1, this.username);
+		  stmt.setString(2, this.firstname);
+		  stmt.setString(3, this.lastname);
+		  stmt.setString(4, this.token);
+		  stmt.setInt(5, this.isProf);
+	      stmt.executeUpdate();
+	      stmt.close();
+	      Model.closeConnection(connection);
 	}
 	
-	public String getLastname(){
-		return this.lastname;
-	}
-	
-	public String getFirstname(){
-		return this.firstname;
-	}
-	
-	public String getToken(){
-		return this.token;
-	}
-	
-	public int getIsprof(){
-		return this.isProf;
-	}
-	
-	public void setToken(String s){
-		this.token = s;
-	}
-	
-	public void insert(){
-	      try{
-    		  conn = DB.getConnection();
-	          stmt = conn.prepareStatement("INSERT INTO user(username,firstname,lastname,token,isprof) "
-	          		+ "VALUES ('"+this.username+"', '"+this.firstname+"', '"+this.lastname+"', '"+this.token+"', '"+this.isProf+"')");
-	          stmt.executeUpdate();
-	          stmt.close();
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	      }finally{
-	    	  if(conn != null){
-	    		  try{
-	    			 conn.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
+	public String exist() throws SQLException{
+		  String token="";
+		  Connection connection = DB.getConnection();
+	      PreparedStatement stmt = connection.prepareStatement(GET_USER_BY_USERNAME);
+	      stmt.setString(1, this.username);
+	      ResultSet rs = stmt.executeQuery();
+	      while(rs.next()){
+	    	  token = rs.getString("token");
 	      }
+	      stmt.close();
+	      Model.closeConnection(connection);
+	      return token;
 	}
 	
-	public String exist(){
-		String token="";
-	      try{
-	    	  conn = DB.getConnection();
-	          stmt = conn.prepareStatement("SELECT * FROM user WHERE username='"+this.username+"'");
-	          rs = stmt.executeQuery();
-	          while(rs.next()){
-	        	  token = rs.getString("token");
-	          }
-	          stmt.close();
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	      }finally{
-	    	  if(conn != null){
-	    		  try{
-	    			 conn.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
-	      }
-          return token;
-	}
-	
-	public static User getUserByToken(String token){
+	public static User getUserByToken(String token) throws SQLException{
 	      User u = null;
-	      try{
-  		  conn = DB.getConnection();
-  		  stmt = conn.prepareStatement("SELECT * FROM user WHERE token='"+token+"'");
-          rs = stmt.executeQuery();
+  		  Connection connection = DB.getConnection();
+  		  PreparedStatement stmt = connection.prepareStatement(GET_USER_BY_TOKEN);
+  		  stmt.setString(1, token);
+          ResultSet rs = stmt.executeQuery();
           while(rs.next()){
         	  String username = rs.getString("username");
         	  String firstname = rs.getString("firstname");
         	  String lastname = rs.getString("lastname");
         	  int isProf = rs.getInt("isprof");
-        	  u = new User(username,firstname,lastname,isProf,token);
+        	  u = new User();
+        	  u.setUsername(username);
+        	  u.setFirstname(firstname);
+        	  u.setLastname(lastname);
+        	  u.setIsProf(isProf);
+        	  u.setToken(token);
           }
           stmt.close();
-          return u;          
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	    	  return u;
-	      }finally{
-	    	  if(conn != null){
-	    		  try{
-	    			 conn.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
-	      }
+          Model.closeConnection(connection);
+          return u;                
 	}
 	
-	public static int getIdByToken(String token){
-		int id_user = 0;
-		try{
-	  		  conn = DB.getConnection();
-	  		  stmt = conn.prepareStatement("SELECT * FROM user WHERE token='"+token+"'");
-	          rs = stmt.executeQuery();
-	          while(rs.next()){
-	        	  id_user = rs.getInt("id_user");
-	          }
-	          stmt.close();
-	          return id_user;          
-		      }catch(SQLException e){
-		    	  e.printStackTrace();
-		    	  return id_user;
-		      }finally{
-		    	  if(conn != null){
-		    		  try{
-		    			 conn.close(); 
-		    		  }catch(SQLException ignore){
-		    			  ignore.printStackTrace();
-		    		  }
-		    	  }
-		      }
+	public static int getIdByToken(String token) throws SQLException{
+		  int id_user = 0;
+  		  Connection conn = DB.getConnection();
+  		  PreparedStatement stmt = conn.prepareStatement(GET_USER_BY_TOKEN);
+  		  stmt.setString(1, token);
+          ResultSet rs = stmt.executeQuery();
+          while(rs.next()){
+        	  id_user = rs.getInt("id_user");
+          }
+          stmt.close();
+          Model.closeConnection(conn);
+          return id_user;          
 	}
 }
