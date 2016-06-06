@@ -5,11 +5,11 @@
    <div class="row">
    <div class="qcm-container" id="qcm-@qcm_info.getId_qcm">
        <div class="col-md-8 col-md-offset-2" id="student-qcm-question-container">
-        <h3 class="student-qcm-question" id="question@question.id_question">@question.question</h3>
+        <h3 class="student-qcm-question" id="question@question.getId_question">@question.getQuestion</h3>
         
         <form action="#" class="form-horizontal col-md-offset-2">
 			<input type="hidden" name="id_qcm" value=@qcm_info.getId_qcm>
-			<input type="hidden" id="nb-of-answers" name="nb-of-answers" value="@answers.size">
+			<input type="hidden" id="nb-of-answers" name="nb-of-answers" value="@answers.getSize">
             @for((answer, index) <- answers.zipWithIndex){
             <div class="form-group">
                 <label class="col-md-12">
