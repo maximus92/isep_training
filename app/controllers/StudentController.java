@@ -17,7 +17,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
-import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -42,7 +41,7 @@ public class StudentController extends Controller {
         return ok( home_student.render( "" ) );
     }
 
-    public Result studentQcmSettings() throws NumberFormatException, SQLException{
+    public Result studentQcmSettings() throws NumberFormatException, SQLException {
         ArrayList<Module> modules = new ArrayList<Module>();
         ArrayList<Chapter> chapters = new ArrayList<Chapter>();
 
@@ -59,6 +58,7 @@ public class StudentController extends Controller {
         String question_level = form.get( "question_level" );
         Integer qcm_time = Integer.parseInt( form.get( "qcm_time" ) );
         String token = session().get( "token" );
+        Qcm qcm = new Qcm();
 
         ArrayList<Integer> questionsArray = new ArrayList<Integer>();
 
@@ -68,7 +68,7 @@ public class StudentController extends Controller {
                 Integer.parseInt( question_level )
                 );
 
-        Qcm.createStudentQcm( questionsArray, qcm_time, token, questionsArray.size() );
+        qcm.createStudentQcm( questionsArray, qcm_time, token, questionsArray.size() );
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
@@ -82,9 +82,9 @@ public class StudentController extends Controller {
 
         ArrayList<Answer> answers_list = null;
         Question question = new Question();
+        Qcm qcm_info = new Qcm();
         int id_qcm = -1;
         String token = session().get( "token" );
-        Qcm qcm_info = new Qcm();
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
@@ -100,8 +100,8 @@ public class StudentController extends Controller {
             question.getQcmQuestions( id_qcm, question_num );
         }
 
-        if ( question.id_question != -1 ) {
-            answers_list = Answer.getAnswersByQuestionId( question.id_question );
+        if ( question.getId_question() != -1 ) {
+            answers_list = Answer.getAnswersByQuestionId( question.getId_question() );
         }
 
         // for ( int i = 0; i < answers_list.size(); i++ ) {
@@ -147,7 +147,7 @@ public class StudentController extends Controller {
 
     public Result answersSelected() throws SQLException {
 
-        List answersSelected = new ArrayList();
+        List<Answer> answersSelected = new ArrayList<Answer>();
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
         int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
@@ -160,8 +160,9 @@ public class StudentController extends Controller {
 
     public Result qcmResultat( int id_qcm ) throws SQLException {
         Qcm qcm = new Qcm();
-        qcm.calculateScore( id_qcm );
+        qcm.setId_qcm( id_qcm );
         qcm.getInfoById( id_qcm );
+        qcm.calculateScore();
         return ok( student_qcm_result.render( "", qcm ) );
     }
 
