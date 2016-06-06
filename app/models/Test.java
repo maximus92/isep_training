@@ -24,42 +24,54 @@ public class Test {
 	private String isenable;
 	private int id_test;
 	
-	public Test(String title, int id_module, int id_chapter, int createby, String isenable){
-		this.title = title;
-		this.id_module = id_module;
-		this.id_chapter = id_chapter;
-		this.createby = createby;
-		this.isenable = isenable;
-	}
-	
-	public Test(int id_test, String title, int id_module, int id_chapter, int createby, String isenable){
-		this.id_test = id_test;
-		this.title = title;
-		this.id_module = id_module;
-		this.id_chapter = id_chapter;
-		this.createby = createby;
-		this.isenable = isenable;
-	}
-	
 	public String getTitle() {
 		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public int getId_module() {
 		return id_module;
 	}
 
+	public void setId_module(int id_module) {
+		this.id_module = id_module;
+	}
+
 	public int getId_chapter() {
 		return id_chapter;
+	}
+
+	public void setId_chapter(int id_chapter) {
+		this.id_chapter = id_chapter;
+	}
+
+	public int getCreateby() {
+		return createby;
+	}
+
+	public void setCreateby(int createby) {
+		this.createby = createby;
 	}
 
 	public String getIsenable() {
 		return isenable;
 	}
 
+	public void setIsenable(String isenable) {
+		this.isenable = isenable;
+	}
+
 	public int getId_test() {
 		return id_test;
 	}
+
+	public void setId_test(int id_test) {
+		this.id_test = id_test;
+	}
+	
 	
 	public static ArrayList<Test> getTestByIduser(int id_user,int idtest) throws SQLException{
 		String add_sql = "";
@@ -77,12 +89,18 @@ public class Test {
 				int id_chapter = rs.getInt("id_chapter");
 				String title = rs.getString("title");
 				String isenable = rs.getString("isenable");
-				Test test = new Test(id_test,title,id_module, id_chapter, id_user, isenable);
+				Test test = new Test();
+				test.setId_test(id_test);
+				test.setId_chapter(id_chapter);
+				test.setId_module(id_module);
+				test.setTitle(title);
+				test.setIsenable(isenable);
+				test.setCreateby(id_user);
 				//add each test to the list
 				list.add(test);
 		}
 		statement.close();
-		closeConnection(connection);
+		Model.closeConnection(connection);
 		return list;
 	}
 	
@@ -101,7 +119,7 @@ public class Test {
 			id = resultat.getInt(1);
 		}
 		statement.close();
-		closeConnection(connection);
+		Model.closeConnection(connection);
 		return id;
 	}
 	
@@ -114,14 +132,8 @@ public class Test {
     	statement.setInt(3,id_test);
     	statement.executeUpdate();
     	statement.close();
-    	closeConnection(connection);
+    	Model.closeConnection(connection);
     	return id;
-	}
-	
-	public static void closeConnection(Connection conn) throws SQLException{
-		if(conn != null){
-			conn.close();
-		}
 	}
 	
 	public static void delete(int id_user, int id_test) throws SQLException{
@@ -131,6 +143,6 @@ public class Test {
   	  statement.setInt(2,id_test);
   	  statement.executeUpdate();
   	  statement.close();
-  	  closeConnection(connection);
+  	  Model.closeConnection(connection);
 	}
 }
