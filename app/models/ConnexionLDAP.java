@@ -57,15 +57,17 @@ public class ConnexionLDAP{
 	}
 	
 	public User attributeLDAP(Attributes attrs,String login){
-		//Try to get datas
         String emp = attrs.get("employeeType").toString().replaceAll("^(employeeType: )", "");
-        String ln = attrs.get("sn").toString().replaceAll("^(sn: )", "");
-        String fn = attrs.get("givenname").toString().replaceAll("^(givenName: )", "");
-        String uuID = UUID.randomUUID().toString();
-        //pwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
-        System.out.println(ln);
+        String lastname = attrs.get("sn").toString().replaceAll("^(sn: )", "");
+        String firstname = attrs.get("givenname").toString().replaceAll("^(givenName: )", "");
+        String token = UUID.randomUUID().toString();
         int isprof = isProf(emp);
-        User u = new User(login,fn,ln,isprof,uuID);
+        User u = new User();
+        u.setLastname(lastname);
+        u.setToken(token);
+        u.setFirstname(firstname);
+        u.setUsername(login);
+        u.setIsProf(isprof);
         return  u;
 	}
 	
@@ -77,43 +79,26 @@ public class ConnexionLDAP{
 		}
 	}
 	
-	
-	public User connect(DynamicForm form){
-		String pwd = form.get("pwd");
-		String login = form.get("login");
-		//pwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
-		
-		  Connection conn = null;
-	      ResultSet rs=null;
-	      PreparedStatement stmt=null;
+	public User connect(DynamicForm form) throws SQLException{
+		  String pwd = form.get("pwd");
+		  String login = form.get("login");
 	      User u = null;
-	      String fn = null;
-	      String ln=null;
-	     String token = null;
 	      int isprof=0;
-	      try{
-	    	  conn = DB.getConnection();
-	          stmt = conn.prepareStatement("SELECT * FROM user WHERE username='mabboud'");
-	          rs = stmt.executeQuery();
-	          while(rs.next()){
-	        	  ln = rs.getString("lastname");
-	        	  fn = rs.getString("firstname");
-	        	  token = rs.getString("token");
-	        	  u = new User(login,fn,ln,isprof,token);
-	          }
-	          stmt.close();
-	          return u;
-	      }catch(SQLException e){
-	    	  e.printStackTrace();
-	       return u;
-	      }finally{
-	    	  if(conn != null){
-	    		  try{
-	    			 conn.close(); 
-	    		  }catch(SQLException ignore){
-	    			  ignore.printStackTrace();
-	    		  }
-	    	  }
-	      }
+      	  Connection conn = DB.getConnection();
+      	  PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE username='mabboud'");
+          ResultSet rs = stmt.executeQuery();
+          while(rs.next()){
+        	  String lastname = rs.getString("lastname");
+        	  String firstname = rs.getString("firstname");
+        	  String token = rs.getString("token");
+        	  u = new User();
+        	  u.setLastname(lastname);
+              u.setToken(token);
+              u.setFirstname(firstname);
+              u.setUsername(login);
+              u.setIsProf(isprof);
+          }
+          stmt.close();
+          return u;
 	}
 }
