@@ -15,6 +15,8 @@ public class Qcm {
     private int                       level;
     private int                       number_of_questions;
     private int                       createby;
+    private int                       score;
+    private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
     private static final String       GET_RANDOM_QUESTIONS_ID_BY_PARAM  = "SELECT id_question "
                                                                                 + "FROM question WHERE id_chapter = ? "
@@ -33,13 +35,7 @@ public class Qcm {
                                                                                 + "ORDER BY id_qcm DESC "
                                                                                 + "LIMIT 1";
 
-    private static final String       GET_QCM_QUESTION_NUM              = "SELECT q.question, q.id_question "
-                                                                                + "FROM question q "
-                                                                                + "INNER JOIN join_qcm_question j "
-                                                                                + "ON j.id_question = q.id_question "
-                                                                                + "WHERE j.id_qcm = ?";
-
-    private static final String       GET_QCM_INFO_BY_ID                = "SELECT time, level, nbofquestions "
+    private static final String       GET_QCM_INFO_BY_ID                = "SELECT * "
                                                                                 + "FROM qcm "
                                                                                 + "WHERE id_qcm = ? ";
     private static final String       UPDATE_QCM_TIME                   = "UPDATE qcm "
@@ -56,8 +52,6 @@ public class Qcm {
     private static final String       UPDATE_QCM_SCORE                  = "UPDATE qcm "
                                                                                 + "SET score = ? "
                                                                                 + "WHERE id_qcm = ?";
-
-    private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
     public int getId_qcm() {
         return id_qcm;
@@ -97,6 +91,14 @@ public class Qcm {
 
     public void setCreateby( int createby ) {
         this.createby = createby;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore( int score ) {
+        this.score = score;
     }
 
     public static ArrayList<Integer> getQuestionsIdArrayByParam( int id_chapter, int question_num, int question_level )
@@ -160,28 +162,6 @@ public class Qcm {
 
     }
 
-    public static Question getQcmQuestions( int id_qcm, int question_num ) throws SQLException {
-
-        Question question = new Question();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet result = null;
-
-        connection = DB.getConnection();
-        statement = connection.prepareStatement( GET_QCM_QUESTION_NUM );
-        statement.setInt( 1, id_qcm );
-        result = statement.executeQuery();
-
-        result.absolute( question_num );
-        question.question = result.getString( "question" );
-        question.id_question = result.getInt( "id_question" );
-
-        if ( connection != null ) {
-            connection.close();
-        }
-        return question;
-    }
-
     public static int getLastQcmForUser( String token ) throws SQLException {
         int userId = User.getIdByToken( token );
         int id_qcm = -1;
@@ -220,6 +200,7 @@ public class Qcm {
             this.setNumber_of_questions( result.getInt( "nbofquestions" ) );
             this.setTime( result.getInt( "time" ) );
             this.setLevel( result.getInt( "level" ) );
+            this.setScore( result.getInt( "score" ) );
         }
 
         statement.close();
@@ -244,7 +225,7 @@ public class Qcm {
         }
     }
 
-    public static int calculateScore( int id_qcm ) throws SQLException {
+    public void calculateScore( int id_qcm ) throws SQLException {
         int score = 0;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -281,7 +262,6 @@ public class Qcm {
         statement.setInt( 2, id_qcm );
         statement.executeUpdate();
 
-        return score;
     }
 
 }

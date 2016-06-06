@@ -10,23 +10,30 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Question {
-	private static String GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
-			+ "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
-			+ "WHERE jtq.id_test=? AND q.createby=?";
-	
-    public int    id_question;
-    public String question;
-    public String correction;
-    public String level;
-    public String id_chapter;
-    public String forexam;
-    public String file;
-    public int    createby;
+    private static String       GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
+                                                                + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
+                                                                + "WHERE jtq.id_test=? AND q.createby=?";
+
+    private static final String GET_QCM_QUESTION_NUM    = "SELECT q.question, q.id_question "
+                                                                + "FROM question q "
+                                                                + "INNER JOIN join_qcm_question j "
+                                                                + "ON j.id_question = q.id_question "
+                                                                + "WHERE j.id_qcm = ?";
+
+    public int                  id_question;
+    public String               question;
+    public String               correction;
+    public String               level;
+    public String               id_chapter;
+    public String               forexam;
+    public String               file;
+    public int                  createby;
 
     public Question() {
     }
 
-    public Question( String question, String correction, String level, String id_chapter, String forexam, String file, int createby ) {
+    public Question( String question, String correction, String level, String id_chapter, String forexam, String file,
+            int createby ) {
         this.question = question;
         this.correction = correction;
         this.level = level;
@@ -36,7 +43,8 @@ public class Question {
         this.createby = createby;
     }
 
-    public Question( int id_question, String question, String correction, String level, String id_chapter, String forexam, String file ) {
+    public Question( int id_question, String question, String correction, String level, String id_chapter,
+            String forexam, String file ) {
         this.id_question = id_question;
         this.question = question;
         this.correction = correction;
@@ -45,9 +53,11 @@ public class Question {
         this.forexam = forexam;
         this.file = file;
     }
-    public Question(String question){
+
+    public Question( String question ) {
         this.question = question;
     }
+
     public Question( int id_question, int createby ) {
         this.id_question = id_question;
         this.createby = createby;
@@ -56,29 +66,29 @@ public class Question {
     public String getQuestion() {
         return this.question;
     }
-    
+
     public int getId_question() {
-		return id_question;
-	}
+        return id_question;
+    }
 
     public int insertQuestion() throws SQLException {
-        	int id_question = 0;
+        int id_question = 0;
 
-	        Connection connection = DB.getConnection();
-	        PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-                            + "VALUES ('" + this.question + "', '" + this.correction + "', '" + this.level + "', '"
-                            + this.id_chapter + "', '" + this.forexam + "', '" + this.file + "', '" + this.createby
-                            + "')", Statement.RETURN_GENERATED_KEYS );
-            stmt.executeUpdate();
-            ResultSet resultat = stmt.getGeneratedKeys();
-            if ( resultat.next() ) {
-                id_question = resultat.getInt( 1 );
-            }
-            stmt.close();
-            return id_question;
+        Connection connection = DB.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(
+                "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
+                        + "VALUES ('" + this.question + "', '" + this.correction + "', '" + this.level + "', '"
+                        + this.id_chapter + "', '" + this.forexam + "', '" + this.file + "', '" + this.createby
+                        + "')", Statement.RETURN_GENERATED_KEYS );
+        stmt.executeUpdate();
+        ResultSet resultat = stmt.getGeneratedKeys();
+        if ( resultat.next() ) {
+            id_question = resultat.getInt( 1 );
+        }
+        stmt.close();
+        return id_question;
     }
-    
+
     public static ArrayList<Question> selectQuestionByIdQ( int id_question ) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -174,12 +184,12 @@ public class Question {
             }
         }
     }
-    
+
     public void updateQuestion( int id_question ) throws SQLException {
 
         Connection connection = DB.getConnection();
         PreparedStatement stmt = connection.prepareStatement( "UPDATE question SET question='" + this.question
-                 + "' WHERE id_question=?" );
+                + "' WHERE id_question=?" );
         stmt.setInt( 1, id_question );
         stmt.executeUpdate();
         stmt.close();
@@ -188,16 +198,16 @@ public class Question {
             connection.close();
         }
     }
-    
-    public static ArrayList<Question> selectQuestionByIdTest(int id_test,int id_user) throws SQLException{
+
+    public static ArrayList<Question> selectQuestionByIdTest( int id_test, int id_user ) throws SQLException {
         ArrayList<Question> list = new ArrayList<Question>();
-    	Connection connection = DB.getConnection();
-        PreparedStatement statement = connection.prepareStatement(GET_QUESTION_BY_ID_TEST);
-        statement.setInt(1, id_test);
-        statement.setInt(2, id_user);
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement( GET_QUESTION_BY_ID_TEST );
+        statement.setInt( 1, id_test );
+        statement.setInt( 2, id_user );
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {
-        	int id_question = rs.getInt( "id_question" );
+            int id_question = rs.getInt( "id_question" );
             String question = rs.getString( "question" );
             String correction = rs.getString( "correction" );
             String level = rs.getString( "level" );
@@ -209,7 +219,27 @@ public class Question {
             list.add( q );
         }
         statement.close();
-        Test.closeConnection(connection);
+        Test.closeConnection( connection );
         return list;
+    }
+
+    public void getQcmQuestions( int id_qcm, int question_num ) throws SQLException {
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_QCM_QUESTION_NUM );
+        statement.setInt( 1, id_qcm );
+        result = statement.executeQuery();
+
+        result.absolute( question_num );
+        this.question = result.getString( "question" );
+        this.id_question = result.getInt( "id_question" );
+
+        if ( connection != null ) {
+            connection.close();
+        }
     }
 }

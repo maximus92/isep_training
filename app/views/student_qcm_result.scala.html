@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String, qcm_info: Qcm)
 
 @main("Qcm résultat"){
     <div class="container">
@@ -19,7 +19,7 @@
                     </table>
                 </div>
                 
-                <h2 class="score">Score : </h2>
+                <h2 class="score">Score : @qcm_info.getScore / @qcm_info.getNumber_of_questions</h2>
                 
             </div>
         </div>

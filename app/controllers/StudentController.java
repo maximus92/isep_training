@@ -81,7 +81,7 @@ public class StudentController extends Controller {
     public Result studentTrainingQcm( Integer question_num ) throws SQLException {
 
         ArrayList<Answer> answers_list = null;
-        Question question = null;
+        Question question = new Question();
         int id_qcm = -1;
         String token = session().get( "token" );
         Qcm qcm_info = new Qcm();
@@ -97,7 +97,7 @@ public class StudentController extends Controller {
             if ( question_num > qcm_info.getNumber_of_questions() ) {
                 return redirect( "/student/resultat?id_qcm=" + id_qcm );
             }
-            question = Qcm.getQcmQuestions( id_qcm, question_num );
+            question.getQcmQuestions( id_qcm, question_num );
         }
 
         if ( question.id_question != -1 ) {
@@ -160,8 +160,9 @@ public class StudentController extends Controller {
 
     public Result qcmResultat( int id_qcm ) throws SQLException {
         Qcm qcm = new Qcm();
-        int score = qcm.calculateScore( id_qcm ); 
-        return ok( student_qcm_result.render( "" ) );
+        qcm.calculateScore( id_qcm );
+        qcm.getInfoById( id_qcm );
+        return ok( student_qcm_result.render( "", qcm ) );
     }
 
 }
