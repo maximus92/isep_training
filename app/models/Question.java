@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import play.db.DB;
 
 public class Question {
-    private static String       GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
+    private static final String GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
                                                                 + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
                                                                 + "WHERE jtq.id_test=? AND q.createby=?";
 
@@ -18,57 +18,79 @@ public class Question {
                                                                 + "FROM question q "
                                                                 + "INNER JOIN join_qcm_question j "
                                                                 + "ON j.id_question = q.id_question "
-                                                                + "WHERE j.id_qcm = ?";
+                                                                + "WHERE j.id_qcm = ? ";
 
-    public int                  id_question;
-    public String               question;
-    public String               correction;
-    public String               level;
-    public String               id_chapter;
-    public String               forexam;
-    public String               file;
-    public int                  createby;
-
-    public Question() {
-    }
-
-    public Question( String question, String correction, String level, String id_chapter, String forexam, String file,
-            int createby ) {
-        this.question = question;
-        this.correction = correction;
-        this.level = level;
-        this.id_chapter = id_chapter;
-        this.forexam = forexam;
-        this.file = file;
-        this.createby = createby;
-    }
-
-    public Question( int id_question, String question, String correction, String level, String id_chapter,
-            String forexam, String file ) {
-        this.id_question = id_question;
-        this.question = question;
-        this.correction = correction;
-        this.level = level;
-        this.id_chapter = id_chapter;
-        this.forexam = forexam;
-        this.file = file;
-    }
-
-    public Question( String question ) {
-        this.question = question;
-    }
-
-    public Question( int id_question, int createby ) {
-        this.id_question = id_question;
-        this.createby = createby;
-    }
-
-    public String getQuestion() {
-        return this.question;
-    }
+    private int                 id_question;
+    private String              question;
+    private String              correction;
+    private String              level;
+    private String              id_chapter;
+    private String              forexam;
+    private String              file;
+    private int                 createby;
 
     public int getId_question() {
         return id_question;
+    }
+
+    public void setId_question( int id_question ) {
+        this.id_question = id_question;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion( String question ) {
+        this.question = question;
+    }
+
+    public String getCorrection() {
+        return correction;
+    }
+
+    public void setCorrection( String correction ) {
+        this.correction = correction;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel( String level ) {
+        this.level = level;
+    }
+
+    public String getId_chapter() {
+        return id_chapter;
+    }
+
+    public void setId_chapter( String id_chapter ) {
+        this.id_chapter = id_chapter;
+    }
+
+    public String getForexam() {
+        return forexam;
+    }
+
+    public void setForexam( String forexam ) {
+        this.forexam = forexam;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile( String file ) {
+        this.file = file;
+    }
+
+    public int getCreateby() {
+        return createby;
+    }
+
+    public void setCreateby( int createby ) {
+        this.createby = createby;
     }
 
     public int insertQuestion() throws SQLException {
@@ -89,99 +111,86 @@ public class Question {
         return id_question;
     }
 
-    public static ArrayList<Question> selectQuestionByIdQ( int id_question ) {
+    public static ArrayList<Question> selectQuestionByIdQ( int id_question ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
-        try {
-            connection = DB.getConnection();
-            statement = connection.prepareStatement( "SELECT * FROM question WHERE id_question=?" );
-            statement.setInt( 1, id_question );
-            ResultSet rs = statement.executeQuery();
-            while ( rs.next() ) {
-                String question = rs.getString( "question" );
-                String correction = rs.getString( "correction" );
-                String level = rs.getString( "level" );
-                String id_chapter = rs.getString( "id_chapter" );
-                String forexam = rs.getString( "forexam" );
-                String file = rs.getString( "file" );
-                Question q = new Question( id_question, question, correction, level, id_chapter, forexam, file );
-                // add each employee to the list
-                list.add( q );
-            }
-            statement.close();
-            return list;
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-            return list;
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( "SELECT * FROM question WHERE id_question=?" );
+        statement.setInt( 1, id_question );
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
+            // add each employee to the list
+            list.add( q );
         }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
     }
 
-    public static ArrayList<Question> select( int id ) {
+    public static ArrayList<Question> select( int id ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
-        try {
-            connection = DB.getConnection();
-            statement = connection.prepareStatement( "SELECT * FROM question WHERE createby=?" );
-            statement.setInt( 1, id );
-            ResultSet rs = statement.executeQuery();
-            while ( rs.next() ) {
-                int id_question = rs.getInt( "id_question" );
-                String question = rs.getString( "question" );
-                String correction = rs.getString( "correction" );
-                String level = rs.getString( "level" );
-                String id_chapter = rs.getString( "id_chapter" );
-                String forexam = rs.getString( "forexam" );
-                String file = rs.getString( "file" );
-                Question q = new Question( id_question, question, correction, level, id_chapter, forexam, file );
-                // add each employee to the list
-                list.add( q );
-            }
-            statement.close();
-            return list;
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-            return list;
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( "SELECT * FROM question WHERE createby=?" );
+        statement.setInt( 1, id );
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
+            // add each employee to the list
+            list.add( q );
         }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
     }
 
-    public static void delete( int createby, int id_question ) {
+    public static void delete( int createby, int id_question ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
-        try {
-            connection = DB.getConnection();
-            statement = connection.prepareStatement( "DELETE FROM question WHERE createby=? AND id_question=?" );
-            statement.setInt( 1, createby );
-            statement.setInt( 2, id_question );
-            statement.executeUpdate();
-            statement.close();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            if ( connection != null ) {
-                try {
-                    connection.close();
-                } catch ( SQLException ignore ) {
-                    ignore.printStackTrace();
-                }
-            }
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( "DELETE FROM question WHERE createby=? AND id_question=?" );
+        statement.setInt( 1, createby );
+        statement.setInt( 2, id_question );
+        statement.executeUpdate();
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
         }
     }
 
@@ -214,7 +223,14 @@ public class Question {
             String id_chapter = rs.getString( "id_chapter" );
             String forexam = rs.getString( "forexam" );
             String file = rs.getString( "file" );
-            Question q = new Question( id_question, question, correction, level, id_chapter, forexam, file );
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
             // add each employee to the list
             list.add( q );
         }
@@ -235,8 +251,8 @@ public class Question {
         result = statement.executeQuery();
 
         result.absolute( question_num );
-        this.question = result.getString( "question" );
-        this.id_question = result.getInt( "id_question" );
+        this.setQuestion( result.getString( "question" ) );
+        this.setId_question( result.getInt( "id_question" ) );
 
         if ( connection != null ) {
             connection.close();
