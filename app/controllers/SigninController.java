@@ -1,5 +1,7 @@
 package controllers;
 
+import java.sql.SQLException;
+
 import models.ConnexionLDAP;
 import models.User;
 import play.Logger;
@@ -24,7 +26,7 @@ public class SigninController extends Controller {
         return ok( signin.render( "ISEP Training - Connexion" ) );
     }
 
-    public Result connexion() {
+    public Result connexion() throws SQLException  {
         DynamicForm signinform = Form.form().bindFromRequest();
         ConnexionLDAP c = new ConnexionLDAP();
 

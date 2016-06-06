@@ -1,6 +1,7 @@
 package controllers;
 
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 
 import models.Answer;
@@ -210,7 +211,7 @@ public class ProfessorController extends Controller {
         }
     }
 
-    public static int getUserID() {
+    public static int getUserID() throws SQLException  {
         String token = session().get( "token" );
         return User.getIdByToken( token );
     }
