@@ -9,7 +9,7 @@
         
         <form action="#" class="form-horizontal col-md-offset-2">
 			<input type="hidden" name="id_qcm" value=@qcm_info.getId_qcm>
-			<input type="hidden" id="nb-of-answers" name="nb-of-answers" value="@answers.getSize">
+			<input type="hidden" id="nb-of-answers" name="nb-of-answers" value="@answers.size">
             @for((answer, index) <- answers.zipWithIndex){
             <div class="form-group">
                 <label class="col-md-12">

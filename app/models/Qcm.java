@@ -127,7 +127,7 @@ public class Qcm {
         return questions_id_array;
     }
 
-    public static void createStudentQcm( ArrayList<Integer> questionsArray,
+    public void createStudentQcm( ArrayList<Integer> questionsArray,
             Integer qcm_time, String token, Integer number_questions ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -225,7 +225,7 @@ public class Qcm {
         }
     }
 
-    public void calculateScore( int id_qcm ) throws SQLException {
+    public void calculateScore() throws SQLException {
         int score = 0;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -234,7 +234,7 @@ public class Qcm {
 
         connection = DB.getConnection();
         statement = connection.prepareStatement( GET_QCM_ID_QUESTIONS );
-        statement.setInt( 1, id_qcm );
+        statement.setInt( 1, this.getId_qcm() );
         result1 = statement.executeQuery();
 
         while ( result1.next() ) {
@@ -242,7 +242,7 @@ public class Qcm {
             int counter_answers = 0;
             statement = connection.prepareStatement( GET_USER_ANSWERS_AND_GOOD_ANSWERS );
             statement.setInt( 1, result1.getInt( "id_question" ) );
-            statement.setInt( 2, id_qcm );
+            statement.setInt( 2, this.getId_qcm() );
             result2 = statement.executeQuery();
 
             while ( result2.next() ) {
@@ -259,7 +259,7 @@ public class Qcm {
 
         statement = connection.prepareStatement( UPDATE_QCM_SCORE );
         statement.setInt( 1, score );
-        statement.setInt( 2, id_qcm );
+        statement.setInt( 2, this.getId_qcm() );
         statement.executeUpdate();
 
     }
