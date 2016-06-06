@@ -25,8 +25,11 @@ public class Question {
     															+ "WHERE id_question=?";
     private static final String SELECT_QUESTION_BY_USER = "SELECT * FROM question "
     															+ "WHERE createby=?";
-    private static final String SELECT_QUESTION_BY_USER"DELETE FROM question WHERE createby=? AND id_question=?"
-    
+    private static final String DELETE_QUESTION_BY_USER_AND_ID_QUESTION = "DELETE FROM question "
+    															+"WHERE createby=? AND id_question=?";
+    private static final String UPDATE_QUESTION_BY_ID_QUESTION = "UPDATE question "
+    															+ "SET question=? "
+    															+ " WHERE id_question=?";
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -195,7 +198,7 @@ public class Question {
         Connection connection = null;
         PreparedStatement statement = null;
         connection = DB.getConnection();
-        statement = connection.prepareStatement( "DELETE FROM question WHERE createby=? AND id_question=?" );
+        statement = connection.prepareStatement( DELETE_QUESTION_BY_USER_AND_ID_QUESTION );
         statement.setInt( 1, createby );
         statement.setInt( 2, id_question );
         statement.executeUpdate();
@@ -208,9 +211,10 @@ public class Question {
     public void updateQuestion( int id_question ) throws SQLException {
 
         Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement( "UPDATE question SET question='" + this.question
-                + "' WHERE id_question=?" );
-        stmt.setInt( 1, id_question );
+        PreparedStatement stmt = connection.prepareStatement(UPDATE_QUESTION_BY_ID_QUESTION);
+        stmt.setString(1, this.question);
+        stmt.setInt( 2, id_question );
+        
         stmt.executeUpdate();
         stmt.close();
 
