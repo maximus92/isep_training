@@ -1,5 +1,6 @@
 package controllers.security;
 
+import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -16,17 +17,23 @@ public class StudentSecurity extends play.mvc.Action.Simple{
 	@Override
 	public CompletionStage<Result> call(Context ctx){
 		Logger.info("Calling action for " + ctx);
-		if(checkStudent(ctx)){
-			return delegate.call(ctx);
-		}else{
-			return CompletableFuture.completedFuture(redirect("/prof"));
-		} 
+		try {
+			if(checkStudent(ctx)){
+				return delegate.call(ctx);
+			}else{
+				return CompletableFuture.completedFuture(redirect("/prof"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null; 
 	}
 	
-	public static boolean checkStudent(Context ctx) {
+	public static boolean checkStudent(Context ctx) throws SQLException {
         String token = ctx.session().get("token");
         User u = User.getUserByToken(token);
-				if(u.getIsprof() == 1){
+				if(u.getIsProf() == 1){
 					return false;
 				}else{
 					return true;

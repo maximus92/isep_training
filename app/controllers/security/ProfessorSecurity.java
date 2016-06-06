@@ -15,13 +15,18 @@ import play.mvc.Result;
 public class ProfessorSecurity extends play.mvc.Action.Simple{
 
 	@Override
-	public CompletionStage<Result> call(Context ctx)  {
+	public CompletionStage<Result> call(Context ctx) {
 		Logger.info("Calling action for " + ctx);
-		if(checkStudent(ctx)){
-			return delegate.call(ctx);
-		}else{
-			return CompletableFuture.completedFuture(redirect("/student"));
-		} 
+		try {
+			if(checkStudent(ctx)){
+				return delegate.call(ctx);
+			}else{
+				return CompletableFuture.completedFuture(redirect("/student"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
 	}
 	
 	public static boolean checkStudent(Context ctx) throws SQLException  {

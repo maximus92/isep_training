@@ -18,19 +18,21 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.With;
 import views.html.home_prof;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import controllers.security.ProfessorSecurity;
 import controllers.security.Secured;
 
 /**
  * This controller contains an action to handle HTTP requests to the
  * application's home page.
  */
-// @With(ProfessorSecurity.class)
+//@With(ProfessorSecurity.class)
 public class ProfessorController extends Controller {
 
     /**
