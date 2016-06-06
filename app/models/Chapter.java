@@ -78,7 +78,10 @@ public class Chapter {
         while ( result.next() ) {
             int id_chapter = result.getInt( "id_chapter" );
             String chapter_name = result.getString( "chapter_name" );
-            Chapter chap = new Chapter( id_chapter, chapter_name, module_id );
+            Chapter chap = new Chapter();
+            chap.setId_chapter( id_chapter );
+            chap.setChapter_name( chapter_name );
+            chap.setId_module( module_id );
             chapters.add( chap );
         }
         statement.close();
@@ -90,8 +93,8 @@ public class Chapter {
         int id = -1;
         Connection connection = DB.getConnection();
         PreparedStatement statement = connection.prepareStatement( INSERT_CHAPTER, Statement.RETURN_GENERATED_KEYS );
-        statement.setString( 1, this.chapter_name );
-        statement.setInt( 2, this.id_module );
+        statement.setString( 1, this.getChapter_name() );
+        statement.setInt( 2, this.getId_module() );
         statement.executeUpdate();
         ResultSet resultat = statement.getGeneratedKeys();
         if ( resultat.next() ) {
