@@ -15,7 +15,7 @@ public class Qcm {
     private int                       level;
     private int                       number_of_questions;
     private int                       createby;
-    private int                       score;
+    private Integer                   score;
     private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
     private static final String       GET_RANDOM_QUESTIONS_ID_BY_PARAM  = "SELECT id_question "
@@ -96,11 +96,11 @@ public class Qcm {
         this.createby = createby;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore( int score ) {
+    public void setScore( Integer score ) {
         this.score = score;
     }
 
@@ -277,6 +277,8 @@ public class Qcm {
         if ( connection != null ) {
             connection.close();
         }
+
+        this.setScore( score );
 
     }
 

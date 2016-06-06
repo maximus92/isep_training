@@ -73,6 +73,7 @@ public class StudentController extends Controller {
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
+
         for ( int i = 0; i < session().size(); i++ ) {
             session().get( "answer" );
         }
@@ -165,10 +166,11 @@ public class StudentController extends Controller {
         List<Question> questions_list = new ArrayList<Question>();
         qcm.setId_qcm( id_qcm );
         qcm.getInfoById( id_qcm );
-        qcm.calculateScore();
+        if ( qcm.getScore() == 0 ) {
+            qcm.calculateScore();
+        }
 
         questions_list = Question.getQuestionsByQcmId( id_qcm );
         return ok( student_qcm_result.render( "", qcm, questions_list ) );
     }
-
 }

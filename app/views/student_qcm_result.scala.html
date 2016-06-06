@@ -17,12 +17,21 @@
                         </tr>
                         
                         @for((question, index) <- questions.zipWithIndex){
-                        	<tr>
-                        	    <th>@(index + 1)</th>
-                        	    <th>@question.getQuestion</th>
-                        	    <th>@question.getPoints</th>
-                        	    <th>Détails</th>
-                        	</tr>
+	                        @if(question.getPoints > 0){
+	                        	<tr class="active">
+	                        	    <td>@(index + 1)</td>
+	                        	    <td>@question.getQuestion</td>
+	                        	    <td>@question.getPoints</td>
+	                        	    <td><span class="glyphicon glyphicon-plus"></span></td>
+	                        	</tr>
+	                        } else {
+	                        	<tr class="danger">
+                        	    <td>@(index + 1)</td>
+                        	    <td>@question.getQuestion</td>
+                        	    <td>@question.getPoints</td>
+                        	    <td><span class="glyphicon glyphicon-plus"></span></td>
+                        		</tr>
+                        	} 	
                         }
                         
                     </table>
