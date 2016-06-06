@@ -18,6 +18,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
 
+import views.html.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controllers.security.Secured;

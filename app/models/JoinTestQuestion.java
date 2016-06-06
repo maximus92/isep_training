@@ -25,6 +25,6 @@ public class JoinTestQuestion {
     	statement.setInt(2,this.id_question);
     	statement.executeUpdate();
     	statement.close();
-    	Test.closeConnection(connection);
+    	Model.closeConnection(connection);
 	}
 }

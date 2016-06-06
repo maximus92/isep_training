@@ -85,7 +85,7 @@ public class Chapter {
             chapters.add( chap );
         }
         statement.close();
-        Test.closeConnection( connection );
+        Model.closeConnection( connection );
         return chapters;
     }
 
@@ -101,7 +101,7 @@ public class Chapter {
             id = resultat.getInt( 1 );
         }
         statement.close();
-        Test.closeConnection( connection );
+        Model.closeConnection( connection );
         return id;
 
     }
@@ -113,7 +113,7 @@ public class Chapter {
         statement.setInt( 2, id_module );
         statement.executeUpdate();
         statement.close();
-        Test.closeConnection( connection );
+        Model.closeConnection( connection );
     }
 
 }
