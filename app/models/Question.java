@@ -6,30 +6,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import play.db.DB;
 
 public class Question {
-    private static final String GET_QUESTION_BY_ID_TEST = "SELECT * FROM question q "
-                                                                + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
-                                                                + "WHERE jtq.id_test=? AND q.createby=?";
+    private static final String GET_QUESTION_BY_ID_TEST                 = "SELECT * FROM question q "
+                                                                                + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
+                                                                                + "WHERE jtq.id_test=? AND q.createby=?";
 
-    private static final String GET_QCM_QUESTION_NUM    = "SELECT q.question, q.id_question "
-                                                                + "FROM question q "
-                                                                + "INNER JOIN join_qcm_question j "
-                                                                + "ON j.id_question = q.id_question "
-                                                                + "WHERE j.id_qcm = ? ";
-    private static final String INSERT_QUESTION = "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
-            													+ "VALUES (?,?,?,?,?,?,?)";
-    private static final String SELECT_QUESTION_BY_ID_QUESTION = "SELECT * FROM question "
-    															+ "WHERE id_question=?";
-    private static final String SELECT_QUESTION_BY_USER = "SELECT * FROM question "
-    															+ "WHERE createby=?";
+    private static final String GET_QCM_QUESTION_NUM                    = "SELECT q.question, q.id_question "
+                                                                                + "FROM question q "
+                                                                                + "INNER JOIN join_qcm_question j "
+                                                                                + "ON j.id_question = q.id_question "
+                                                                                + "WHERE j.id_qcm = ? ";
+    private static final String INSERT_QUESTION                         = "INSERT INTO question(question,correction,level,id_chapter,forexam,file, createby) "
+                                                                                + "VALUES (?,?,?,?,?,?,?)";
+    private static final String SELECT_QUESTION_BY_ID_QUESTION          = "SELECT * FROM question "
+                                                                                + "WHERE id_question=?";
+    private static final String SELECT_QUESTION_BY_USER                 = "SELECT * FROM question "
+                                                                                + "WHERE createby=?";
     private static final String DELETE_QUESTION_BY_USER_AND_ID_QUESTION = "DELETE FROM question "
-    															+"WHERE createby=? AND id_question=?";
-    private static final String UPDATE_QUESTION_BY_ID_QUESTION = "UPDATE question "
-    															+ "SET question=? "
-    															+ " WHERE id_question=?";
+                                                                                + "WHERE createby=? AND id_question=?";
+    private static final String UPDATE_QUESTION_BY_ID_QUESTION          = "UPDATE question "
+                                                                                + "SET question=? "
+                                                                                + " WHERE id_question=?";
+
+    private static final String GET_QUESTIONS_BY_QCM_ID                 = "SELECT q.id_question, q.question, j.points FROM question q "
+                                                                                + "INNER JOIN join_qcm_question j "
+                                                                                + "ON q.id_question = j.id_question "
+                                                                                + "WHERE j.id_qcm = ?";
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -38,6 +44,7 @@ public class Question {
     private String              forexam;
     private String              file;
     private int                 createby;
+    private int                 points;
 
     public int getId_question() {
         return id_question;
@@ -103,20 +110,28 @@ public class Question {
         this.createby = createby;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints( int points ) {
+        this.points = points;
+    }
+
     public int insertQuestion() throws SQLException {
         int id_question = 0;
 
         Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(INSERT_QUESTION, Statement.RETURN_GENERATED_KEYS );
-            
-        stmt.setString(1, this.question);
-        stmt.setString(2, this.correction);
-        stmt.setString(3, this.level);
-        stmt.setString(4, this.id_chapter);
-        stmt.setString(5, this.forexam);
-        stmt.setString(6, this.file);
-        stmt.setInt(7, this.createby);
-     stmt.executeUpdate();
+        PreparedStatement stmt = connection.prepareStatement( INSERT_QUESTION, Statement.RETURN_GENERATED_KEYS );
+
+        stmt.setString( 1, this.question );
+        stmt.setString( 2, this.correction );
+        stmt.setString( 3, this.level );
+        stmt.setString( 4, this.id_chapter );
+        stmt.setString( 5, this.forexam );
+        stmt.setString( 6, this.file );
+        stmt.setInt( 7, this.createby );
+        stmt.executeUpdate();
         ResultSet resultat = stmt.getGeneratedKeys();
         if ( resultat.next() ) {
             id_question = resultat.getInt( 1 );
@@ -211,10 +226,10 @@ public class Question {
     public void updateQuestion( int id_question ) throws SQLException {
 
         Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(UPDATE_QUESTION_BY_ID_QUESTION);
-        stmt.setString(1, this.question);
+        PreparedStatement stmt = connection.prepareStatement( UPDATE_QUESTION_BY_ID_QUESTION );
+        stmt.setString( 1, this.question );
         stmt.setInt( 2, id_question );
-        
+
         stmt.executeUpdate();
         stmt.close();
 
@@ -272,5 +287,28 @@ public class Question {
         if ( connection != null ) {
             connection.close();
         }
+    }
+
+    public static List<Question> getQuestionsByQcmId( int id_qcm ) throws SQLException {
+        List<Question> questions_list = new ArrayList<Question>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_QUESTIONS_BY_QCM_ID );
+        statement.setInt( 1, id_qcm );
+        result = statement.executeQuery();
+
+        while ( result.next() ) {
+            Question question = new Question();
+            question.setId_question( result.getInt( "q.id_question" ) );
+            question.setQuestion( result.getString( "q.question" ) );
+            question.setPoints( result.getInt( "points" ) );
+
+            questions_list.add( question );
+        }
+
+        return questions_list;
     }
 }

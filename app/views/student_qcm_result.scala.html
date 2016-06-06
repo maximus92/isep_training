@@ -1,4 +1,4 @@
-@(message: String, qcm_info: Qcm)
+@(message: String, qcm_info: Qcm, questions: List[Question])
 
 @main("Qcm résultat"){
     <div class="container">
@@ -15,6 +15,15 @@
                             <th>Résultat</th>
                             <th>Détails</th>
                         </tr>
+                        
+                        @for((question, index) <- questions.zipWithIndex){
+                        	<tr>
+                        	    <th>@(index + 1)</th>
+                        	    <th>@question.getQuestion</th>
+                        	    <th>@question.getPoints</th>
+                        	    <th>Détails</th>
+                        	</tr>
+                        }
                         
                     </table>
                 </div>

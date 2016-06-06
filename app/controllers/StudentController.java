@@ -17,7 +17,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
-
 import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -161,11 +160,15 @@ public class StudentController extends Controller {
     }
 
     public Result qcmResultat( int id_qcm ) throws SQLException {
+
         Qcm qcm = new Qcm();
+        List<Question> questions_list = new ArrayList<Question>();
         qcm.setId_qcm( id_qcm );
         qcm.getInfoById( id_qcm );
         qcm.calculateScore();
-        return ok( student_qcm_result.render( "", qcm ) );
+
+        questions_list = Question.getQuestionsByQcmId( id_qcm );
+        return ok( student_qcm_result.render( "", qcm, questions_list ) );
     }
 
 }

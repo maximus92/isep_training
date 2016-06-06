@@ -52,6 +52,9 @@ public class Qcm {
     private static final String       UPDATE_QCM_SCORE                  = "UPDATE qcm "
                                                                                 + "SET score = ? "
                                                                                 + "WHERE id_qcm = ?";
+    private static final String       STUDENT_ANSWER_IS_TRUE            = "UPDATE join_qcm_question "
+                                                                                + "SET points = 1 "
+                                                                                + "WHERE id_qcm = ? AND id_question = ?";
 
     public int getId_qcm() {
         return id_qcm;
@@ -227,6 +230,7 @@ public class Qcm {
 
     public void calculateScore() throws SQLException {
         int score = 0;
+        int id_qcm = this.getId_qcm();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result1 = null;
@@ -234,15 +238,16 @@ public class Qcm {
 
         connection = DB.getConnection();
         statement = connection.prepareStatement( GET_QCM_ID_QUESTIONS );
-        statement.setInt( 1, this.getId_qcm() );
+        statement.setInt( 1, id_qcm );
         result1 = statement.executeQuery();
 
         while ( result1.next() ) {
             int run_score = 0;
             int counter_answers = 0;
+            int id_question = result1.getInt( "id_question" );
             statement = connection.prepareStatement( GET_USER_ANSWERS_AND_GOOD_ANSWERS );
-            statement.setInt( 1, result1.getInt( "id_question" ) );
-            statement.setInt( 2, this.getId_qcm() );
+            statement.setInt( 1, id_question );
+            statement.setInt( 2, id_qcm );
             result2 = statement.executeQuery();
 
             while ( result2.next() ) {
@@ -253,14 +258,25 @@ public class Qcm {
             }
 
             if ( run_score == counter_answers ) {
+
+                statement = connection.prepareStatement( STUDENT_ANSWER_IS_TRUE );
+                statement.setInt( 1, id_qcm );
+                statement.setInt( 2, id_question );
+                statement.executeUpdate();
                 score++;
             }
         }
 
         statement = connection.prepareStatement( UPDATE_QCM_SCORE );
         statement.setInt( 1, score );
-        statement.setInt( 2, this.getId_qcm() );
+        statement.setInt( 2, id_qcm );
         statement.executeUpdate();
+
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
 
     }
 
