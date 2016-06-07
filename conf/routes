@@ -33,7 +33,7 @@ POST    /addq                       controllers.ProfessorController.addQ
 
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 
-POST    /update-question            controllers.ProfessorController.updateQuestion
+POST    /update-question            controllers.ProfessorController.updateQuestionWithAnswer
 
 POST    /select-test-answer       controllers.ProfessorController.selectAnswerWithQuestionByIdTest
 POST    /delete-test              controllers.ProfessorController.deleteTest

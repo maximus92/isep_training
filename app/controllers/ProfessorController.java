@@ -241,7 +241,7 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
 
-    public Result updateQuestion() throws SQLException {
+    public Result updateQuestionWithAnswer() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
         //Logger.debug( form.get( "question" ));
@@ -251,7 +251,7 @@ public class ProfessorController extends Controller {
         String id_chapter = form.get( "id_chapter" );
         String forexam = form.get( "forexam" );
         String file = form.get( "file" );
-
+        
         Question q = new Question();
         q.setQuestion(question);
         q.setCorrection(correction);
@@ -260,17 +260,33 @@ public class ProfessorController extends Controller {
         q.setForexam(forexam);
         q.setFile(file);
         q.updateQuestion( id_question );
+        
+        int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ));
+        
+        for ( int i = 0; i <= reponse_counter_modify; i++ ) {
+            int id_answer = Integer.parseInt( form.get( "id_answer"+ i +"" ) );
+            String answer = form.get( "reponse" + id_answer + i+"" );
+            Logger.debug( answer );
+
+            if ( answer != null && answer != "" ) {
+                String istrue = null;
+                if ( form.get( "goodA" + id_answer + i +"" ) == null ) {
+                    istrue = "0";
+                } else {
+                    istrue = "1";
+                }
+                Answer a = new Answer();
+                a.setAnswer(answer);
+                a.setIstrue(istrue);
+            	a.updateAnswer(id_answer);
+        }
+        }
+        
         return redirect( "/prof" );
 
     }
     
-    public Result updateAnswer() throws SQLException {
-        DynamicForm form = Form.form().bindFromRequest();
-        int id_answer = Integer.parseInt( form.get( "id_answer" ) );
-        //Logger.debug( form.get( "question" ));
-        return redirect( "/prof" );
-
-    }
+   
     public Result selectAnswerWithQuestionByIdTest() throws SQLException{
     	DynamicForm form = Form.form().bindFromRequest();
         int id_test = Integer.parseInt(form.get("id_test"));

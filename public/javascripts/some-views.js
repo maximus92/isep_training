@@ -221,7 +221,7 @@
                 var checkA = "checked";
               }
              var isTrue =  '<div class="col-xs-1">'+
-                             '<label> <input type="checkbox" value="'+data[0][i].istrue+'" name="goodA'+data[0][i].id_answer+'" '+checkA+'>'+
+                             '<label> <input type="checkbox" value="'+data[0][i].istrue+'" name="goodA'+data[0][i].id_answer+ i+'" '+checkA+'>'+
                              '</label>'+
                            '</div>';
            
@@ -231,8 +231,8 @@
                                '<label for="reponse">Réponse</label>'+
                                '<div class="row">'+
                                  '<div class="col-xs-10">'+
-                                 '<input type="hidden" id="id_answer" value="'+data[0][i].id_answer+'">'+
-                                   '<input type="text" class="form-control answer-label" id="reponse'+data[0][i].id_answer+'"'+
+                                 '<input type="hidden" id="id_answer'+i+'" value="'+data[0][i].id_answer+'">'+
+                                   '<input type="text" class="form-control answer-label" id="reponse'+data[0][i].id_answer+ i +'"'+
                                      'value="'+data[0][i].answer+'">'+
                                  '</div>'+isTrue+
                                  '<div class="col-xs-1">'+
