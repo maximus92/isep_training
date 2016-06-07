@@ -231,8 +231,8 @@
                                '<label for="reponse">Réponse</label>'+
                                '<div class="row">'+
                                  '<div class="col-xs-10">'+
-                                 '<input type="hidden" id="id_answer'+i+'" value="'+data[0][i].id_answer+'">'+
-                                   '<input type="text" class="form-control answer-label" id="reponse'+data[0][i].id_answer+ i +'"'+
+                                 '<input type="hidden" id="id_answer'+i+'" name="id_answer'+i+'" value="'+data[0][i].id_answer+'">'+
+                                   '<input type="text" class="form-control answer-label" name="reponse'+i+'" id="reponse'+ i +'" '+
                                      'value="'+data[0][i].answer+'">'+
                                  '</div>'+isTrue+
                                  '<div class="col-xs-1">'+

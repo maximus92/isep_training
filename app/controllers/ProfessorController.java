@@ -263,9 +263,10 @@ public class ProfessorController extends Controller {
         
         int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ));
         
-        for ( int i = 0; i <= reponse_counter_modify; i++ ) {
-            int id_answer = Integer.parseInt( form.get( "id_answer"+ i +"" ) );
-            String answer = form.get( "reponse" + id_answer + i+"" );
+        for ( int i = 0; i < reponse_counter_modify; i++ ) {
+            Logger.debug(form.get("id_answer" + i));
+            int id_answer = Integer.parseInt( form.get( "id_answer"+ i) );
+            String answer = form.get( "reponse" + i+"" );
             Logger.debug( answer );
 
             if ( answer != null && answer != "" ) {
