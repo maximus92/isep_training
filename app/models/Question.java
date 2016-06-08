@@ -119,6 +119,7 @@ public class Question {
     }
 
     public int insertQuestion() throws SQLException {
+    	
         int id_question = 0;
 
         Connection connection = DB.getConnection();

@@ -175,7 +175,7 @@
       if(data[1][0].file == null ){
     	  picture;
        }else{
-           picture = '<img src="/'+data[1][0].file+'" width="50" height="50">';
+           picture = '<img src="'+data[1][0].file+'" width="50" height="50">';
        }
       
                     	 

@@ -89,10 +89,11 @@
 						class="form-control" id="question" name="question">
 
 					<div class="pull-right">
-						   <input type="file" id="hiddenfile" name="file" style="display: none" /> <input
-							type="text" id="selectedfile" style="display: none"/>
+						<input type="file" id="hiddenfile" name="file"
+							style="display: none" /> <input type="text" id="selectedfile"
+							style="display: none" />
 						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter
-							support</button> 
+							support</button>
 
 						<button type="button" class="btn btn-success btn-sm">&</button>
 					</div>
@@ -133,9 +134,7 @@
 				</br>
 				<button type="button" class="btn btn-primary pull-left"
 					id="addAnswer">Ajouter une réponse</button>
-				</br>
-				</br>
-				</br> <label for="correction">Correction détaillée</label>
+				</br> </br> </br> <label for="correction">Correction détaillée</label>
 				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 				</br>
 				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
@@ -486,6 +485,35 @@
 		<!-- BASE DE DONN�ES -->
 
 		<div id="bdd" class="tab-pane fade">
+			<div class="row">
+				<div class="col-sm-4">
+					<label for="entrainement_or_exam">Question pour:</label> <SELECT
+						name="entrainement_or_exam" size="1">
+						<OPTION>Entrainement des �l�ves</OPTION>
+						<OPTION>Examen</OPTION>
+						<OPTION>Test de cours</OPTION>
+					</SELECT>
+				</div>
+
+				<div class="col-sm-4">
+					<label for="choose_level">Niveau:</label> <SELECT
+						name="choose_level" size="1">
+						<OPTION>Facile</OPTION>
+						<OPTION>Moyen</OPTION>
+						<OPTION>Difficile</OPTION>
+					</SELECT>
+				</div>
+			</div>
+
+			<div class="row list-question-display">
+				<div class="col-sm-4">Question</div>
+				<div class="col-sm-2">Entrainement/Examen</div>
+				<div class="col-sm-2">Niveau</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-2"></div>
+
+
+			</div>
 			<div class="row question-select"></div>
 
 
