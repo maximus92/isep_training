@@ -21,22 +21,24 @@ public class Answer {
                                                                    + "WHERE id_qcm = ? AND id_answer = ?";
     private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer, isselected) "
                                                                    + "VALUES (?, ?, ?)";
-    private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected "
+    private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected, a.answer "
                                                                    + "FROM student_qcm_answer s "
                                                                    + "INNER JOIN answer a "
                                                                    + "ON a.id_answer = s.id_answer "
                                                                    + "WHERE id_qcm = ? and id_question = ?";
 
     private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
-   
+
     private static final String UPDATE_ANSWER_BY_ID_ANSWER = "UPDATE answer "
-			+ "SET answer=?, istrue=? "
-			+ " WHERE id_answer=?";
-    
-    
+                                                                   + "SET answer=?, istrue=? "
+                                                                   + " WHERE id_answer=?";
+    private static final String GET_ANSWER_PARAM           = "SELECT * "
+                                                                   + "FROM answer "
+                                                                   + "WHERE id_answer = ?";
+
     private String              answer;
     private int                 id_question;
-    private String              istrue;
+    private boolean             istrue;
     private int                 id_answer;
     private boolean             is_select;
 
@@ -56,11 +58,11 @@ public class Answer {
         this.id_question = id_question;
     }
 
-    public String getIstrue() {
+    public boolean getIstrue() {
         return istrue;
     }
 
-    public void setIstrue( String istrue ) {
+    public void setIstrue( boolean istrue ) {
         this.istrue = istrue;
     }
 
@@ -87,7 +89,7 @@ public class Answer {
         stmt = connection.prepareStatement( INSERT_ANSWER );
         stmt.setString( 1, this.answer );
         stmt.setInt( 2, this.id_question );
-        stmt.setString( 3, this.istrue );
+        stmt.setBoolean( 3, this.istrue );
         stmt.executeUpdate();
         stmt.close();
         if ( connection != null ) {
@@ -110,7 +112,7 @@ public class Answer {
             Answer answer = new Answer();
             answer.setAnswer( result.getString( "answer" ) );
             answer.setId_answer( result.getInt( "id_answer" ) );
-            answer.setIstrue( result.getString( "istrue" ) );
+            answer.setIstrue( result.getBoolean( "istrue" ) );
             answers_list.add( answer );
         }
 
@@ -153,8 +155,6 @@ public class Answer {
         }
     }
 
-    
-
     public static List<Answer> getSelectedAnswers( int id_qcm, int id_question ) throws SQLException {
 
         List<Answer> questionsSelected = new ArrayList<Answer>();
@@ -167,6 +167,7 @@ public class Answer {
         while ( result.next() ) {
             Answer answer = new Answer();
             answer.setId_answer( result.getInt( "s.id_answer" ) );
+            answer.setAnswer( result.getString( "a.answer" ) );
             answer.setIs_select( result.getBoolean( "s.isselected" ) );
             questionsSelected.add( answer );
         }
@@ -178,18 +179,39 @@ public class Answer {
         return questionsSelected;
 
     }
-    
+
     public void updateAnswer( int id_answer ) throws SQLException {
         Connection connection = DB.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(UPDATE_ANSWER_BY_ID_ANSWER);
-        stmt.setString(1, this.answer);
-        stmt.setString(2, this.istrue);
-        
+        PreparedStatement stmt = connection.prepareStatement( UPDATE_ANSWER_BY_ID_ANSWER );
+        stmt.setString( 1, this.answer );
+        stmt.setBoolean( 2, this.istrue );
+
         stmt.setInt( 3, id_answer );
-    
+
         stmt.executeUpdate();
         stmt.close();
 
+        if ( connection != null ) {
+            connection.close();
+        }
+    }
+
+    public void getAnswerParam() throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_ANSWER_PARAM );
+        statement.setInt( 1, this.getId_answer() );
+
+        result = statement.executeQuery();
+
+        while ( result.next() ) {
+            this.setIstrue( result.getBoolean( "istrue" ) );
+        }
+
+        statement.close();
         if ( connection != null ) {
             connection.close();
         }

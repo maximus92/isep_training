@@ -40,17 +40,19 @@ POST    /delete-test              controllers.ProfessorController.deleteTest
 
 ##### STUDENT ROUTES #####
 
-GET     /student                    	controllers.StudentController.index
-GET		/student/qcmSettings			controllers.StudentController.studentQcmSettings
-POST	/student/trainingQcmSettings	controllers.StudentController.studentPostTrainingQcmSettings
+GET     /student                    		controllers.StudentController.index
+GET		/student/qcmSettings				controllers.StudentController.studentQcmSettings
+POST	/student/trainingQcmSettings		controllers.StudentController.studentPostTrainingQcmSettings
 
-GET 	/student/trainingQcm			controllers.StudentController.studentTrainingQcm(question_num: Integer)
+GET 	/student/trainingQcm				controllers.StudentController.studentTrainingQcm(question_num: Integer)
 
-POST 	/student/updateQcm				controllers.StudentController.updateQcm
+POST 	/student/updateQcm					controllers.StudentController.updateQcm
 
-POST	/student/checkbox				controllers.StudentController.answersSelected
+POST	/student/checkbox					controllers.StudentController.answersSelected
 
-GET		/student/resultat				controllers.StudentController.qcmResultat(id_qcm: Integer)
+GET		/student/resultat					controllers.StudentController.qcmResultat(id_qcm: Integer)
+
+POST 	/student/getCorrectionForQuestion 	controllers.StudentController.getCorrectionForQuestion
 
 
 # Map static resources from the /public folder to the /assets URL path

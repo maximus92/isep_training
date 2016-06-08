@@ -3,43 +3,72 @@
 @main("Qcm résultat"){
     <div class="container">
         <div class="row">
-            <div class="result-container">
-               
-                <h2>Résultats</h2>
-                
-                <div class="result-table">
-                    <table class="table">
-                        <tr>
-                            <th>#</th>
-                            <th>Question</th>
-                            <th>Résultat</th>
-                            <th>Détails</th>
-                        </tr>
-                        
-                        @for((question, index) <- questions.zipWithIndex){
-	                        @if(question.getPoints > 0){
-	                        	<tr class="active">
-	                        	    <td>@(index + 1)</td>
-	                        	    <td>@question.getQuestion</td>
-	                        	    <td>@question.getPoints</td>
-	                        	    <td><span class="glyphicon glyphicon-plus"></span></td>
-	                        	</tr>
-	                        } else {
-	                        	<tr class="danger">
-                        	    <td>@(index + 1)</td>
-                        	    <td>@question.getQuestion</td>
-                        	    <td>@question.getPoints</td>
-                        	    <td><span class="glyphicon glyphicon-plus"></span></td>
-                        		</tr>
-                        	} 	
-                        }
-                        
-                    </table>
-                </div>
-                
-                <h2 class="score">Score : @qcm_info.getScore / @qcm_info.getNumber_of_questions</h2>
-                
-            </div>
+	        <div class="correction-container" data-qcm="qcm@qcm_info.getId_qcm">
+		        <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		            <div class="modal-dialog" role="document">
+		                <div class="modal-content">
+		                    <div class="modal-header">
+		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                        <h4 class="modal-question" id="myModalLabel"></h4>
+		                	</div>
+			                <div class="modal-body">
+			                	<div class="modal-answers"></div>
+			                   
+								<h4>Correction : </h4>
+			                   	<div class="modal-correction"></div>
+			                </div>
+			                <div class="modal-footer">
+			                   <h4><span class="modal-question-number"></span> / @qcm_info.getNumber_of_questions</h4>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+	            <div class="result-container">
+	               
+	                <h2>Résultats</h2>
+	                
+	                <div class="result-table">
+	                    <table class="table">
+	                        <tr>
+	                            <th>#</th>
+	                            <th>Question</th>
+	                            <th>Résultat</th>
+	                            <th>Détails</th>
+	                        </tr>
+	                        
+	                        @for((question, index) <- questions.zipWithIndex){
+		                        @if(question.getPoints > 0){
+		                        	<tr class="active">
+		                        	    <td>@(index + 1)</td>
+		                        	    <td>@question.getQuestion</td>
+		                        	    <td>@question.getPoints</td>
+		                        	    <td>
+			                        	    <a class="question-correction-details" data-toggle="modal" data-target="#details-modal" data-number="@(index+1)" id="question@question.getId_question">
+			                        	    	<span class="glyphicon glyphicon-plus"></span>
+			                        	    </a>
+		                        	    </td>
+		                        	</tr>
+		                        } else {
+		                        	<tr class="danger">
+		                        	    <td>@(index + 1)</td>
+		                        	    <td>@question.getQuestion</td>
+		                        	    <td>@question.getPoints</td>
+		                        	    <td>
+		                        	    	<a class="question-correction-details" data-toggle="modal" data-target="#details-modal" data-number="@(index+1)" id="question@question.getId_question">
+		                        	    		<span class="glyphicon glyphicon-plus"></span>
+		                       	    		</a>
+		                   	    		</td>
+	                        		</tr>
+	                        	} 	
+	                        }
+	                        
+	                    </table>
+	                </div>
+	                
+	                <h2 class="score">Score : @qcm_info.getScore / @qcm_info.getNumber_of_questions</h2>
+	                
+	            </div>
+        	</div>
         </div>
     </div>
 }

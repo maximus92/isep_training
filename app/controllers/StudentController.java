@@ -20,6 +20,7 @@ import play.mvc.With;
 import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import controllers.security.Secured;
 import controllers.security.StudentSecurity;
@@ -172,5 +173,29 @@ public class StudentController extends Controller {
 
         questions_list = Question.getQuestionsByQcmId( id_qcm );
         return ok( student_qcm_result.render( "", qcm, questions_list ) );
+    }
+
+    public Result getCorrectionForQuestion() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
+        int id_question = Integer.parseInt( form.get( "id_question" ) );
+        List<Answer> answers_list = new ArrayList<Answer>();
+        Question question = new Question();
+
+        question.getQuestionById( id_question );
+        answers_list = Answer.getSelectedAnswers( id_qcm, id_question );
+
+        for ( int i = 0; i < answers_list.size(); i++ ) {
+            answers_list.get( i ).getAnswerParam();
+        }
+
+        JsonNode json1 = Json.toJson( question );
+        JsonNode json2 = Json.toJson( answers_list );
+        ArrayNode json_array = Json.newArray();
+
+        json_array.add( json1 );
+        json_array.add( json2 );
+
+        return ok( json_array );
     }
 }

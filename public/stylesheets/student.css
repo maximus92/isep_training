@@ -11,3 +11,11 @@
 	padding-right: 40px;
 	box-shadow: 1px 1px 12px #555;
 }
+
+.good-answer{
+	color: green;
+}
+
+.bad-answer{
+	color: red;
+}

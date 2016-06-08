@@ -138,10 +138,6 @@ $(document).ready(
 			
 			var update_qcm_json;
 			
-			if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
-				$("#next-question").text("valider");
-			}
-			
 			if(getUrlParameter('question_num') <= 1){
 				$("#last-question").hide();
 			} else {
@@ -150,6 +146,10 @@ $(document).ready(
 			
 			$(".qcm_question_nav").click(function(){
 				
+				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
+					$("#next-question").text("valider");
+				}
+			
 				var question_num;
 				var update_qcm_json = $('form').serialize();
 				var time = $("#qcm-time").countdown('getTimes');
@@ -185,25 +185,73 @@ $(document).ready(
 			
 			// Auto check des questions
 			
-			
-			id_question = $('.student-qcm-question').attr('id').substring(8);
-			id_qcm = $('.qcm-container').attr('id').substring(4);
-			$.ajax({
-				type: 'POST',
-				url: '/student/checkbox',
-				data: {id_qcm : id_qcm, id_question : id_question},
-				dataType: 'json',
-				
-				success: function(data){
-					if(data != null){
-						for (i in data){
-							if (data[i].select){
-								$("#answer"+data[i].id_answer).prop("checked", true);
-							} else {
-								$("#answer"+data[i].id_answer).prop("checked", false);
+			if($(".qcm-container").length){
+				$.ajax({
+					type: 'POST',
+					url: '/student/checkbox',
+					data: {id_qcm : $('.qcm-container').attr('id').substring(4), id_question : $('.student-qcm-question').attr('id').substring(8)},
+					dataType: 'json',
+					
+					success: function(data){
+						if(data != null){
+							for (i in data){
+								if (data[i].select){
+									$("#answer"+data[i].id_answer).prop("checked", true);
+								} else {
+									$("#answer"+data[i].id_answer).prop("checked", false);
+								}
 							}
 						}
 					}
-				}
+				});
+			}
+			
+
+			/**********************Script pour la correction d'un qcm*************************/
+
+			
+			// affichage correction détaillée
+			
+			$(".question-correction-details").click(function(){
+				var id_question = $(this).attr('id').substring(8);	
+				var id_qcm = getUrlParameter('id_qcm');
+				var question_number = $(this).data("number");
+				$.ajax({
+					type: 'POST',
+					url: '/student/getCorrectionForQuestion',
+					data: {id_qcm: id_qcm, id_question: id_question},
+					dataType: 'json', 
+					
+					success: function(data){
+						$('.modal-question').html(data[0].question);
+						$('.modal-correction').html(data[0].correction);
+						$('.modal-answer').remove()
+						for(i in data[1]){
+							var checked = "";
+							var isgoodanswer = "";
+							if(data[1][i].select){
+								checked = "checked";
+							} 
+							
+							if(data[1][i].istrue){
+								isgoodanswer = "good-answer";
+							} else {
+								isgoodanswer = "bad-answer";
+							}
+							
+							$('.modal-answers').append(
+									'<div class="form-group modal-answer">'+
+						               ' <label class="col-md-12">'+
+					                    '<input type="checkbox" class="answer" id="answer' + data[1][i].id_answer + '" ' + checked + '  readonly >'+
+					                    '<span class="col-md-offset-1 '+isgoodanswer+'" id="answer-' + data[1][i].id_answer + '">'+ data[1][i].answer + '</span>'+
+						                '</label>' +
+						            '</div>'
+			                );
+							$('.modal-question-number').html(question_number);
+							
+						}
+					}
+				})
 			});
+			
 		});

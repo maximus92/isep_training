@@ -29,7 +29,7 @@ public class Question {
     private static final String DELETE_QUESTION_BY_USER_AND_ID_QUESTION = "DELETE FROM question "
                                                                                 + "WHERE createby=? AND id_question=?";
 
-    private static final String GET_QUESTIONS_BY_QCM_ID                 = "SELECT q.id_question, q.question, j.points FROM question q "
+    private static final String GET_QUESTIONS_BY_QCM_ID                 = "SELECT q.id_question, q.question, q.correction, j.points FROM question q "
                                                                                 + "INNER JOIN join_qcm_question j "
                                                                                 + "ON q.id_question = j.id_question "
                                                                                 + "WHERE j.id_qcm = ?";
@@ -310,11 +310,29 @@ public class Question {
             Question question = new Question();
             question.setId_question( result.getInt( "q.id_question" ) );
             question.setQuestion( result.getString( "q.question" ) );
-            question.setPoints( result.getInt( "points" ) );
+            question.setCorrection( "q.correction" );
+            question.setPoints( result.getInt( "j.points" ) );
 
             questions_list.add( question );
         }
 
         return questions_list;
+    }
+
+    public void getQuestionById( int id_question ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QUESTION_BY_ID_QUESTION );
+        statement.setInt( 1, id_question );
+        result = statement.executeQuery();
+
+        if ( result.next() ) {
+            this.setId_question( result.getInt( "id_question" ) );
+            this.setCorrection( result.getString( "correction" ) );
+            this.setQuestion( result.getString( "question" ) );
+        }
     }
 }
