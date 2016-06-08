@@ -65,6 +65,7 @@ public class ProfessorController extends Controller {
         q.setId_chapter(id_chapter);
         q.setForexam(forexam);
         q.setCreateby(createby);
+        q.setFile(file);
         int id_question = q.insertQuestion();
 
         for ( int i = 0; i <= reponse_counter; i++ ) {
@@ -267,22 +268,39 @@ public class ProfessorController extends Controller {
             Logger.debug(form.get("id_answer" + i));
             int id_answer = Integer.parseInt( form.get( "id_answer"+ i) );
             String answer = form.get( "reponse" + i+"" );
-            Logger.debug( answer );
-
-            if ( answer != null && answer != "" ) {
-                String istrue = null;
-                if ( form.get( "goodA" + id_answer + i +"" ) == null ) {
-                    istrue = "0";
-                } else {
-                    istrue = "1";
+            
+            if(id_answer !=0 ){
+            	
+                if ( answer != null && answer != "" ) {
+                    String istrue = null;
+                    if ( form.get( "goodA" + id_answer + i +"" ) == null ) {
+                        istrue = "0";
+                    } else {
+                        istrue = "1";
+                    }
+                    Answer a = new Answer();
+                    a.setAnswer(answer);
+                    a.setIstrue(istrue);
+                	a.updateAnswer(id_answer);
+            }
+            }
+ 
+            else{
+                if ( answer != null && answer != "" ) {
+                    String istrue = null;
+                    if ( form.get( "goodA"+ i +"" ) == null ) {
+                        istrue = "0";
+                    } else {
+                        istrue = "1";
+                    }
+            	 Answer a = new Answer();
+                 a.setAnswer( answer );
+                 a.setId_question( id_question );
+                 a.setIstrue(istrue);
+                 a.insertAnswer();    
                 }
-                Answer a = new Answer();
-                a.setAnswer(answer);
-                a.setIstrue(istrue);
-            	a.updateAnswer(id_answer);
         }
         }
-        
         return redirect( "/prof" );
 
     }

@@ -4,7 +4,8 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#home" data-toggle="tab">Ajouter
 					une question</a></li>
-			<li><a href="#test" id="test-li" data-toggle="tab">Test de cours</a></li>
+			<li><a href="#test" id="test-li" data-toggle="tab">Test de
+					cours</a></li>
 			<li><a href="#examen" aria-controls="messages" role="tab"
 				data-toggle="tab">Examens</a></li>
 			<li><a href="#bdd" id="bdd-li" aria-controls="settings"
@@ -17,7 +18,7 @@
 
 	<!--  Page ajouter question -->
 	<div class="tab-content">
-		
+
 		<!-- AJOUT / IMPORTER -->
 		<div id="home" class="tab-pane fade in active">
 			<div class="col-sm-4 col-xs-8">
@@ -32,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- AJOUTER QUESTION -->
 		<div id="addManually" class="tab-pane fade">
 			<form method="post" action="@routes.ProfessorController.addQ()">
@@ -84,36 +85,41 @@
 
 
 				<div class="form-group">
-					<label for="question">Question</label> 
-					<input type="text" class="form-control" id="question" name="question">
+					<label for="question">Question</label> <input type="text"
+						class="form-control" id="question" name="question">
 
 					<div class="pull-right">
-						<input type='file' id="imgInp" style="display: none" name="file" />
-						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter support</button>
+						   <input type="file" id="hiddenfile" name="file" style="display: none" /> <input
+							type="text" id="selectedfile" style="display: none"/>
+						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter
+							support</button> 
+
 						<button type="button" class="btn btn-success btn-sm">&</button>
 					</div>
 				</div>
 				</br> </br>
-				
+
 				<div class="row">
 					<div class="col-xs-3 pull-right">
-						<label> Cocher les bonnes </br>réponses </label>
+						<label> Cocher les bonnes </br>réponses
+						</label>
 					</div>
 				</div>
 				</br>
-				
+
 				<div id="addQuestion">
-					<input type="hidden" value="1" name="reponse_counter" id="reponse_counter" />
-						
+					<input type="hidden" value="1" name="reponse_counter"
+						id="reponse_counter" />
+
 					<div id="remove0">
 						<label for="reponse">Réponse</label>
 						<div class="row">
 							<div class="col-xs-10">
-								<input type="text" class="form-control" id="reponse0" name="reponse0">
+								<input type="text" class="form-control" id="reponse0"
+									name="reponse0">
 							</div>
 							<div class="col-xs-1">
-								<label> 
-									<input type="checkbox" value="1" name="goodA0">
+								<label> <input type="checkbox" value="1" name="goodA0">
 								</label>
 							</div>
 							<div class="col-xs-1">
@@ -125,9 +131,11 @@
 
 
 				</br>
-				<button type="button" class="btn btn-primary pull-left" id="addAnswer">Ajouter une réponse</button>
-				</br></br></br> 
-				<label for="correction">Correction détaillée</label>
+				<button type="button" class="btn btn-primary pull-left"
+					id="addAnswer">Ajouter une réponse</button>
+				</br>
+				</br>
+				</br> <label for="correction">Correction détaillée</label>
 				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
 				</br>
 				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
@@ -192,25 +200,25 @@
 
 
 
-	<!--  TEST DE COURS -->
+		<!--  TEST DE COURS -->
 
 		<div id="test" class="tab-pane container-fluid fade">
-		
+
 			<div id="test-info" class="padding-10 test-info">
 				<div class="row nothing-in-test">
-					<div class="col-sm-12 center">
-						Aucun test de cours créé pour le moment...
-					</div>
+					<div class="col-sm-12 center">Aucun test de cours créé pour
+						le moment...</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 center test-info margin-top-20">
-					<button id="create-test" class="btn btn-primary">Créer un test de cours</button>
+					<button id="create-test" class="btn btn-primary">Créer un
+						test de cours</button>
 				</div>
 			</div>
-			
-		<!--  DETAIL TEST -->
-			
+
+			<!--  DETAIL TEST -->
+
 			<div id="test-detail" class="padding-10 test-detail">
 				<div class="row padding-10">
 					<div id="test-detail-status" class="padding-10 col-sm-6"></div>
@@ -221,102 +229,111 @@
 				</div>
 				<div class="row padding-10">
 					<div id="test-detail-module-div" class="col-sm-3">
-						<label>Module : </label>
-						<select id="test-detail-module" name="test-detail-module" disabled></select>
+						<label>Module : </label> <select id="test-detail-module"
+							name="test-detail-module" disabled></select>
 					</div>
 					<div id="test-detail-chapter-div" class="col-sm-3">
-						<label>Chapitre : </label>
-						<select id="test-detail-chapter" name="test-detail-chapter" disabled></select>
+						<label>Chapitre : </label> <select id="test-detail-chapter"
+							name="test-detail-chapter" disabled></select>
 					</div>
 				</div>
-				<div class="row padding-10" id="test-detail-question">
-				</div>
+				<div class="row padding-10" id="test-detail-question"></div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 test-detail">
-					<button class="btn btn-primary test-detail-back" >Retour</button>
+					<button class="btn btn-primary test-detail-back">Retour</button>
 				</div>
-			</div>	
-			
-		<!-- AJOUTER TEST -->
-		
-			<div id="add-test">
-				<form class="form-inline" action="@routes.ProfessorController.addTest()" method="POST">
-				<input type="text" class="form-control margin-top-20" name="test_title" id="titre" placeholder="Titre" size=100%> </br> </br>
-				<input type ="hidden" id="answer_test_counter" name="answer_test_counter" value="1"/>
-				<input type="hidden" id="question_test_counter" name="question_test_counter" value="1"/>
-				<div class="row">
-					<div class="col-xs-1 padding-10">
-						<label for="module">Module: </label>
-					</div>
-					<div class="col-xs-3">
-						<select id="test_module" name="test_module" size="1"></select>
-					</div>
-					<div class="col-xs-1 padding-10">
-						<label for="chapter">Chapitre: </label>
-					</div>
-					<div class="col-xs-3">
-						<select name="test_chapter" size="1">
-							<option value="0">Aucun</option>
-						</select>
-					</div>
-				</div>
-				<div id="container_testQ">
-					<div class="Qimpaire" id="Test_Q1">
-						<div id="question1" >
-							<div class="row">
-								<div class="col-xs-12 padding-10">
-									<label for="question">Question</label> 
-								</div>
-								<div class="col-xs-8">
-									<input type="text" class="form-control width-100" name="question1">
-								</div>	
-							</div>
-							<div id="question1_answer1">
-								<div class="row">
-									<div class="col-xs-8 padding-10">
-										<label for="reponse">Réponse</label>
-									</div>
-									<div class="col-xs-4 padding-left-100">
-										<label> Cocher les bonnes </br>réponses</label>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-xs-8">
-										<input type="text" class="form-control width-100" name="question1_answer1">
-									</div>
-									<div class="col-xs-2 align-right"> 
-										<input type="checkbox" id="question1_goodA1" value="1" name="question1_goodA1">
-									</div>
-								</div>
-							</div>
-						</div>
-						<br/>
-						<div class="row padding-10">
-							<div class="col-sm-9">
-								<button type="button" class="btn btn-danger delete-test-q" id="delete-test-q1">Supprimer cette question</button>
-							</div>
-							<div class="col-sm-3">	
-								<button type="button" class="btn btn-primary  ajouter-test-r" id="ajouter-test-r1">Ajouter une réponse</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row margin-top-20">
-					<div class="col-sm-4">
-						<button id="add-test-cancel" class="btn btn-warning btn-lg ">Annuler</button>
-					</div>
-					<div class="col-sm-4 center">
-						<button type="button" class="btn btn-primary btn-lg" id="ajouter-test-q">Ajouter une question</button>
-					</div>
-					<div class="col-sm-4 pull-right">
-						<button type="submit" class="btn btn-success btn-lg pull-right">Valider</button>
-					</div>
-				</div>
-			</form>
 			</div>
-			
+
+			<!-- AJOUTER TEST -->
+
+			<div id="add-test">
+				<form class="form-inline"
+					action="@routes.ProfessorController.addTest()" method="POST">
+					<input type="text" class="form-control margin-top-20"
+						name="test_title" id="titre" placeholder="Titre" size=100%>
+					</br> </br> <input type="hidden" id="answer_test_counter"
+						name="answer_test_counter" value="1" /> <input type="hidden"
+						id="question_test_counter" name="question_test_counter" value="1" />
+					<div class="row">
+						<div class="col-xs-1 padding-10">
+							<label for="module">Module: </label>
+						</div>
+						<div class="col-xs-3">
+							<select id="test_module" name="test_module" size="1"></select>
+						</div>
+						<div class="col-xs-1 padding-10">
+							<label for="chapter">Chapitre: </label>
+						</div>
+						<div class="col-xs-3">
+							<select name="test_chapter" size="1">
+								<option value="0">Aucun</option>
+							</select>
+						</div>
+					</div>
+					<div id="container_testQ">
+						<div class="Qimpaire" id="Test_Q1">
+							<div id="question1">
+								<div class="row">
+									<div class="col-xs-12 padding-10">
+										<label for="question">Question</label>
+									</div>
+									<div class="col-xs-8">
+										<input type="text" class="form-control width-100"
+											name="question1">
+									</div>
+								</div>
+								<div id="question1_answer1">
+									<div class="row">
+										<div class="col-xs-8 padding-10">
+											<label for="reponse">Réponse</label>
+										</div>
+										<div class="col-xs-4 padding-left-100">
+											<label> Cocher les bonnes </br>réponses
+											</label>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-xs-8">
+											<input type="text" class="form-control width-100"
+												name="question1_answer1">
+										</div>
+										<div class="col-xs-2 align-right">
+											<input type="checkbox" id="question1_goodA1" value="1"
+												name="question1_goodA1">
+										</div>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row padding-10">
+								<div class="col-sm-9">
+									<button type="button" class="btn btn-danger delete-test-q"
+										id="delete-test-q1">Supprimer cette question</button>
+								</div>
+								<div class="col-sm-3">
+									<button type="button" class="btn btn-primary  ajouter-test-r"
+										id="ajouter-test-r1">Ajouter une réponse</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-20">
+						<div class="col-sm-4">
+							<button id="add-test-cancel" class="btn btn-warning btn-lg ">Annuler</button>
+						</div>
+						<div class="col-sm-4 center">
+							<button type="button" class="btn btn-primary btn-lg"
+								id="ajouter-test-q">Ajouter une question</button>
+						</div>
+						<div class="col-sm-4 pull-right">
+							<button type="submit" class="btn btn-success btn-lg pull-right">Valider</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
 		</div>
 
 
@@ -491,7 +508,7 @@
 
 							<div class="answer-select"></div>
 						</div>
-						
+
 					</div>
 
 				</div>
@@ -522,7 +539,7 @@
 				</form>
 			</div>
 			<div class="row module-reponse module-info"></div>
-			
+
 			<div id="module-detail" class="row padding-10">
 				<div class="row padding-10">
 					<div class="col-sm-12 center">
@@ -530,18 +547,19 @@
 					</div>
 				</div>
 				<div class="row padding-10">
-					<div class="col-sm-12">Nombre d'inscrits : </div>
+					<div class="col-sm-12">Nombre d'inscrits :</div>
 				</div>
 				<div class="row padding-10">
-					<div class="col-sm-2 padding-10">Chapitre : </div>
+					<div class="col-sm-2 padding-10">Chapitre :</div>
 					<div class="col-sm-5">
-						<input type="text" class="form-control" id="input-chapter_name" name="chapter_name" />
-						<input type="hidden" value="" id="hidden-id_module"/>
+						<input type="text" class="form-control" id="input-chapter_name"
+							name="chapter_name" /> <input type="hidden" value=""
+							id="hidden-id_module" />
 					</div>
 					<div class="col-sm-5 center">
 						<button class="btn btn-primary btn-module-add-chapter">Ajouter</button>
 					</div>
-				</div>	
+				</div>
 				<div class="row chapter-reponse padding-10"></div>
 				<div class="row padding-10 margin-top-20">
 					<div class="col-sm-12">

@@ -2,9 +2,14 @@
 		$("#" + divId).remove();
 	}
 	
-	function getfile() {
+	/*function getfile() {
 		document.getElementById('imgInp').click();
 		document.getElementById('selectedfile').value = document.getElementById('imgInp').value;
+	}*/
+	
+	function getfile(){
+	    document.getElementById('hiddenfile').click();
+	    document.getElementById('selectedfile').value=document.getElementById('hiddenfile').value;
 	}
 	
 	addOption("#nbrQ",200);
@@ -178,10 +183,11 @@ $(document).ready(function(){
 	  
 	  $(".modal-content").on('click', "#addAnswer", function() {
 			var counter_answer_modify = $("#reponse_counter_modify").val();
-			counter_answer_modify++;
-			 $("#reponse_counter_modify").val(counter_answer_modify);
 			 var newdiv = addAnswerDiv(counter_answer_modify);
+			 counter_answer_modify++;
+			 $("#reponse_counter_modify").val(counter_answer_modify);
 			 $("#addQuestionA").append(newdiv);
+
 			
 		 });  
 	  

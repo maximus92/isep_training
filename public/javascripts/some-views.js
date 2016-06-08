@@ -4,6 +4,7 @@
              '<label for="reponse">Réponse</label>'+
              '<div class="row">'+
                '<div class="col-xs-10">'+
+               '<input type="hidden" id="id_answer'+l+'" name="id_answer'+l+'" value="0">'+
                  '<input type="text" class="form-control" id="reponse'+l+'" name="reponse'+l+'">'+
                '</div>'+
                '<div class="col-xs-1">'+
@@ -135,6 +136,7 @@
       var option3 = "";
       var option4 = "";
       var option5 = "";
+      var picture = "";
       
       switch (data[1][0].level){
         case "0":
@@ -169,6 +171,13 @@
                             '<OPTION value="1" '+option5+'>Examen</OPTION>'+
                         '</SELECT>'+
                     '</div>';
+      
+      if(data[1][0].file == null ){
+    	  picture;
+       }else{
+           picture = '<img src="/'+data[1][0].file+'" width="50" height="50">';
+       }
+      
                     	 
      var formulaire1 = '<form method="post" class="form_update_question" action="/update-question">'+
                             '<div class="row">'+
@@ -201,7 +210,9 @@
                            '<input type="hidden" value="'+data[1][0].id_question+'" name="id_question" id="id_question" />'+
                              '<label for="question">Question</label> <input type="text"'+
                                'class="form-control" id="question" name="question" value="'+data[1][0].question+'">'+
-                             '<div class="pull-right">'+
+                             '<div class="pull-right">'+picture+
+                             '<input type="file" id="imgInp" style="display: none" name="file" />'+
+     						'<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter support</button>'+
                                '<button type="button" class="btn btn-success btn-sm">&</button>'+
                              '</div>'+
                            '</div>'+
@@ -212,6 +223,8 @@
                                '</label>'+
                              '</div>'+
                            '</div>'+
+                           '<input type="hidden" value="1" name="reponse_counter_modify"'+
+                           'id="reponse_counter_modify" />'+
                            '</br><div id="addQuestionA">';
 
          for(var i=0; i< data[0].length; i++){
@@ -225,9 +238,7 @@
                              '</label>'+
                            '</div>';
            
-                formulaire1 += '<input type="hidden" value="1" name="reponse_counter_modify"'+
-                               'id="reponse_counter_modify" />'+
-                             '<div id="remove0">'+
+                formulaire1 += '<div id="remove0">'+
                                '<label for="reponse">Réponse</label>'+
                                '<div class="row">'+
                                  '<div class="col-xs-10">'+
@@ -247,8 +258,8 @@
                            'id="addAnswer">Ajouter une réponse</button>'+
                          '</br> </br> </br> <label for="correction">Correction détaillée</label>'+
                          '<textarea rows="4" cols="50" class="form-control" name="correction" id="correction">'+data[1][0].correction+'</textarea>'+
-                         '</br>'+
                          '<button type="submit" class="btn btn-danger btn-lg pull-right" id="validateModification'+data[1][0].id_question+'">Valider</button>'+
+                         '</br></br>'+
                        '</form>';
      return formulaire1;  
     }

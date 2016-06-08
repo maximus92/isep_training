@@ -27,7 +27,8 @@ public class Answer {
                                                                    + "ON a.id_answer = s.id_answer "
                                                                    + "WHERE id_qcm = ? and id_question = ?";
 
-    private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
+    private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) "
+    		+ "VALUES (?, ?, ?)";
    
     private static final String UPDATE_ANSWER_BY_ID_ANSWER = "UPDATE answer "
 			+ "SET answer=?, istrue=? "
