@@ -19,3 +19,22 @@
 .bad-answer{
 	color: red;
 }
+
+.answered-question{
+	display: inline-block;
+	background-color: green;	
+	width : 25px;
+	height : 25px;
+}
+
+
+.unanswered-question{
+	display: inline-block;
+	background-color: orange;
+	width:25px;
+	height:25px;
+}
+
+.td-answered{
+	text-align: right;
+}

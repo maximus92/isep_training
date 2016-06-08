@@ -185,6 +185,10 @@ public class StudentController extends Controller {
         question.getQuestionById( id_question );
         answers_list = Answer.getSelectedAnswers( id_qcm, id_question );
 
+        if ( answers_list.isEmpty() ) {
+            answers_list = Answer.getAnswersByQuestionId( id_question );
+        }
+
         for ( int i = 0; i < answers_list.size(); i++ ) {
             answers_list.get( i ).getAnswerParam();
         }
@@ -197,5 +201,14 @@ public class StudentController extends Controller {
         json_array.add( json2 );
 
         return ok( json_array );
+    }
+
+    public Result qcmPreview( int id_qcm ) throws SQLException {
+
+        List<Question> questions_list = new ArrayList<Question>();
+        questions_list = Question.selectQuestionForReview( id_qcm );
+        JsonNode json = Json.toJson( questions_list );
+
+        return ok( json );
     }
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
 import play.db.DB;
 
 public class Answer {
@@ -22,10 +23,10 @@ public class Answer {
     private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer, isselected) "
                                                                    + "VALUES (?, ?, ?)";
     private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected, a.answer "
-                                                                   + "FROM student_qcm_answer s "
-                                                                   + "INNER JOIN answer a "
+                                                                   + "FROM answer a "
+                                                                   + "LEFT JOIN student_qcm_answer s "
                                                                    + "ON a.id_answer = s.id_answer "
-                                                                   + "WHERE id_qcm = ? and id_question = ?";
+                                                                   + "WHERE id_qcm = ? AND id_question = ?";
 
     private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
 

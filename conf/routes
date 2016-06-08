@@ -54,6 +54,7 @@ GET		/student/resultat					controllers.StudentController.qcmResultat(id_qcm: Int
 
 POST 	/student/getCorrectionForQuestion 	controllers.StudentController.getCorrectionForQuestion
 
+GET 	/student/qcmPreview					controllers.StudentController.qcmPreview(id_qcm: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

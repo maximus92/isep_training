@@ -3,6 +3,31 @@
 
 <div class="container">
    <div class="row">
+   
+   
+   		<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-question" id="myModalLabel">Avancement du Qcm</h4>
+                	</div>
+	                <div class="modal-body">
+	                	<div class="modal-qcm-preview">
+	                		<table class="modal-preview-table table">
+	                			
+	                		</table>
+	                	</div>
+	                </div>
+	                <div class="modal-footer">
+	                	<button>Corriger le Qcm</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    
+	    
    <div class="qcm-container" id="qcm-@qcm_info.getId_qcm">
        <div class="col-md-8 col-md-offset-2" id="student-qcm-question-container">
         <h3 class="student-qcm-question" id="question@question.getId_question">@question.getQuestion</h3>
@@ -26,7 +51,14 @@
         <div class="col-md-2 col-md-offset-2">
             <button class="qcm_question_nav btn btn-lg btn-primary" id="last-question">Précédent</button>
         </div>
-        <div class="col-md-1 col-md-offset-2" id="qcm-time">@qcm_info.getTime</div>
+        <div class="col-md-2 col-md-offset-1" >
+			<div class="question-number col-md-12">
+				<a id="qcm-preview" data-toggle="modal" data-target="#preview-modal">
+					<h4>Question <span class="question-num"></span> sur @qcm_info.getNumber_of_questions</h4>
+				</a>
+			</div>       
+        	<div class="col-md-7" id="qcm-time">@qcm_info.getTime</div>
+        </div>
         <div class="col-md-2 col-md-offset-2">
         	<span class="last-question" id="number-of-question-@qcm_info.getNumber_of_questions"></span>
             <button class="qcm_question_nav btn btn-lg btn-primary" id="next-question">Suivant</button>

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
 import play.db.DB;
 
 public class Question {
@@ -36,6 +37,15 @@ public class Question {
     private static final String UPDATE_QUESTION_BY_ID_QUESTION          = "UPDATE question "
                                                                                 + "SET question=?, correction=?, level=?, id_chapter=?, forexam=?, file=? "
                                                                                 + " WHERE id_question=?";
+
+    private static final String GET_QUESTIONS_ANSWERED                  = "SELECT id_question "
+                                                                                + "FROM join_qcm_question j "
+                                                                                + "WHERE id_qcm = ? AND EXISTS( "
+                                                                                + "SELECT * "
+                                                                                + "FROM answer a "
+                                                                                + "INNER JOIN student_qcm_answer s "
+                                                                                + "ON s.id_answer = a.id_answer "
+                                                                                + "WHERE a.id_question = j.id_question AND s.id_qcm = ?)";
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -45,6 +55,15 @@ public class Question {
     private String              file;
     private int                 createby;
     private int                 points;
+    private boolean             answered;
+
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered( boolean answered ) {
+        this.answered = answered;
+    }
 
     public int getId_question() {
         return id_question;
@@ -119,7 +138,7 @@ public class Question {
     }
 
     public int insertQuestion() throws SQLException {
-    	
+
         int id_question = 0;
 
         Connection connection = DB.getConnection();
@@ -335,5 +354,50 @@ public class Question {
             this.setCorrection( result.getString( "correction" ) );
             this.setQuestion( result.getString( "question" ) );
         }
+    }
+
+    public static List<Question> selectQuestionForReview( int id_qcm ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result1 = null;
+        ResultSet result2 = null;
+
+        List<Integer> questions_aswered = new ArrayList<Integer>();
+        List<Question> questions_list = new ArrayList<Question>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_QUESTIONS_ANSWERED );
+        statement.setInt( 1, id_qcm );
+        statement.setInt( 2, id_qcm );
+        result1 = statement.executeQuery();
+
+        while ( result1.next() ) {
+            questions_aswered.add( result1.getInt( "id_question" ) );
+        }
+
+        statement = connection.prepareStatement( GET_QUESTIONS_BY_QCM_ID );
+        statement.setInt( 1, id_qcm );
+
+        result2 = statement.executeQuery();
+
+        while ( result2.next() ) {
+            int id_question = result2.getInt( "id_question" );
+            Question question = new Question();
+            question.setId_question( id_question );
+            question.setQuestion( result2.getString( "question" ) );
+            if ( questions_aswered.contains( id_question ) ) {
+                question.setAnswered( true );
+            } else {
+                question.setAnswered( false );
+            }
+            questions_list.add( question );
+        }
+
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+
+        return questions_list;
     }
 }

@@ -257,7 +257,7 @@ public class Qcm {
                 counter_answers++;
             }
 
-            if ( run_score == counter_answers ) {
+            if ( run_score == counter_answers && counter_answers != 0 ) {
 
                 statement = connection.prepareStatement( STUDENT_ANSWER_IS_TRUE );
                 statement.setInt( 1, id_qcm );

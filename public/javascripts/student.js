@@ -39,9 +39,30 @@ $(document).ready(
 			
 			
 			// Sélection du modules
+			
 			var id_module;
 			var id_chapter;
 
+			// selectionner automatiquement le premier module et chapitre
+			if($('#module').length){
+				$("#module li:first-child").css({
+					'background-color' : '#0D6186',
+					'color' : 'white'
+				});
+				
+				$("#module li:first-child").addClass("selected-module");
+				id_module = $("#module li:first-child").attr("id").substring(10);
+				
+				$("#chapters-module-" + id_module + " li:first-child").css({
+					'background-color' : '#0D6186',
+					'color' : 'white'
+				});
+
+				id_chapter = $("#chapters-module-" + id_module + " li:first-child").attr("id").substring(11);
+
+			}
+			
+			
 			$("#module > li").click(function() {
 				$("#module > li").css({
 					'background-color' : 'white',
@@ -91,6 +112,7 @@ $(document).ready(
 
 			$(window).load(function() {
 				$(".chapters-list").hide();
+				$(".all-chapters .chapters-list:first-child").show();	
 			});
 			
 			
@@ -143,12 +165,14 @@ $(document).ready(
 			} else {
 				$("#last-question").show();
 			}
+			if($('.last-question').length){
+				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
+				$("#next-question").text("valider");
+			}
+			}
+			
 			
 			$(".qcm_question_nav").click(function(){
-				
-				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
-					$("#next-question").text("valider");
-				}
 			
 				var question_num;
 				var update_qcm_json = $('form').serialize();
@@ -174,13 +198,18 @@ $(document).ready(
 			
 			
 			
-			// Affichage minuteur 
+			// Affichage minuteur et numéro de question
 			
 			var qcm_time = $('#qcm-time').html();
 			
 			$('#qcm-time').countdown({layout: '<b>{h<}{hn} : {h>}'+ 
-			    '{mn} : {sn} </b>', until: +(qcm_time)});
+			    '{mn} : {sn} </b>', until: +(qcm_time), onExpiry: timeOut});
 			
+			function timeOut(){
+				window.location.replace("trainingQcm?question_num="+(parseInt($(".last-question").attr('id').substring(19) + 1)));
+			}
+			
+			$('.question-num').html(getUrlParameter('question_num'))
 			
 			
 			// Auto check des questions
@@ -252,6 +281,37 @@ $(document).ready(
 						}
 					}
 				})
+			});
+			
+			
+			/**************************Prévisualisation Qcm**************************/
+			
+			$('#qcm-preview').click(function(){
+				var id_qcm = $('.qcm-container').attr('id').substring(4);
+				$.ajax({
+					type: "GET",
+					url: '/student/qcmPreview',
+					data: {id_qcm: id_qcm},
+					dataType: 'json',
+					
+					success: function(data){
+								for(i in data){
+									if(data[i].answered){
+										$('.modal-preview-table').append(
+											'<tr><td>' + data[i].question + '</td>'+
+											'<td class="td-answered"> <div class="answered-question"></div> </td></tr>'
+										);
+									} else {
+										$('.modal-preview-table').append(
+											'<tr><td>' + data[i].question + '</td>'+
+											'<td class="td-answered"> <div class="unanswered-question "> </div></td></tr>'
+										);
+									}
+									
+								}
+					}
+						
+				});
 			});
 			
 		});
