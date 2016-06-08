@@ -2,9 +2,14 @@
 		$("#" + divId).remove();
 	}
 	
-	function getfile() {
+	/*function getfile() {
 		document.getElementById('imgInp').click();
 		document.getElementById('selectedfile').value = document.getElementById('imgInp').value;
+	}*/
+	
+	function getfile(){
+	    document.getElementById('hiddenfile').click();
+	    document.getElementById('selectedfile').value=document.getElementById('hiddenfile').value;
 	}
 	
 	addOption("#nbrQ",200);
@@ -121,7 +126,8 @@ $(document).ready(function(){
 	/** BDD **/
 	  $("#bdd-li").one("click",function(){
 		  dataString = "";
-		  
+		  var level;
+		  var forexam;
 		  $.ajax({ 
 			  type: "POST", 
 			  url: "/select-question",
@@ -130,10 +136,29 @@ $(document).ready(function(){
 			  
 			  success: function(data) {
 					 for(var i=0; i<data.length;i++){ 
-					  $(".question-select").append('<div class="padding-10 col-sm-8 question-display'+data[i].id_question+'">'+ data[i].question+ 
+						 if(data[i].level == 0){
+							 level = "facile";
+						 }
+						 if(data[i].level == 1){
+							 level = "moyen";
+						 }
+						 else{
+							 level = "difficile";
+						 }
+						 if(data[i].forexam == 0){
+							 forexam = "Entrainement";
+						 }
+						 else{
+							 forexam = "Examen";
+						 }
+						 
+					  $(".question-select").append('<div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
 							  					'</div>'+
-							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
-							  					'<div class="col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div>');
+							  					'<div class="padding 10 col-sm-2 e-display">'+forexam+'</div>'+
+							  					'<div class="padding 10 col-sm-2 level-display">'+level+
+							  					'</div>'+
+							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
+							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br>');
 					  
 					 }
 				  }
@@ -178,10 +203,11 @@ $(document).ready(function(){
 	  
 	  $(".modal-content").on('click', "#addAnswer", function() {
 			var counter_answer_modify = $("#reponse_counter_modify").val();
-			counter_answer_modify++;
-			 $("#reponse_counter_modify").val(counter_answer_modify);
 			 var newdiv = addAnswerDiv(counter_answer_modify);
+			 counter_answer_modify++;
+			 $("#reponse_counter_modify").val(counter_answer_modify);
 			 $("#addQuestionA").append(newdiv);
+
 			
 		 });  
 	  

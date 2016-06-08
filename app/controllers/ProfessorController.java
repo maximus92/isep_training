@@ -59,12 +59,14 @@ public class ProfessorController extends Controller {
         int createby = User.getIdByToken( token );
 
         Question q = new Question();
+
         q.setQuestion( question );
         q.setCorrection( correction );
         q.setLevel( level );
         q.setId_chapter( id_chapter );
         q.setForexam( forexam );
         q.setCreateby( createby );
+        q.setFile( file );
         int id_question = q.insertQuestion();
 
         for ( int i = 0; i <= reponse_counter; i++ ) {
@@ -263,25 +265,43 @@ public class ProfessorController extends Controller {
 
         int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ) );
 
-        for ( int i = 0; i <= reponse_counter_modify; i++ ) {
-            int id_answer = Integer.parseInt( form.get( "id_answer" + i + "" ) );
-            String answer = form.get( "reponse" + id_answer + i + "" );
-            Logger.debug( answer );
+        for ( int i = 0; i < reponse_counter_modify; i++ ) {
+            Logger.debug( form.get( "id_answer" + i ) );
+            int id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
+            String answer = form.get( "reponse" + i + "" );
 
-            if ( answer != null && answer != "" ) {
-                boolean istrue;
-                if ( form.get( "goodA" + id_answer + i + "" ) == null ) {
-                    istrue = false;
-                } else {
-                    istrue = true;
+            if ( id_answer != 0 ) {
+
+                if ( answer != null && answer != "" ) {
+                    boolean istrue;
+                    if ( form.get( "goodA" + id_answer + i + "" ) == null ) {
+                        istrue = false;
+                    } else {
+                        istrue = true;
+                    }
+                    Answer a = new Answer();
+                    a.setAnswer( answer );
+                    a.setIstrue( istrue );
+                    a.updateAnswer( id_answer );
                 }
-                Answer a = new Answer();
-                a.setAnswer( answer );
-                a.setIstrue( istrue );
-                a.updateAnswer( id_answer );
+            }
+
+            else {
+                if ( answer != null && answer != "" ) {
+                    boolean istrue;
+                    if ( form.get( "goodA" + i + "" ) == null ) {
+                        istrue = false;
+                    } else {
+                        istrue = true;
+                    }
+                    Answer a = new Answer();
+                    a.setAnswer( answer );
+                    a.setId_question( id_question );
+                    a.setIstrue( istrue );
+                    a.insertAnswer();
+                }
             }
         }
-
         return redirect( "/prof" );
 
     }
