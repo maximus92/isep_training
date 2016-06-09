@@ -295,15 +295,16 @@ $(document).ready(
 					dataType: 'json',
 					
 					success: function(data){
+								$('.preview-question').remove();
 								for(i in data){
 									if(data[i].answered){
 										$('.modal-preview-table').append(
-											'<tr><td>' + data[i].question + '</td>'+
+											'<tr class="preview-question" data-num=' + i + '><td>' + data[i].question + '</td>'+
 											'<td class="td-answered"> <div class="answered-question"></div> </td></tr>'
 										);
 									} else {
 										$('.modal-preview-table').append(
-											'<tr><td>' + data[i].question + '</td>'+
+											'<tr class="preview-question" data-num=' + i + '><td>' + data[i].question + '</td>'+
 											'<td class="td-answered"> <div class="unanswered-question "> </div></td></tr>'
 										);
 									}
@@ -311,6 +312,27 @@ $(document).ready(
 								}
 					}
 						
+				});
+			});
+			
+			$('.modal-preview-table').delegate('tr', 'click', function(){
+				var id_question = $(this).data("num") + 1;
+				alert(id_question);
+				
+				window.location.replace("trainingQcm?question_num="+id_question);
+			});
+			
+			$('.preview-correct-qcm').click(function(){
+				var update_qcm_json = $('form').serialize();
+				
+				$.ajax({
+					type: 'POST',
+					url: '/student/updateQcm',
+					data: update_qcm_json + '&time=0',
+					
+					success: function(){
+						window.location.replace("trainingQcm?question_num="+parseInt($(".last-question").attr('id').substring(19)) + 1);
+					}
 				});
 			});
 			

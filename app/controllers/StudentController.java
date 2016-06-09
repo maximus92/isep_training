@@ -92,6 +92,9 @@ public class StudentController extends Controller {
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
             qcm_info.getInfoById( id_qcm );
+            if ( qcm_info.getTime() == 0 ) {
+                return redirect( "/student/resultat?id_qcm=" + id_qcm );
+            }
         }
         if ( id_qcm != -1 ) {
             if ( question_num <= 0 ) {
