@@ -23,7 +23,7 @@
 		<div id="home" class="tab-pane fade in active">
 			<div class="col-sm-4 col-xs-8">
 				<div class="thumbnail thumbnail_prof">
-					<a href="#addFile" data-toggle="tab">Importer un QCM</a>
+					<a href="#addFile"  id="link_addFile" data-toggle="tab">Importer un QCM</a>
 				</div>
 			</div>
 			<div class="col-sm-4 col-xs-8">
@@ -141,61 +141,86 @@
 			</form>
 		</div>
 
+
+	<!-- IMPORTER EXCEL -->
 		<div id="addFile" class="tab-pane fade">
-			<form>
-				</br>
-				<button type="button" class="btn btn-primary">Importer un
-					fichier externe</button>
-				</br> </br>
-				<div class="row">
-					<div class="col-sm-2 col-xs-2">
-						<label>Difficulté : </label>
-					</div>
-					<div class="col-sm-3 col-xs-3">
-						<SELECT name="difficulty" size="1">
-							<OPTION>Facile</OPTION>
-							<OPTION>Moyen</OPTION>
-							<OPTION>Difficile</OPTION>
-						</SELECT>
-					</div>
-					<div class="col-sm-3 col-xs-3">
-						<label>Question pour : </label>
-					</div>
-					<div class="col-sm-2 col-xs-2">
-						<SELECT name="difficulty" size="1">
-							<OPTION>Entrainement des élèves</OPTION>
-							<OPTION>Examen</OPTION>
-						</SELECT>
-					</div>
-				</div>
+			<form id="import-form">
 				</br>
 				<div class="row">
-					<div class="col-sm-2 col-xs-2">
+					<div class="col-sm-12">
+						<input type="file" id="excel-file" name="excel-file">
+					</div>
+				</div>		
+				</br>
+				</br>
+				<div class="row">
+					<div class="col-sm-2 center padding-10">
 						<label for="module">Module : </label>
 					</div>
-					<div class="col-sm-3 col-xs-3">
-
-						<SELECT name="module" size="1">
-							<OPTION>Mathématiques</OPTION>
-							<OPTION>Physique</OPTION>
-							<OPTION>Anglais</OPTION>
-						</SELECT>
+					<div class="col-sm-2">
+						<select class="form-control" name="import-module" id="import-module"></select>
 					</div>
-					<div class="col-sm-3 col-xs-3">
+					<div class="col-sm-2 center padding-10">
 						<label for="chapter">Chapitre : </label>
 					</div>
-					<div class="col-sm-2 col-xs-2">
-						<SELECT name="chapter" size="1">
-							<OPTION>Espace vectoriel</OPTION>
-							<OPTION>Examen</OPTION>
-						</SELECT>
+					<div class="col-sm-2">
+						<select class="form-control" name="import-chapter" id="import-chapter">
+							<option value="0">Aucun</option>
+						</select>
 					</div>
 				</div>
 				</br>
-
-				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
+				<div class="row padding-10">
+					<div id="import-reponse" class="col-sm-12 padding-10">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<button type="submit" id="btn-validate-import" class="btn btn-success btn-lg pull-right">Valider</button>
+					</div>
+				</div>	
 			</form>
 		</div>
+		<!--  IMPORT MODAL -->
+		<div class="modal fade" id="import-modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Associer les colonnes</h4>
+					</div>
+					<div class="modal-body">
+						<form id="modal-import-form">
+							<div class="row" id="import-association"></div>
+						</form>	
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12 align-right">
+								<button id="import-modal-btn" class="btn btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<div class="modal fade" id="import-modal-confirmation" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h3>Les questions ont bien été importées dans la base de données</h3>
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12 align-right">
+								<button id="import-modal-btn-confirmation" class="btn btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
 
 
 
@@ -489,7 +514,7 @@
 				<div class="col-sm-4">
 					<label for="entrainement_or_exam">Question pour:</label> <SELECT
 						name="entrainement_or_exam" size="1">
-						<OPTION>Entrainement des �l�ves</OPTION>
+						<OPTION>Entrainement des �l�ves</OPTION>
 						<OPTION>Examen</OPTION>
 						<OPTION>Test de cours</OPTION>
 					</SELECT>

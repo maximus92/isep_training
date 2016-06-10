@@ -1,11 +1,13 @@
 package controllers;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
 
 import models.Answer;
 import models.Chapter;
+import models.ExcelFile;
 import models.JoinTestQuestion;
 import models.Module;
 import models.Question;
@@ -366,5 +368,79 @@ public class ProfessorController extends Controller {
         result.put( "res", "ok" );
         return ok( result );
     }
+    
+    public Result selectChapter() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_module = Integer.parseInt(form.get("id_module"));
+        ArrayList<Chapter> list = Chapter.getChaptersByModuleId(id_module);
+        JsonNode json = Json.toJson( list );
+        return ok( json );
+    }
+    
+    public Result importQuestion() throws SQLException{
+    	int id_user = getUserID();
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_module = Integer.parseInt(form.get("import-module"));
+    	String id_chapter = form.get("id_chapter");
+
+	 	play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
+	    
+	    if (file != null) {
+	        String fileName = file.getFilename();
+	        String contentType = file.getContentType();
+	        java.io.File fileio = file.getFile();
+	        ExcelFile excel_file = new ExcelFile();
+	        excel_file.setFile(fileio);
+	        excel_file.setId_user(id_user);
+	        excel_file.previewCsv(form);
+	        JsonNode result = excel_file.readCsvFile(true,form.get("import-chapter"));
+	        return ok(result);
+	    }
+	    ObjectNode result = Json.newObject();
+	    result.put( "column_number", "-1" );
+        return ok( result );
+    }
+
+
+	public Result GetCsvColumnTitle() throws SQLException{
+		play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
+	    if (file != null) {
+	        String fileName = file.getFilename();
+	        String contentType = file.getContentType();
+	        java.io.File fileio = file.getFile();
+	        ExcelFile excel_file = new ExcelFile();
+	        excel_file.setFile(fileio);
+	        JsonNode result = excel_file.getCsvColumnTitle();
+	        return ok( result );
+	    }
+	    ObjectNode result = Json.newObject();
+	    result.put( "column_number", "-1" );
+        return ok( result );
+	}
+	
+	public Result PreviewCsv() throws SQLException{
+		int id_user = getUserID();
+		DynamicForm form = Form.form().bindFromRequest();
+		play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
+	    ObjectNode result = Json.newObject();
+	    ArrayList<String> column_array = new ArrayList<String>();
+	    
+	    if (file != null) {
+	        String fileName = file.getFilename();
+	        String contentType = file.getContentType();
+	        java.io.File fileio = file.getFile();
+	        ExcelFile excel_file = new ExcelFile();
+	        excel_file.setFile(fileio);
+	        excel_file.setId_user(id_user);
+	        ArrayNode res = excel_file.previewCsv(form);
+	        return ok(res);
+	    }
+	    result.put( "column_number", "-1" );
+        return ok( result );
+	}
+
 
 }
