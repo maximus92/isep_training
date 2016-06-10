@@ -47,6 +47,12 @@ POST    /update-question            controllers.ProfessorController.updateQuesti
 POST    /select-test-answer       controllers.ProfessorController.selectAnswerWithQuestionByIdTest
 POST    /delete-test              controllers.ProfessorController.deleteTest
 
+POST	/add-exam				controllers.ProfessorController.addExam
+POST    /select-exam            controllers.ProfessorController.selectExam
+POST    /delete-exam             controllers.ProfessorController.deleteExam
+
+
+
 ##### STUDENT ROUTES #####
 
 GET     /student                    		controllers.StudentController.index

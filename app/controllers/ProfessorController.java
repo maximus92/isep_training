@@ -10,6 +10,7 @@ import models.Chapter;
 import models.ExcelFile;
 import models.JoinTestQuestion;
 import models.Module;
+import models.Qcm;
 import models.Question;
 import models.Test;
 import models.User;
@@ -453,5 +454,55 @@ public class ProfessorController extends Controller {
         JsonNode json = Json.toJson( list );
         return ok( json );
         }
+	
+    public Result addExam() throws SQLException {
+    	DynamicForm form = Form.form().bindFromRequest();
+        String token = session().get( "token" );
+        int createby = User.getIdByToken( token );  
+        int nbanswermax = Integer.parseInt(form.get("maxR"));
+        int hours = Integer.parseInt(form.get( "hour" ));
+        int minutes = Integer.parseInt(form.get( "minute" ));
+        int time = (hours*60) + minutes;
+        int number_of_questions = Integer.parseInt(form.get( "nbrQ" ));
+        int good_answer = Integer.parseInt(form.get( "positiveP" ));
+        int bad_answer = Integer.parseInt(form.get( "negativeP" ));
+        int no_answer = Integer.parseInt(form.get( "nullP" ));
+        String title = form.get( "title_exam" );
+        boolean exam = true;
+ 
+        Qcm examen = new Qcm();
+        
+        examen.setCreateby(createby);
+        examen.setNbanswermax(nbanswermax);
+        examen.setTime(time);
+        examen.setNumber_of_questions(number_of_questions);
+        examen.setGood_answer(good_answer);
+        examen.setBad_answer(bad_answer);
+        examen.setNo_answer(no_answer);
+        examen.setTitle(title);
+        examen.setExam(exam);
+        
+        examen.createExam();
+        return redirect( "/prof" );
+    
+    }
+    
+    public Result selectExam() throws SQLException {
+        String token = session().get( "token" );
+        int id = User.getIdByToken( token );
+        ArrayList<Qcm> list = Qcm.selectExam( id );
+        JsonNode json = Json.toJson( list );
+        return ok( json );
+    }
+    public Result deleteExam() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_qcm = Integer.parseInt( form.get( "id" ) );
+        String token = session().get( "token" );
+        int createby = User.getIdByToken( token );
+        Qcm.deleteExam( createby, id_qcm );
+        ObjectNode result = Json.newObject();
+        result.put( "id_qcm", id_qcm );
+        return ok( result );
+    }
 
 }

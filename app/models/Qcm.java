@@ -19,8 +19,14 @@ public class Qcm {
     private int                       good_answer;
     private int                       bad_answer;
     private int                       no_answer;
+    private int                       nbanswermax;
+    private String					  title;
+    private boolean 				  exam;
 
-    private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
+    
+
+
+	private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
     private static final String       GET_RANDOM_QUESTIONS_ID_BY_PARAM  = "SELECT id_question "
                                                                                 + "FROM question WHERE id_chapter = ? "
@@ -59,7 +65,12 @@ public class Qcm {
     private static final String       STUDENT_ANSWER_IS_TRUE            = "UPDATE join_qcm_question "
                                                                                 + "SET points = ? "
                                                                                 + "WHERE id_qcm = ? AND id_question = ?";
-
+    private static final String       CREATE_PROFESSOR_EXAM                = "INSERT INTO qcm (createby, nbanswermax, time, exam, nbofquestions, good_answer, bad_answer, no_answer, title) "
+    																			+ "VALUES (? ,?, ?, ?, ?, ?, ?,?, ?)";
+    private static final String       SELECT_PROFESSOR_EXAM				="SELECT * FROM qcm "
+    																			+ "WHERE createby=? AND exam=1";
+    private static final String       DELETE_EXAM_PROFESSOR_BY_ID_USER_AND_ID_QCM = "DELETE FROM qcm "
+            																	+ "WHERE createby=? AND id_qcm=?";
     public int getId_qcm() {
         return id_qcm;
     }
@@ -131,6 +142,30 @@ public class Qcm {
     public void setNo_answer( int no_answer ) {
         this.no_answer = no_answer;
     }
+    
+    public int getNbanswermax(int nbanswermax){
+    	return nbanswermax;
+    }
+    
+    public void setNbanswermax(int nbanswermax){
+    	this.nbanswermax = nbanswermax;
+    }
+    
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public boolean getExam() {
+		return exam;
+	}
+
+	public void setExam(boolean exam) {
+		this.exam = exam;
+	}
+
 
     public static ArrayList<Integer> getQuestionsIdArrayByParam( int id_chapter, int question_num, int question_level )
             throws SQLException {
@@ -341,5 +376,87 @@ public class Qcm {
         this.setScore( score );
 
     }
+
+
+    
+    public void createExam() throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        connection = DB.getConnection();
+        stmt = connection.prepareStatement( CREATE_PROFESSOR_EXAM );
+        stmt.setInt( 1, this.createby );
+        stmt.setInt( 2, this.nbanswermax );
+        stmt.setInt( 3, this.time ); 
+        stmt.setBoolean( 4, this.exam );
+        stmt.setInt( 5, this.number_of_questions );
+        stmt.setInt( 6, this.good_answer );
+        stmt.setInt( 7, this.bad_answer );
+        stmt.setInt( 8, this.no_answer );
+        stmt.setString( 9, this.title );
+ 
+        stmt.executeUpdate();
+        stmt.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+    }
+    
+    public static ArrayList<Qcm> selectExam( int id ) throws SQLException {
+    	 Connection connection = null;
+         PreparedStatement statement = null;
+         ArrayList<Qcm> list = new ArrayList<Qcm>();
+
+         connection = DB.getConnection();
+         statement = connection.prepareStatement( SELECT_PROFESSOR_EXAM );
+         statement.setInt( 1, id );
+         ResultSet rs = statement.executeQuery();
+         while ( rs.next() ) {
+             int id_qcm = rs.getInt( "id_qcm" );
+             int nbanswermax = rs.getInt( "nbanswermax" );
+             int time = rs.getInt( "time" );
+             int good_answer = rs.getInt( "good_answer" );
+             int bad_answer = rs.getInt( "bad_answer" );
+             int no_answer = rs.getInt( "no_answer" );
+             int number_of_question = rs.getInt( "nbofquestions" );
+             String title = rs.getString( "title" );
+        
+
+             Qcm q = new Qcm();
+             q.setNbanswermax(nbanswermax);
+             q.setGood_answer(good_answer);
+             q.setBad_answer(bad_answer);
+             q.setNo_answer(no_answer);
+             q.setNumber_of_questions(number_of_question);
+             q.setTitle(title);
+             q.setTime(time);
+             q.setId_qcm(id_qcm);
+             list.add( q );
+         }
+         statement.close();
+         if ( connection != null ) {
+             connection.close();
+         }
+         return list;
+    	
+    	
+    }
+    
+    public static void deleteExam( int createby, int id_qcm ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( DELETE_EXAM_PROFESSOR_BY_ID_USER_AND_ID_QCM );
+        statement.setInt( 1, createby );
+        statement.setInt( 2, id_qcm );
+        statement.executeUpdate();
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+    }
+
+    
+    
+    
 
 }

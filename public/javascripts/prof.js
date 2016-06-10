@@ -120,6 +120,52 @@ $(document).ready(function(){
 		});
 	  
 	/*** FIN MODULE ***/
+		/** EXAMEN **/
+		
+		$("#add_exam").hide();
+		$("#view_questin_exam").hide();
+		
+		$("#create-exam").click(function(){
+	  		$("#exam-info").hide();
+	  		$("#add_exam").fadeIn();
+	  	});
+		
+					$("#examen-li").one("click",function(){
+								dataString = "";
+
+								$.ajax({
+									type : "POST",
+									url : "/select-exam",
+									data : dataString,
+									dataType : "json",
+
+									success : function(data) {
+										for (var i = 0; i < data.length; i++) {
+											if (data.length >= 1) {
+												$('.nothing-in-exam').hide();
+												$(".display_exam").append('<div class="padding 10 col-sm-6 exam-display'+data[i].id_qcm+'">'+data[i].title+
+														'</div>'+
+									  					'<div class="padding 10 col-sm-4 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-primary exam-details" id="examdetails'+data[i].id_qcm+'">Détails</button></div>'+
+									  					'<div class="padding 10 col-sm-2 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-danger exam-delete" id="deleteExam'+data[i].id_qcm+'">Supprimer</button></div></br></br>');
+											}
+
+										}
+									}
+								});
+
+							});
+					$(".display_exam").on('click', ".exam-delete", function() {
+						  var id = $(this).attr('id').substring(10);
+							var dataString = {id : id};
+							ajaxBody("/delete-exam",dataString,function(data) {
+									var exam = ".exam-display"+data.id_qcm;
+									$(exam).css({display: "none"});
+							});
+						});
+
+		
+	
+		 
 	/** BDD **/
 	  $("#bdd-li").one("click",function(){
 		  dataString = "";
