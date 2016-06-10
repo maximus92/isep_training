@@ -27,6 +27,8 @@ POST    /select-chapter             controllers.ProfessorController.selectChapte
 
 POST    /select-question            controllers.ProfessorController.selectQuestion
 POST    /delete-question            controllers.ProfessorController.deleteQuestion
+POST    /filter-question           controllers.ProfessorController.filterQuestion
+
 
 POST    /add-test                 	controllers.ProfessorController.addTest
 POST    /select-test-prof           controllers.ProfessorController.selectTest
@@ -40,6 +42,7 @@ POST	/preview-csv				controllers.ProfessorController.PreviewCsv
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 
 POST    /update-question            controllers.ProfessorController.updateQuestionWithAnswer
+
 
 POST    /select-test-answer       controllers.ProfessorController.selectAnswerWithQuestionByIdTest
 POST    /delete-test              controllers.ProfessorController.deleteTest

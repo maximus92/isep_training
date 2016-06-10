@@ -46,6 +46,9 @@ public class Question {
                                                                                 + "INNER JOIN student_qcm_answer s "
                                                                                 + "ON s.id_answer = a.id_answer "
                                                                                 + "WHERE a.id_question = j.id_question AND s.id_qcm = ?)";
+    private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
+            																	+ "WHERE createby=? AND forexam=? AND level=? ";
+    
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -399,5 +402,43 @@ public class Question {
         }
 
         return questions_list;
+    }
+    public static ArrayList<Question> filterQuestion( int id, String forexam1, String level1 ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Question> list = new ArrayList<Question>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QUESTION_BY_USER_FILTERED );
+        statement.setInt( 1, id );
+        statement.setString( 2, forexam1);
+        statement.setString( 3, level1);
+
+
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
     }
 }

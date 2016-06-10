@@ -2,7 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.sql.SQLException;
-
+import java.lang.Object;
 import java.util.ArrayList;
 
 import models.Answer;
@@ -369,6 +369,7 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
     
+
     public Result selectChapter() throws SQLException{
     	DynamicForm form = Form.form().bindFromRequest();
     	int id_module = Integer.parseInt(form.get("id_module"));
@@ -441,6 +442,16 @@ public class ProfessorController extends Controller {
 	    result.put( "column_number", "-1" );
         return ok( result );
 	}
-
+	public Result filterQuestion() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        String token = session().get( "token" );
+        int id = User.getIdByToken( token );
+        String forexam1 = form.get("entrainement_or_exam");
+        String level1 = form.get("choose_level");
+        Logger.debug(forexam1+" "+level1);
+        ArrayList<Question> list = Question.filterQuestion(id, forexam1, level1);
+        JsonNode json = Json.toJson( list );
+        return ok( json );
+        }
 
 }
