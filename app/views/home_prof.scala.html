@@ -1,0 +1,645 @@
+@(message: String) @main("ISEP Training - Professeur"){
+<div class="container container_prof">
+	<div class="nav">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#home" data-toggle="tab">Ajouter
+					une question</a></li>
+			<li><a href="#test" id="test-li" data-toggle="tab">Test de
+					cours</a></li>
+			<li><a href="#examen" aria-controls="messages" role="tab"
+				data-toggle="tab">Examens</a></li>
+			<li><a href="#bdd" id="bdd-li" aria-controls="settings"
+				role="tab" data-toggle="tab">Base de données</a></li>
+			<li><a href="#module" id="module-li" aria-controls="settings"
+				role="tab" data-toggle="tab">Module</a></li>
+		</ul>
+	</div>
+
+
+	<!--  Page ajouter question -->
+	<div class="tab-content">
+
+		<!-- AJOUT / IMPORTER -->
+		<div id="home" class="tab-pane fade in active">
+			<div class="col-sm-4 col-xs-8">
+				<div class="thumbnail thumbnail_prof">
+					<a href="#addFile"  id="link_addFile" data-toggle="tab">Importer un QCM</a>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-8">
+				<div class="thumbnail thumbnail_prof">
+					<a href="#addManually" data-toggle="tab">Ajouter une question</a>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- AJOUTER QUESTION -->
+		<div id="addManually" class="tab-pane fade">
+			<form method="post" enctype="multipart/form-data"
+				action="@routes.ProfessorController.addQ()">
+				<div class="row">
+					<div class="col-xs-2">
+						<label>Difficulté : </label>
+					</div>
+					<div class="col-xs-3">
+						<SELECT name="level">
+							<OPTION value="0">Facile</OPTION>
+							<OPTION value="1">Moyen</OPTION>
+							<OPTION value="2">Difficile</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-xs-3">
+						<label>Question pour : </label>
+					</div>
+					<div class="col-xs-2">
+						<SELECT name="forexam">
+							<OPTION value="0">Entrainement des élèves</OPTION>
+							<OPTION value="1">Examen</OPTION>
+						</SELECT>
+					</div>
+				</div>
+				</br>
+				<div class="row">
+					<div class="col-xs-2">
+						<label for="module">Module : </label>
+					</div>
+					<div class="col-xs-3">
+
+						<SELECT name="module" size="1">
+							<OPTION>Mathématiques</OPTION>
+							<OPTION>Physique</OPTION>
+							<OPTION>Anglais</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-xs-3">
+						<label for="chapter">Chapitre : </label>
+					</div>
+					<div class="col-xs-2">
+						<SELECT name="id_chapter" size="1">
+							<OPTION value="0">Espace vectoriel</OPTION>
+							<OPTION>Examen</OPTION>
+						</SELECT>
+					</div>
+				</div>
+				</br>
+
+
+				<div class="form-group">
+					<label for="question">Question</label> <input type="text"
+						class="form-control" id="question" name="question">
+
+					<div class="pull-right">
+						<input type="file" id="hiddenfile" name="file"
+							style="display: none" /> <input type="text" id="selectedfile"
+							style="display: none" />
+						<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter
+							support</button>
+
+						<button type="button" class="btn btn-success btn-sm">&</button>
+					</div>
+				</div>
+				</br> </br>
+
+				<div class="row">
+					<div class="col-xs-3 pull-right">
+						<label> Cocher les bonnes </br>réponses
+						</label>
+					</div>
+				</div>
+				</br>
+
+				<div id="addQuestion">
+					<input type="hidden" value="1" name="reponse_counter"
+						id="reponse_counter" />
+
+					<div id="remove0">
+						<label for="reponse">Réponse</label>
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" class="form-control" id="reponse0"
+									name="reponse0">
+							</div>
+							<div class="col-xs-1">
+								<label> <input type="checkbox" value="1" name="goodA0">
+								</label>
+							</div>
+							<div class="col-xs-1">
+								<i class="fa fa-times delete_answer" id="delete_answer0"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				</br>
+				<button type="button" class="btn btn-primary pull-left"
+					id="addAnswer">Ajouter une réponse</button>
+				</br> </br> </br> <label for="correction">Correction détaillée</label>
+				<textarea rows="4" cols="50" class="form-control" name="correction"></textarea>
+				</br>
+				<button type="submit" class="btn btn-danger btn-lg pull-right">Valider</button>
+			</form>
+		</div>
+
+
+	<!-- IMPORTER EXCEL -->
+		<div id="addFile" class="tab-pane fade">
+			<form id="import-form">
+				</br>
+				<div class="row">
+					<div class="col-sm-12">
+						<input type="file" id="excel-file" name="excel-file">
+					</div>
+				</div>		
+				</br>
+				</br>
+				<div class="row">
+					<div class="col-sm-2 center padding-10">
+						<label for="module">Module : </label>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" name="import-module" id="import-module"></select>
+					</div>
+					<div class="col-sm-2 center padding-10">
+						<label for="chapter">Chapitre : </label>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" name="import-chapter" id="import-chapter">
+							<option value="0">Aucun</option>
+						</select>
+					</div>
+				</div>
+				</br>
+				<div class="row padding-10">
+					<div id="import-reponse" class="col-sm-12 padding-10">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<button type="submit" id="btn-validate-import" class="btn btn-success btn-lg pull-right">Valider</button>
+					</div>
+				</div>	
+			</form>
+		</div>
+		<!--  IMPORT MODAL -->
+		<div class="modal fade" id="import-modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Associer les colonnes</h4>
+					</div>
+					<div class="modal-body">
+						<form id="modal-import-form">
+							<div class="row" id="import-association"></div>
+						</form>	
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12 align-right">
+								<button id="import-modal-btn" class="btn btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<div class="modal fade" id="import-modal-confirmation" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h3>Les questions ont bien été importées dans la base de données</h3>
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12 align-right">
+								<button id="import-modal-btn-confirmation" class="btn btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+
+
+
+
+		<!--  TEST DE COURS -->
+
+		<div id="test" class="tab-pane container-fluid fade">
+
+			<div id="test-info" class="padding-10 test-info">
+				<div class="row nothing-in-test">
+					<div class="col-sm-12 center">Aucun test de cours créé pour
+						le moment...</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 center test-info margin-top-20">
+					<button id="create-test" class="btn btn-primary">Créer un
+						test de cours</button>
+				</div>
+			</div>
+
+			<!--  DETAIL TEST -->
+
+			<div id="test-detail" class="padding-10 test-detail">
+				<div class="row padding-10">
+					<div id="test-detail-status" class="padding-10 col-sm-6"></div>
+					<div id="test-detail-delete" class="col-sm-6 align-right"></div>
+					<div class="col-sm-12 center">
+						<h2 id="test-detail-title"></h2>
+					</div>
+				</div>
+				<div class="row padding-10">
+					<div id="test-detail-module-div" class="col-sm-3">
+						<label>Module : </label> <select id="test-detail-module"
+							name="test-detail-module" disabled></select>
+					</div>
+					<div id="test-detail-chapter-div" class="col-sm-3">
+						<label>Chapitre : </label> <select id="test-detail-chapter"
+							name="test-detail-chapter" disabled></select>
+					</div>
+				</div>
+				<div class="row padding-10" id="test-detail-question"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 test-detail">
+					<button class="btn btn-primary test-detail-back">Retour</button>
+				</div>
+			</div>
+
+			<!-- AJOUTER TEST -->
+
+			<div id="add-test">
+				<form class="form-inline"
+					action="@routes.ProfessorController.addTest()" method="POST">
+					<input type="text" class="form-control margin-top-20"
+						name="test_title" id="titre" placeholder="Titre" size=100%>
+					</br> </br> <input type="hidden" id="answer_test_counter"
+						name="answer_test_counter" value="1" /> <input type="hidden"
+						id="question_test_counter" name="question_test_counter" value="1" />
+					<div class="row">
+						<div class="col-xs-1 padding-10">
+							<label for="module">Module: </label>
+						</div>
+						<div class="col-xs-3">
+							<select id="test_module" name="test_module" size="1"></select>
+						</div>
+						<div class="col-xs-1 padding-10">
+							<label for="chapter">Chapitre: </label>
+						</div>
+						<div class="col-xs-3">
+							<select name="test_chapter" size="1">
+								<option value="0">Aucun</option>
+							</select>
+						</div>
+					</div>
+					<div id="container_testQ">
+						<div class="Qimpaire" id="Test_Q1">
+							<div id="question1">
+								<div class="row">
+									<div class="col-xs-12 padding-10">
+										<label for="question">Question</label>
+									</div>
+									<div class="col-xs-8">
+										<input type="text" class="form-control width-100"
+											name="question1">
+									</div>
+								</div>
+								<div id="question1_answer1">
+									<div class="row">
+										<div class="col-xs-8 padding-10">
+											<label for="reponse">Réponse</label>
+										</div>
+										<div class="col-xs-4 padding-left-100">
+											<label> Cocher les bonnes </br>réponses
+											</label>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-xs-8">
+											<input type="text" class="form-control width-100"
+												name="question1_answer1">
+										</div>
+										<div class="col-xs-2 align-right">
+											<input type="checkbox" id="question1_goodA1" value="1"
+												name="question1_goodA1">
+										</div>
+									</div>
+								</div>
+							</div>
+							<br />
+							<div class="row padding-10">
+								<div class="col-sm-9">
+									<button type="button" class="btn btn-danger delete-test-q"
+										id="delete-test-q1">Supprimer cette question</button>
+								</div>
+								<div class="col-sm-3">
+									<button type="button" class="btn btn-primary  ajouter-test-r"
+										id="ajouter-test-r1">Ajouter une réponse</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-top-20">
+						<div class="col-sm-4">
+							<button id="add-test-cancel" class="btn btn-warning btn-lg ">Annuler</button>
+						</div>
+						<div class="col-sm-4 center">
+							<button type="button" class="btn btn-primary btn-lg"
+								id="ajouter-test-q">Ajouter une question</button>
+						</div>
+						<div class="col-sm-4 pull-right">
+							<button type="submit" class="btn btn-success btn-lg pull-right">Valider</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+
+		<!-- Page Examen -->
+		<div id="examen" class="tab-pane fade">
+			<form class="form-inline">
+				<input type="text" class="form-control" id="titre"
+					placeholder="Titre" size=100%> </br> </br> <label for="nbrQ">Nombre
+					de questions : </label> <select name="nbrQ" id="nbrQ">
+
+				</select> </br> </br>
+
+				<div class="row">
+					<div class="col-sm-4">
+						<label for="nbrR">Nombre de bonnes réponses possibles : </label>
+					</div>
+					<div class="col-sm-1">
+						<labelfor"minR">Minimum</label>
+					</div>
+					<div class="col-sm-2">
+						<select name="minR" id="minR">
+						</select>
+					</div>
+					<div class="col-sm-1">
+						<labelfor"maxR">Maximum</label>
+					</div>
+					<div class="col-sm-2">
+
+						<select name="maxR" id="maxR">
+						</select>
+					</div>
+
+				</div>
+				</br> <label for="time">Temps imparti : </label> <select name="hour"
+					id="hour"></select> Heures <select name="minute" id="minute"></select>
+				Minutes </br> </br> <label for="positiveP">Nombre de points par bonne
+					réponse : </label> <input type="number" id="positiveP"> </br> </br> <label
+					for="negativeP">Nombre de points par mauvaise réponse : </label> <input
+					type="number" id="negativeP"> </br> </br> <label for="nullP">Nombre
+					de points par réponse vide: </label> <input type="number" id="nullP">
+				</br> </br>
+
+				<!-- Trigger the modal with a button -->
+				<button type="button" class="btn btn-info btn-lg pull-right"
+					data-toggle="modal" data-target="#myExam">Valider</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="myExam" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Récapitulatif</h4>
+							</div>
+							<div class="modal-body">
+								<table class="table table-striped">
+									<tr id="Q1">
+										<td>Question 1</td>
+										<td class="pull-right"><i class="fa fa-times"
+											onclick="removeDiv('Q1');"></i></td>
+									</tr>
+									<tr id="Q2">
+										<td>Question 2</td>
+										<td class="pull-right"><i class="fa fa-times"
+											onclick="removeDiv('Q2');"></i></td>
+									</tr>
+									<tr id="Q3">
+										<td>Question 3</td>
+										<td class="pull-right"><i class="fa fa-times"
+											onclick="removeDiv('Q3');"></i></td>
+
+									</tr>
+									</tbody>
+								</table>
+								<button type="button" class="btn btn-primary btn-sm"
+									data-toggle="modal" data-target="#ajouterQ">Ajouter
+									une question</button>
+								<!-- Modal ajouter question-->
+								<div class="modal fade" id="ajouterQ" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Ajouter une question</h4>
+											</div>
+											<div class="modal-body">
+												<form>
+													<label for="formGroupExampleInput">Question</label> <input
+														type="text" class="form-control"
+														id="formGroupExampleInput" size=50%> </br> </br> <label
+														class="pull-right"> Cocher les bonnes </br>réponses
+													</label> </br>
+													<div id="addAnswer">
+														<div id="remove1">
+															<label for="reponse">Réponse</label>
+															<div class="row">
+																<div class="col-xs-10">
+																	<input type="text" class="form-control" id="reponse1"
+																		size=50%>
+																</div>
+																<div class="col-xs-1">
+																	<label> <input type="checkbox" value="">
+																	</label>
+																</div>
+																<div class="col-xs-1">
+																	<i class="fa fa-times" onclick="removeDiv('remove1');"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+													</br>
+
+													<div class="pull-right">
+														<button type="button" class="btn btn-primary"
+															onclick="addAnswer('addAnswer')">Ajouter une
+															réponse</button>
+													</div>
+												</form>
+												</br> </br>
+
+											</div>
+											<div class="modal-footer">
+												<button type="button"
+													class="btn btn-info btn-lg pull-center" data-toggle="modal"
+													data-target="#myExam">Ajouter</button>
+
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-info btn-lg pull-center">Enregistrer</button>
+								<button type="submit" class="btn btn-info btn-lg pull-right">Télécharger</button>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- Fin page Examen -->
+
+		<!-- BASE DE DONN�ES -->
+<div id="bdd" class="tab-pane fade">
+
+			<div class="row question-filter">
+				<form id="form_filtre_question">
+					</br>
+					<div class="col-sm-4">
+						<label for="entrainement_or_exam">Question pour:</label> <SELECT
+							name="entrainement_or_exam" size="1">
+							<OPTION value="0">Entrainement des éleves</OPTION>
+							<OPTION value="1">Examen</OPTION>
+						</SELECT>
+					</div>
+
+					<div class="col-sm-4">
+						<label for="choose_level">Niveau:</label> <SELECT
+							name="choose_level" size="1">
+							<OPTION value="0">Facile</OPTION>
+							<OPTION value="1">Moyen</OPTION>
+							<OPTION value="2">Difficile</OPTION>
+						</SELECT>
+					</div>
+					<div class="col-sm-4">
+						<!-- <input type="text" id="question-search" name="question-search" placeholder="Mot cle"/>
+					-->
+				</form>
+				<button class="btn btn-info pull-right filter_question"
+					id="filter_question">Filtrer</button>
+			</div>
+
+		</div>
+		</br>
+
+		<div class="row list-question-display">
+			<div class="col-sm-4">Question</div>
+			<div class="col-sm-2">
+				Type de</br>question
+			</div>
+			<div class="col-sm-2">Niveau</div>
+			<div class="col-sm-2"></div>
+			<div class="col-sm-2"></div>
+
+
+		</div>
+		<div class="row question-select"></div>
+
+		<div class="row question_filter"></div>
+
+
+
+
+
+		<!-- Modal -->
+
+		<div class="modal fade" id="modifyQ" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Modifier la question</h4>
+					</div>
+					<div class="modal-body">
+
+						<div class="answer-select"></div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+	<!-- Fin page bdd -->
+
+	<!-- MODULE -->
+	<div id="module" class="tab-pane fade">
+		<div class="row module-info">
+			<form id="module-form"
+				action="@routes.ProfessorController.addModule()" method="POST">
+				<div class="form-group padding-10">
+					<div class="padding-10 col-sm-2">
+						<label>Nom du module : </label>
+					</div>
+					<div class="padding-10 col-sm-4">
+						<input type="text" class="form-control" name="module_name">
+					</div>
+					<div class="padding-10 center col-sm-3">
+						<button type="submit" id="btn-ajout-module"
+							class="btn btn-primary">Ajouter</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row module-reponse module-info"></div>
+
+		<div id="module-detail" class="row padding-10">
+			<div class="row padding-10">
+				<div class="col-sm-12 center">
+					<h2 id="module-detail-title"></h2>
+				</div>
+			</div>
+			<div class="row padding-10">
+				<div class="col-sm-12">Nombre d'inscrits :</div>
+			</div>
+			<div class="row padding-10">
+				<div class="col-sm-2 padding-10">Chapitre :</div>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" id="input-chapter_name"
+						name="chapter_name" /> <input type="hidden" value=""
+						id="hidden-id_module" />
+				</div>
+				<div class="col-sm-5 center">
+					<button class="btn btn-primary btn-module-add-chapter">Ajouter</button>
+				</div>
+			</div>
+			<div class="row chapter-reponse padding-10"></div>
+			<div class="row padding-10 margin-top-20">
+				<div class="col-sm-12">
+					<button class="btn btn-warning" id="module-detail-cancel">Annuler</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+</div>
+
+}
