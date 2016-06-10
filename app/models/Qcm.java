@@ -16,6 +16,10 @@ public class Qcm {
     private int                       number_of_questions;
     private int                       createby;
     private Integer                   score;
+    private int                       good_answer;
+    private int                       bad_answer;
+    private int                       no_answer;
+
     private static ArrayList<Integer> questions_id_array                = new ArrayList<Integer>();
 
     private static final String       GET_RANDOM_QUESTIONS_ID_BY_PARAM  = "SELECT id_question "
@@ -23,8 +27,8 @@ public class Qcm {
                                                                                 + "ORDER BY RAND() "
                                                                                 + "LIMIT ?";
 
-    private static final String       CREATE_STUDENT_QCM                = "INSERT INTO qcm (createby, time, nbofquestions) "
-                                                                                + "VALUES (? ,?, ?)";
+    private static final String       CREATE_STUDENT_QCM                = "INSERT INTO qcm (createby, time, nbofquestions, good_answer, bad_answer, no_answer) "
+                                                                                + "VALUES (? ,?, ?, ?, ?, ?)";
 
     private static final String       STUDENT_QCM_QUESTIONS             = "INSERT INTO join_qcm_question (id_qcm, id_question) "
                                                                                 + "VALUES (?, ?)";
@@ -53,7 +57,7 @@ public class Qcm {
                                                                                 + "SET score = ? "
                                                                                 + "WHERE id_qcm = ?";
     private static final String       STUDENT_ANSWER_IS_TRUE            = "UPDATE join_qcm_question "
-                                                                                + "SET points = 1 "
+                                                                                + "SET points = ? "
                                                                                 + "WHERE id_qcm = ? AND id_question = ?";
 
     public int getId_qcm() {
@@ -104,6 +108,30 @@ public class Qcm {
         this.score = score;
     }
 
+    public int getGood_answer() {
+        return good_answer;
+    }
+
+    public void setGood_answer( int good_answer ) {
+        this.good_answer = good_answer;
+    }
+
+    public int getBad_answer() {
+        return bad_answer;
+    }
+
+    public void setBad_answer( int bad_answer ) {
+        this.bad_answer = bad_answer;
+    }
+
+    public int getNo_answer() {
+        return no_answer;
+    }
+
+    public void setNo_answer( int no_answer ) {
+        this.no_answer = no_answer;
+    }
+
     public static ArrayList<Integer> getQuestionsIdArrayByParam( int id_chapter, int question_num, int question_level )
             throws SQLException {
 
@@ -131,7 +159,9 @@ public class Qcm {
     }
 
     public void createStudentQcm( ArrayList<Integer> questionsArray,
-            Integer qcm_time, String token, Integer number_questions ) throws SQLException {
+            Integer qcm_time, String token, Integer number_questions,
+            Integer good_answer, Integer bad_answer, Integer no_answer ) throws SQLException {
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -144,6 +174,9 @@ public class Qcm {
         statement.setInt( 1, userId );
         statement.setInt( 2, qcm_time );
         statement.setInt( 3, number_questions );
+        statement.setInt( 4, good_answer );
+        statement.setInt( 5, bad_answer );
+        statement.setInt( 6, no_answer );
         statement.executeUpdate();
 
         result = statement.getGeneratedKeys();
@@ -204,6 +237,7 @@ public class Qcm {
             this.setTime( result.getInt( "time" ) );
             this.setLevel( result.getInt( "level" ) );
             this.setScore( result.getInt( "score" ) );
+            this.setGood_answer( result.getInt( "good_answer" ) );
         }
 
         statement.close();
@@ -231,26 +265,44 @@ public class Qcm {
     public void calculateScore() throws SQLException {
         int score = 0;
         int id_qcm = this.getId_qcm();
+        Qcm qcm_info = new Qcm();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result1 = null;
         ResultSet result2 = null;
+        ResultSet infoResult = null;
 
         connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_QCM_INFO_BY_ID );
+        statement.setInt( 1, id_qcm );
+        infoResult = statement.executeQuery();
+
+        if ( infoResult.next() ) {
+            qcm_info.setId_qcm( id_qcm );
+            qcm_info.setGood_answer( infoResult.getInt( "good_answer" ) );
+            qcm_info.setBad_answer( infoResult.getInt( "bad_answer" ) );
+            qcm_info.setNo_answer( infoResult.getInt( "no_answer" ) );
+        }
+
         statement = connection.prepareStatement( GET_QCM_ID_QUESTIONS );
         statement.setInt( 1, id_qcm );
         result1 = statement.executeQuery();
 
         while ( result1.next() ) {
+            int as_answered = 0;
             int run_score = 0;
             int counter_answers = 0;
             int id_question = result1.getInt( "id_question" );
+            int points_for_question = 0;
             statement = connection.prepareStatement( GET_USER_ANSWERS_AND_GOOD_ANSWERS );
             statement.setInt( 1, id_question );
             statement.setInt( 2, id_qcm );
             result2 = statement.executeQuery();
 
             while ( result2.next() ) {
+                if ( result2.getBoolean( "isselected" ) ) {
+                    as_answered++;
+                }
                 if ( result2.getBoolean( "isselected" ) == result2.getBoolean( "istrue" ) ) {
                     run_score++;
                 }
@@ -258,13 +310,21 @@ public class Qcm {
             }
 
             if ( run_score == counter_answers && counter_answers != 0 ) {
-
-                statement = connection.prepareStatement( STUDENT_ANSWER_IS_TRUE );
-                statement.setInt( 1, id_qcm );
-                statement.setInt( 2, id_question );
-                statement.executeUpdate();
-                score++;
+                points_for_question = qcm_info.getGood_answer();
+                score += qcm_info.getGood_answer();
+            } else if ( counter_answers == 0 || as_answered == 0 ) {
+                points_for_question = qcm_info.getNo_answer();
+                score += qcm_info.getNo_answer();
+            } else {
+                points_for_question = qcm_info.getBad_answer();
+                score += qcm_info.getBad_answer();
             }
+
+            statement = connection.prepareStatement( STUDENT_ANSWER_IS_TRUE );
+            statement.setInt( 1, points_for_question );
+            statement.setInt( 2, id_qcm );
+            statement.setInt( 3, id_question );
+            statement.executeUpdate();
         }
 
         statement = connection.prepareStatement( UPDATE_QCM_SCORE );

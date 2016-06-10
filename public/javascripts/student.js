@@ -131,12 +131,19 @@ $(document).ready(
 								":selected").text())) * 60;
 				var question_level = parseInt($("#question-level")
 						.find(":selected").text());
+				
+				var good_answer = parseInt($("#good-answer").val());
+				var bad_answer = parseInt($("#bad-answer").val());
+				var no_answer = parseInt($("#no-answer").val());
 
 				qcm_json_settings = { 
 					"id_chapter" : id_chapter,
 					"question_num" : question_num,
 					"qcm_time" : qcm_time,
-					"question_level" : question_level
+					"question_level" : question_level,
+					"good_answer" : good_answer,
+					"bad_answer" : bad_answer,
+					"no_answer" : no_answer
 				};
 
 				$.ajax({
@@ -317,9 +324,21 @@ $(document).ready(
 			
 			$('.modal-preview-table').delegate('tr', 'click', function(){
 				var id_question = $(this).data("num") + 1;
-				alert(id_question);
+				var update_qcm_json = $('form').serialize();
+				var time = $("#qcm-time").countdown('getTimes');
+				var current_time = $.countdown.periodsToSeconds(time);
 				
-				window.location.replace("trainingQcm?question_num="+id_question);
+				$.ajax({
+					type: 'POST',
+					url: '/student/updateQcm',
+					data: update_qcm_json + '&time='+current_time,
+					
+					success: function(){
+						window.location.replace("trainingQcm?question_num="+id_question);
+					}
+				});
+				
+				
 			});
 			
 			$('.preview-correct-qcm').click(function(){

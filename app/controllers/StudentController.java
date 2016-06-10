@@ -59,6 +59,9 @@ public class StudentController extends Controller {
         String question_num = form.get( "question_num" );
         String question_level = form.get( "question_level" );
         Integer qcm_time = Integer.parseInt( form.get( "qcm_time" ) );
+        Integer good_answer = Integer.parseInt( form.get( "good_answer" ) );
+        Integer bad_answer = Integer.parseInt( form.get( "bad_answer" ) );
+        Integer no_answer = Integer.parseInt( form.get( "no_answer" ) );
         String token = session().get( "token" );
         Qcm qcm = new Qcm();
 
@@ -70,7 +73,15 @@ public class StudentController extends Controller {
                 Integer.parseInt( question_level )
                 );
 
-        qcm.createStudentQcm( questionsArray, qcm_time, token, questionsArray.size() );
+        qcm.createStudentQcm(
+                questionsArray,
+                qcm_time,
+                token,
+                questionsArray.size(),
+                good_answer,
+                bad_answer,
+                no_answer
+                );
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
