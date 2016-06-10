@@ -25,6 +25,8 @@ POST    /delete-chapter             controllers.ProfessorController.deleteChapte
 
 POST    /select-question            controllers.ProfessorController.selectQuestion
 POST    /delete-question            controllers.ProfessorController.deleteQuestion
+POST    /filter-question           controllers.ProfessorController.filterQuestion
+
 
 POST    /add-test                 	controllers.ProfessorController.addTest
 POST    /select-test-prof           controllers.ProfessorController.selectTest
@@ -34,6 +36,7 @@ POST    /addq                       controllers.ProfessorController.addQ
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 
 POST    /update-question            controllers.ProfessorController.updateQuestionWithAnswer
+
 
 POST    /select-test-answer       controllers.ProfessorController.selectAnswerWithQuestionByIdTest
 POST    /delete-test              controllers.ProfessorController.deleteTest

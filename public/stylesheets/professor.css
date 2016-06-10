@@ -88,5 +88,10 @@
 }
 .list-question-display{
 	font-weight : bold;
-	
+	font-size: 20px;
+	color: #0D6186;
 }
+.question-filter{
+	background-color: rgba( 173, 216, 230,0.5);
+}
+
