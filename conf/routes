@@ -20,8 +20,10 @@ POST    /add-module                 controllers.ProfessorController.addModule
 POST    /select-module              controllers.ProfessorController.selectModule
 POST    /delete-module              controllers.ProfessorController.deleteModule
 POST    /detail-module              controllers.ProfessorController.detailModule
+
 POST    /add-chapter              	controllers.ProfessorController.addChapter
 POST    /delete-chapter             controllers.ProfessorController.deleteChapter
+POST    /select-chapter             controllers.ProfessorController.selectChapter
 
 POST    /select-question            controllers.ProfessorController.selectQuestion
 POST    /delete-question            controllers.ProfessorController.deleteQuestion
@@ -32,6 +34,10 @@ POST    /add-test                 	controllers.ProfessorController.addTest
 POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ
+
+POST    /import-question            controllers.ProfessorController.importQuestion
+POST    /get-csv-column-title      	controllers.ProfessorController.GetCsvColumnTitle
+POST	/preview-csv				controllers.ProfessorController.PreviewCsv
 
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
 

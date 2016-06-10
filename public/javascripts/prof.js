@@ -407,6 +407,107 @@ $(document).ready(function(){
 				});
 			});
 			
+			/*** IMPORT QUESTION REPONSE ***/
+			
+			$("#link_addFile").click(function(){
+				displayModuleInSelect("#import-module","0");
+			});
+			
+			$("#import-module").change(function(){
+				var id_module = $(this).val();
+				displayChapterInSelect("#import-chapter","0",id_module);
+			});
+			var file;
+			$("#excel-file").change(function(){
+				file = this.files[0];
+				var formData = new FormData();
+				formData.append('excel-file', file);
+				$.ajax({
+				    url: "/get-csv-column-title",  //Server script to process data
+				    type: 'POST',
+				    data: formData,
+				    contentType: false,
+				    processData: false,
+				    //Ajax events
+				    success: function(data){
+				    	var i =1;
+				    	$(".import-modal-body").remove();
+				    	$('#import-modal').modal("show");
+				        for(var i=0;i<data[0];i++){
+				        	var index = i+1;
+				        	$("#import-association").append('<div class="col-sm-5 padding-10 import-modal-body">'+
+				        										'<select class="form-control" name="import-parameter'+i+'" id="import-parameter'+i+'">'+
+				        											'<option value="">Aucun</option>'+
+				        											'<option value="question">Question</option>'+
+				        											'<option value="answer">Réponse</option>'+
+				        											'<option value="correction">Correction</option>'+
+				        											'<option value="forexam">Réservé pour l\'examen</option>'+
+				        											'<option value="istrue">Réponse correcte</option>'+
+				        											'<option value="level">Difficulté</option>'+
+				        										'</select>'+	
+				        									'</div>'+
+				        									'<div class="col-sm-2 center btn-lg padding-10 import-modal-body">'+
+				        										'<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>'+
+				        									'</div>'+
+				        									'<div class="col-sm-5 padding-10 import-modal-body" id="excel-column">'+
+				        										'<input type="text" name="import-parameter-column'+i+'" value="'+data[index]+'" class="form-control" disabled />'+
+				        									'</div>');
+				        }
+				    }
+				});
+			});
+		
+			var modal_import_data;
+		$("#import-modal-btn").click(function(event){
+			$(".test-detail-ul").remove();
+			modal_import_data = "";
+			event.preventDefault();
+			var formData = new FormData();
+			formData.append('excel-file', file);
+			var other_data = $("#modal-import-form").serializeArray();
+		    $.each(other_data,function(key,input){
+		    	formData.append(input.name,input.value);
+		    });
+		    modal_import_data = formData
+			$.ajax({
+			    url: "/preview-csv",  //Server script to process data
+			    type: 'POST',
+			    data: formData,
+			    contentType: false,
+			    processData: false,
+			    //Ajax events
+			    success: function(data){
+			    	$('#import-modal').modal('toggle');
+			    	$("#import-reponse").append(displayTestDetailQuestionDiv(data))
+			    }
+			});	
+		});	
+		
+		$("#btn-validate-import").click(function(e){
+			var other_data = $("#import-form").serializeArray();
+		    $.each(other_data,function(key,input){
+		    	modal_import_data.append(input.name,input.value);
+		    });
+			e.preventDefault();
+			$.ajax({
+			    url: "/import-question",  //Server script to process data
+			    type: 'POST',
+			    data: modal_import_data,
+			    contentType: false,
+			    processData: false,
+			    //Ajax events
+			    success: function(data){
+			    	$("#import-modal-confirmation").modal("show");
+			    }
+			});	
+		});
+		
+		$("#import-modal-btn-confirmation").click(function(){
+			$("#import-modal-confirmation").modal("toggle");
+		});
+		
+			
+			
 		function ajaxBody(url,dataString,successFunction){
 			$.ajax({ 
 					type: "POST", 
@@ -431,6 +532,23 @@ $(document).ready(function(){
 									var selected_value = "<option />";
 								}
 								$(select_id).append($(selected_value).val(this.id_module).text(this.module_name));
+							});
+					});
+		}
+		
+		function displayChapterInSelect(select_id,option_selected,id_module){
+			var dataString = {id_module: id_module};
+			ajaxBody("/select-chapter",dataString,
+					function(data){
+							$(select_id+' option').remove();
+							$(select_id).append($("<option />").val("0").text("Aucun"));
+							$.each(data, function() {
+								if(this.id_module == option_selected){
+									var selected_value = "<option selected />";
+								}else{
+									var selected_value = "<option />";
+								}
+								$(select_id).append($(selected_value).val(this.id_chapter).text(this.chapter_name));
 							});
 					});
 		}
