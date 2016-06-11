@@ -38,3 +38,17 @@
 .td-answered{
 	text-align: right;
 }
+
+.link-student-training a{
+	text-decoration : none;
+	text-align: center;
+	font-size : 24px;
+}
+.link-student-training a:hover .thumbnail{
+	border-color : rgba(13,97,134,1);
+}
+@media screen and (min-width: 544px) {
+	.link-student-training div{
+		padding: 50px;
+	}
+}

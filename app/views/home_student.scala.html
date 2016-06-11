@@ -1,8 +1,16 @@
 @(message: String)
 
 @main("IsepTraining - Student"){
-	<a href='@routes.StudentController.studentQcmSettings()'>
-		<button>Entrainement personnalisé</button>
-	</a>
-	
+	<div class="container">
+		<div class="row margin-top-20">
+			<div class="col-xs-12 col-sm-5 link-student-training">
+				<a href='@routes.StudentController.studentQcmSettings()'>
+					<div class="thumbnail">
+							Entrainement personnalisé
+					</div>
+				</a>	
+			</div>
+			
+		</div>
+	</div>
 }
