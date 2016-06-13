@@ -9,6 +9,7 @@ import models.Chapter;
 import models.Module;
 import models.Qcm;
 import models.Question;
+import models.Test;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -224,5 +225,23 @@ public class StudentController extends Controller {
         JsonNode json = Json.toJson( questions_list );
 
         return ok( json );
+    }
+
+    /********* TEST DE COURS ETUDIANT ***********/
+    
+    public Result courseTest() throws SQLException{
+    	ArrayList<Module> modules = new ArrayList<Module>();
+        ArrayList<Chapter> chapters = new ArrayList<Chapter>();
+
+        modules = Module.getAllModules();
+        chapters = Chapter.getAllChapters();
+    	return ok( student_course_test.render(modules, chapters));
+    }
+    public Result displayTest() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_module = Integer.parseInt(form.get("id_module"));
+    	List<Test> list_test = Test.getEnableTestByIdModule(id_module);
+    	JsonNode json = Json.toJson(list_test);
+    	return ok(json);
     }
 }

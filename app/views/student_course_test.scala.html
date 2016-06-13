@@ -1,0 +1,25 @@
+@(modules: ArrayList[Module], chapters: ArrayList[Chapter])
+
+@main("IsepTraining - Course Test"){
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-1 col-xs-3 padding-10">
+					Module : 
+				</div>
+				<div class="col-sm-4 col-xs-9">
+					<select class="form-control" id="test_module_select" name="test_module_select">
+						<option value="0">Aucun</option>
+						@for(module <- modules){
+							<option value="@module.getId_module">@module.getModule_name</option>
+						}
+					</select>
+				</div>
+			</div>
+			<div class="row margin-top-20" id="test_result_from_select"></div>
+			<div class="row margin-top-20">
+				<div class="col-xs-12">
+					<a href='@routes.StudentController.index()'><button type="button" class="btn btn-default">Retour</button></a>
+				</div>
+			</div>
+		</div>
+}

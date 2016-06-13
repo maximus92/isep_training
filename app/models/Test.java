@@ -21,6 +21,7 @@ public class Test {
 			+ "WHERE createby = ? AND id_test = ?";
 	private final static String DELETE_TEST = "DELETE FROM test "
 			+ "WHERE createby=? AND id_test=?";
+	private final static String SELECT_TEST_BY_ID_MODULE = "SELECT * FROM test WHERE id_module = ? AND isenable = true ";
 	
 	private String title;
 	private int id_module;
@@ -149,5 +150,31 @@ public class Test {
   	  statement.executeUpdate();
   	  statement.close();
   	  Model.closeConnection(connection);
+	}
+
+	public static ArrayList<Test> getEnableTestByIdModule(int idModule) throws SQLException{
+		Connection connection = DB.getConnection();
+		PreparedStatement statement = connection.prepareStatement(SELECT_TEST_BY_ID_MODULE);;	
+		ArrayList<Test> list = new ArrayList<Test>();
+		statement.setInt(1,idModule);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+		        int id_module = rs.getInt("id_module");
+				int id_test = rs.getInt("id_test");
+				int id_chapter = rs.getInt("id_chapter");
+				String title = rs.getString("title");
+				String isenable = rs.getString("isenable");
+				Test test = new Test();
+				test.setId_test(id_test);
+				test.setId_chapter(id_chapter);
+				test.setId_module(id_module);
+				test.setTitle(title);
+				test.setIsenable(isenable);
+				//add each test to the list
+				list.add(test);
+		}
+		statement.close();
+		Model.closeConnection(connection);
+		return list;
 	}
 }

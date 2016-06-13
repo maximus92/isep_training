@@ -355,4 +355,25 @@ $(document).ready(
 				});
 			});
 			
+			/************************** script pour les tests de cours **************************/
+			
+			$("#test_module_select").change(function(){
+				var id_module = $(this).val();
+				$.ajax({
+					type: 'POST',
+					url: '/student/displayTest',
+					data: {id_module: id_module},
+					success: function(data){
+						var div="";
+						for(var i=0; i<data.length;i++){
+							div = '<div class="col-xs-6">'+data[i].title+'</div>'+
+									'<div class="col-xs-6">'+
+										'<button class="btn btn-primary" id="btn-answer-to-test'+data[i].id_test+'">Répondre</button>'+
+									'</div>';
+						}
+						$("#test_result_from_select").html(div);
+					}
+				});
+			});
+			
 		});
