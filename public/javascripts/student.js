@@ -168,7 +168,7 @@ $(document).ready(
 					dataType : "json",
 
 					success : function(data) {
-						window.location.replace("trainingQcm?question_num=1", data);
+						window.location.href = "trainingQcm?question_num=1", data;
 					}
 				});
 
@@ -213,7 +213,7 @@ $(document).ready(
 					data: update_qcm_json + '&time=' + current_time,
 					
 					success: function(){
-						window.location.replace("trainingQcm?question_num=" + question_num);
+						window.location.href = "trainingQcm?question_num=" + question_num;
 					}
 				});
 			});
@@ -228,7 +228,7 @@ $(document).ready(
 			    '{mn} : {sn} </b>', until: +(qcm_time), onExpiry: timeOut});
 			
 			function timeOut(){
-				window.location.replace("trainingQcm?question_num="+(parseInt($(".last-question").attr('id').substring(19) + 1)));
+				window.location.href = "trainingQcm?question_num="+(parseInt($(".last-question").attr('id').substring(19) + 1));
 			}
 			
 			$('.question-num').html(getUrlParameter('question_num'))
@@ -349,7 +349,7 @@ $(document).ready(
 					data: update_qcm_json + '&time='+current_time,
 					
 					success: function(){
-						window.location.replace("trainingQcm?question_num="+id_question);
+						window.location.href = "trainingQcm?question_num="+id_question;
 					}
 				});
 				
@@ -365,7 +365,7 @@ $(document).ready(
 					data: update_qcm_json + '&time=0',
 					
 					success: function(){
-						window.location.replace("trainingQcm?question_num="+parseInt($(".last-question").attr('id').substring(19)) + 1);
+						window.location.href = "trainingQcm?question_num="+parseInt($(".last-question").attr('id').substring(19)) + 1;
 					}
 				});
 			});
@@ -389,6 +389,17 @@ $(document).ready(
 						$("#test_result_from_select").html(div);
 					}
 				});
+			});
+			
+			
+			/************************Scripts pour l'historique*********************/
+			
+			// Voir la correction d'un qcm
+			
+			$(".history-show-correction").click(function(){
+				var id_qcm = $(this).data("id");
+				
+				window.location.href = "resultat?id_qcm=" + id_qcm;
 			});
 			
 		});

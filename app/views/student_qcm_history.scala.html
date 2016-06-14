@@ -12,11 +12,14 @@
                             <div class="module">@qcm.getModule</div>
                             <div class="chapter">@qcm.getChapter</div>
                         </td>
-                        <td class="qcm-date col-md-3">
+                        <td class="qcm-date col-md-2">
                             @qcm.getFinishat
                         </td>
-                        <td class="score col-md-3">
+                        <td class="score col-md-2">
                             @qcm.getScore / @qcm.getMax_score
+                        </td>
+                        <td col-md-2>
+                            <button class="history-show-correction btn btn-default" data-id="@qcm.getId_qcm">Corrigé</button>
                         </td>
                       </tr>
                   </table>

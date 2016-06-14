@@ -64,7 +64,7 @@ public class Qcm {
                                                                                           + "ON a.id_answer = s.id_answer "
                                                                                           + "WHERE id_question = ? AND id_qcm = ?";
     private static final String       UPDATE_QCM_SCORE                            = "UPDATE qcm "
-                                                                                          + "SET score = ?, max_score = ?, finishat = NOW() "
+                                                                                          + "SET score = ?, max_score = ?, finishat = NOW(), time=0 "
                                                                                           + "WHERE id_qcm = ?";
     private static final String       STUDENT_ANSWER_IS_TRUE                      = "UPDATE join_qcm_question "
                                                                                           + "SET points = ? "
@@ -77,7 +77,8 @@ public class Qcm {
                                                                                           + "WHERE createby=? AND id_qcm=?";
     private static final String       GET_END_QCM_BY_USER                         = "SELECT * "
                                                                                           + "FROM qcm "
-                                                                                          + "WHERE createby = ? AND finishat IS NOT NULL";
+                                                                                          + "WHERE createby = ? AND finishat IS NOT NULL "
+                                                                                          + "ORDER BY finishat ";
     private static final String       GET_MODULE_AND_CHAPTER_NAME                 = "SELECT name, chapter_name "
                                                                                           + "FROM chapter c "
                                                                                           + "INNER JOIN module m "
