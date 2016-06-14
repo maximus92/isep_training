@@ -1,0 +1,28 @@
+@(message: String, qcm_list: List[Qcm])
+
+@main("historique"){
+<div class="container">
+    <div class="history-container">
+       <div class="date-history-container">
+           @for(qcm <- qcm_list){
+               <div class="qcm-history row">
+                  <table class="table">
+                      <tr>
+                        <td class="module-and-chapter col-md-6">
+                            <div class="module">@qcm.getModule</div>
+                            <div class="chapter">@qcm.getChapter</div>
+                        </td>
+                        <td class="qcm-date col-md-3">
+                            @qcm.getFinishat
+                        </td>
+                        <td class="score col-md-3">
+                            @qcm.getScore / @qcm.getMax_score
+                        </td>
+                      </tr>
+                  </table>
+               </div>
+           }
+       </div>        
+    </div>
+</div>
+}

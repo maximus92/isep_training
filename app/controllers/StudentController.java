@@ -10,6 +10,7 @@ import models.Module;
 import models.Qcm;
 import models.Question;
 import models.Test;
+import models.User;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -56,9 +57,9 @@ public class StudentController extends Controller {
 
     public Result studentPostTrainingQcmSettings() throws NumberFormatException, SQLException {
         DynamicForm form = Form.form().bindFromRequest();
-        String id_chapter = form.get( "id_chapter" );
-        String question_num = form.get( "question_num" );
-        String question_level = form.get( "question_level" );
+        Integer id_chapter = Integer.parseInt( form.get( "id_chapter" ) );
+        Integer question_num = Integer.parseInt( form.get( "question_num" ) );
+        Integer question_level = Integer.parseInt( form.get( "question_level" ) );
         Integer qcm_time = Integer.parseInt( form.get( "qcm_time" ) );
         Integer good_answer = Integer.parseInt( form.get( "good_answer" ) );
         Integer bad_answer = Integer.parseInt( form.get( "bad_answer" ) );
@@ -69,9 +70,9 @@ public class StudentController extends Controller {
         ArrayList<Integer> questionsArray = new ArrayList<Integer>();
 
         questionsArray = Qcm.getQuestionsIdArrayByParam(
-                Integer.parseInt( id_chapter ),
-                Integer.parseInt( question_num ),
-                Integer.parseInt( question_level )
+                id_chapter,
+                question_num,
+                question_level
                 );
 
         qcm.createStudentQcm(
@@ -81,7 +82,8 @@ public class StudentController extends Controller {
                 questionsArray.size(),
                 good_answer,
                 bad_answer,
-                no_answer
+                no_answer,
+                id_chapter
                 );
 
         JsonNode json = Json.toJson( questionsArray );
@@ -228,20 +230,34 @@ public class StudentController extends Controller {
     }
 
     /********* TEST DE COURS ETUDIANT ***********/
-    
-    public Result courseTest() throws SQLException{
-    	ArrayList<Module> modules = new ArrayList<Module>();
+
+    public Result courseTest() throws SQLException {
+        ArrayList<Module> modules = new ArrayList<Module>();
         ArrayList<Chapter> chapters = new ArrayList<Chapter>();
 
         modules = Module.getAllModules();
         chapters = Chapter.getAllChapters();
-    	return ok( student_course_test.render(modules, chapters));
+        return ok( student_course_test.render( modules, chapters ) );
     }
-    public Result displayTest() throws SQLException{
-    	DynamicForm form = Form.form().bindFromRequest();
-    	int id_module = Integer.parseInt(form.get("id_module"));
-    	List<Test> list_test = Test.getEnableTestByIdModule(id_module);
-    	JsonNode json = Json.toJson(list_test);
-    	return ok(json);
+
+    public Result displayTest() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_module = Integer.parseInt( form.get( "id_module" ) );
+        List<Test> list_test = Test.getEnableTestByIdModule( id_module );
+        JsonNode json = Json.toJson( list_test );
+        return ok( json );
     }
+
+    /********** Historique des qcms *************/
+
+    public Result studentHistory() throws SQLException {
+        List<Qcm> qcm_list = new ArrayList<Qcm>();
+        String token = session().get( "token" );
+        int id_user = User.getIdByToken( token );
+
+        qcm_list = Qcm.getEndQcmByUser( id_user );
+
+        return ok( student_qcm_history.render( "", qcm_list ) );
+    }
+
 }
