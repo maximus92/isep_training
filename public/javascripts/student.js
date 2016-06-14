@@ -86,6 +86,21 @@ $(document).ready(
 				$("#chapters-module-" + id_module).show();
 
 			});
+		
+			//recherche d'un module
+			
+			$('#search-module').keyup(function(){
+				$("#module > li").hide();
+				var search_string = $(this).val().toLowerCase();
+				
+				$("#module > li").each(function(){
+					var module = $(this).text().toLowerCase();
+					
+					if(module.indexOf(search_string) >= 0){
+						$(this).show();
+					}
+				});
+			});
 			
 			
 
