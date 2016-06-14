@@ -313,8 +313,30 @@ $(document).ready(function(){
 	  		$("#add-test").fadeIn();
 	  		displayModuleInSelect("#test_module", 0);
 	  	});
-	  	
-		$("#add-test-cancel").click(function(){
+	  
+	  $("#test_module").change(function(){
+		  var id_module = $(this).val();
+		  displayChapterInSelect("#create_test_chapter", 0, id_module);
+	  });
+	  
+	  $("#form-add-test").validate({
+          rules : {
+        	  test_password : {
+                  minlength : 5
+              },
+              confirmation_test_password : {
+                  minlength : 5,
+                  equalTo : "#test_password"
+              }
+          },
+          errorElement:'span',
+		  errorPlacement: function(error, element) {
+			  error.css({display: "block"});
+			  error.appendTo(element.parent());
+	      }
+	  });
+	  
+	  $("#add-test-cancel").click(function(){
 	  		$("#add-test").hide();
 	  		$(".test-info").fadeIn();
 	  		$(".Qpaire").remove();

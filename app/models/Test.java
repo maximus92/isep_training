@@ -8,14 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import play.Logger;
 import play.db.DB;
 
 public class Test {
 	private final static String SELECT_TEST_BY_ID_USER = "SELECT * FROM test "
 			+ "WHERE createby = ?";
-	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable,password) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
 	private final static String UPDATE_IS_ENABLE = "UPDATE test "
 			+ "SET isenable = ? "
 			+ "WHERE createby = ? AND id_test = ?";
@@ -29,6 +31,7 @@ public class Test {
 	private int createby;
 	private String isenable;
 	private int id_test;
+	private String password;
 	
 	public String getTitle() {
 		return title;
@@ -36,6 +39,11 @@ public class Test {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public void setPassword(String password) {
+		password = BCrypt.hashpw(password, BCrypt.gensalt());
+		this.password = password;
 	}
 
 	public int getId_module() {
@@ -119,6 +127,7 @@ public class Test {
 		statement.setInt(3,this.id_chapter);
 		statement.setInt(4,this.createby);
 		statement.setString(5,this.isenable);
+		statement.setString(6,this.password);
 		statement.executeUpdate();
 		ResultSet resultat = statement.getGeneratedKeys();
 		if(resultat.next()){

@@ -278,27 +278,39 @@
 			<!-- AJOUTER TEST -->
 
 			<div id="add-test">
-				<form class="form-inline"
-					action="@routes.ProfessorController.addTest()" method="POST">
-					<input type="text" class="form-control margin-top-20"
-						name="test_title" id="titre" placeholder="Titre" size=100%>
-					</br> </br> <input type="hidden" id="answer_test_counter"
-						name="answer_test_counter" value="1" /> <input type="hidden"
-						id="question_test_counter" name="question_test_counter" value="1" />
+				<form id="form-add-test" class="form-inline" action="@routes.ProfessorController.addTest()" method="POST">
+					<input type="text" class="form-control margin-top-20" name="test_title" id="titre" placeholder="Titre" size=100%>
+					</br> </br> 
+					<input type="hidden" id="answer_test_counter" name="answer_test_counter" value="1" /> 
+					<input type="hidden" id="question_test_counter" name="question_test_counter" value="1" />
 					<div class="row">
-						<div class="col-xs-1 padding-10">
+						<div class="col-xs-2 padding-10">
 							<label for="module">Module: </label>
 						</div>
-						<div class="col-xs-3">
-							<select id="test_module" name="test_module" size="1"></select>
+						<div class="col-xs-4">
+							<select id="test_module" class="form-control" name="test_module"></select>
 						</div>
-						<div class="col-xs-1 padding-10">
+						<div class="col-xs-2 padding-10">
 							<label for="chapter">Chapitre: </label>
 						</div>
-						<div class="col-xs-3">
-							<select name="test_chapter" size="1">
+						<div class="col-xs-4">
+							<select name="test_chapter" id="create_test_chapter" class="form-control">
 								<option value="0">Aucun</option>
 							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-2 padding-10">
+							<label>Mot de passe :</label>
+						</div>
+						<div class="col-xs-4">
+							<input name="test_password" id="test_password" type="password" class="form-control" required>
+						</div>
+						<div class="col-xs-2 padding-10">
+							<label>Confirmation :</label>
+						</div>
+						<div class="col-xs-4">
+							<input name="confirmation_test_password" id="confirmation_test_password" type="password" class="form-control" required>
 						</div>
 					</div>
 					<div id="container_testQ">

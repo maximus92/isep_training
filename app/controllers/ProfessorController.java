@@ -170,6 +170,7 @@ public class ProfessorController extends Controller {
         test.setId_module( Integer.parseInt( form.get( "test_module" ) ) );
         test.setId_chapter( 0 );
         test.setCreateby( createby );
+        test.setPassword(form.get("test_password"));
         test.setIsenable( "0" );
 
         int id_test = test.insert();
