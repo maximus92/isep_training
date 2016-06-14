@@ -376,14 +376,14 @@ $(document).ready(
 				var id_module = $(this).val();
 				$.ajax({
 					type: 'POST',
-					url: '/student/displayTest',
+					url: '/student/displayTestList',
 					data: {id_module: id_module},
 					success: function(data){
 						var div="";
 						for(var i=0; i<data.length;i++){
 							div = '<div class="col-xs-6">'+data[i].title+'</div>'+
 									'<div class="col-xs-6">'+
-										'<button class="btn btn-primary" id="btn-answer-to-test'+data[i].id_test+'">Répondre</button>'+
+										'<button class="btn btn-primary btn-answer-to-test" id="btn-answer-to-test'+data[i].id_test+'">Répondre</button>'+
 									'</div>';
 						}
 						$("#test_result_from_select").html(div);
@@ -391,6 +391,28 @@ $(document).ready(
 				});
 			});
 			
+			$("#test_result_from_select").on("click",".btn-answer-to-test",function(){
+				var id_test = $(".btn-answer-to-test").attr("id").substring(18);
+				$("#test_cours_modal_password").modal("show");
+				$("#test_student_password").val("");
+				$("#student_test_id_test").val(id_test);
+			});
+			
+			$("#test-student-modal-btn-confirmation").click(function(){
+				var dataString = $("#form-modal-test-student").serialize();
+				$.ajax({
+					type: 'POST',
+					url: '/student/displayTest',
+					data: dataString,
+					success: function(data){
+						alert(data.res);
+					}
+				});
+			});
+			
+			$("#form-modal-test-student").submit(function(e){
+				e.preventDefault();
+			});
 			
 			/************************Scripts pour l'historique*********************/
 			

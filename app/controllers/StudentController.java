@@ -23,6 +23,7 @@ import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import controllers.security.Secured;
 import controllers.security.StudentSecurity;
@@ -240,12 +241,26 @@ public class StudentController extends Controller {
         return ok( student_course_test.render( modules, chapters ) );
     }
 
-    public Result displayTest() throws SQLException {
+    public Result displayTestList() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_module = Integer.parseInt( form.get( "id_module" ) );
         List<Test> list_test = Test.getEnableTestByIdModule( id_module );
         JsonNode json = Json.toJson( list_test );
         return ok( json );
+    }
+    
+    public Result displayTest() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_test = Integer.parseInt(form.get("student_test_id_test"));
+        String password = form.get("test_student_password");
+        Test test = Test.getTestByIdTest(id_test);
+        ObjectNode result = Json.newObject();
+        if(test.checkPassword(password)){
+        	result.put( "res", "true" );
+        }else{
+        	result.put( "res", "false" );
+        }
+        return ok( result );
     }
 
     /********** Historique des qcms *************/

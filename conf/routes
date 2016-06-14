@@ -72,6 +72,7 @@ POST 	/student/getCorrectionForQuestion 	controllers.StudentController.getCorrec
 GET 	/student/qcmPreview					controllers.StudentController.qcmPreview(id_qcm: Integer)
 
 GET		/student/course-test				controllers.StudentController.courseTest
+POST	/student/displayTestList			controllers.StudentController.displayTestList
 POST	/student/displayTest				controllers.StudentController.displayTest
 
 GET		/student/history					controllers.StudentController.studentHistory
