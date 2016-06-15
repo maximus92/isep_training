@@ -256,12 +256,25 @@ public class StudentController extends Controller {
         Test test = Test.getTestByIdTest(id_test);
         ObjectNode result = Json.newObject();
         if(test.checkPassword(password)){
+        	
+        	int id_chapter = test.getId_chapter();
+        	String token = session().get( "token" );
+        	int id_user = User.getIdByToken(token);
+        	List<Question> questionsArray = Question.selectQuestionByIdTest(id_test, id_user);
+        	ArrayList<Integer> questionIdArray = new ArrayList<>();
+        	for(int i=0; i<questionsArray.size();i++){
+        		questionIdArray.add(questionsArray.get(i).getId_question());
+        	}
+        	Qcm qcm = new Qcm();
+        	qcm.setId_test(id_test);
+        	qcm.createStudentQcm(questionIdArray, 0, token, questionsArray.size(), 1, 0, 0, id_chapter);
         	result.put( "res", "true" );
         }else{
-        	result.put( "res", "false" );
+        	result.put( "wrong_password", "true" );
         }
         return ok( result );
     }
+    
 
     /********** Historique des qcms *************/
 

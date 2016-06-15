@@ -405,7 +405,12 @@ $(document).ready(
 					url: '/student/displayTest',
 					data: dataString,
 					success: function(data){
-						alert(data.res);
+						if(!data.wrong_password){
+							alert("OK");
+						}else{
+							alert("Mauvais mot de passe");
+						}
+						
 					}
 				});
 			});
