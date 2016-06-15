@@ -470,6 +470,7 @@ public class ProfessorController extends Controller {
         int no_answer = Integer.parseInt(form.get( "nullP" ));
         String title = form.get( "title_exam" );
         boolean exam = true;
+        
  
         Qcm examen = new Qcm();
         
@@ -504,6 +505,19 @@ public class ProfessorController extends Controller {
         ObjectNode result = Json.newObject();
         result.put( "id_qcm", id_qcm );
         return ok( result );
+    }
+    
+    public Result selectQuestionForExam() throws SQLException {
+    	DynamicForm form = Form.form().bindFromRequest();
+        String token = session().get( "token" );
+        int id = User.getIdByToken( token );
+        String forexam1 = "1";
+        String limitQ = form.get( "nbrQ" );
+        //Logger.debug(limitQ);
+        
+        ArrayList<Question> list = Question.getQuestionForExam(id, forexam1);
+        JsonNode json = Json.toJson( list );
+        return ok( json );
     }
 
 }

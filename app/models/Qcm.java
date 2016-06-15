@@ -500,6 +500,8 @@ public class Qcm {
             connection.close();
         }
     }
+    
+    
 
     public static List<Qcm> getEndQcmByUser( int id_user ) throws SQLException {
         List<Qcm> qcm_list = new ArrayList<Qcm>();

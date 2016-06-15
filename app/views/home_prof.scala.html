@@ -399,9 +399,10 @@
 			
 		
 		<!-- AJOUTER Examen -->
-		<div id="add_exam">
 		<form class="form-inline" method="post"
 				id="form_add_exam" action="@routes.ProfessorController.addExam()">
+						<div id="add_exam">
+				
 				<input type="text" class="form-control" id="title_exam"
 					placeholder="Titre" name="title_exam" size=100%> </br> </br> <label
 					for="nbrQ">Nombre de questions : </label> <select name="nbrQ"
@@ -412,45 +413,29 @@
 					name="maxR" id="maxR"> @for(i <- 0 until 10){
 					<option>@(i)</option> }
 				</select> </br> </br> <label for="time">Temps imparti : </label> <select name="hour"
-					id="hour"> @for(i <- 0 until 6){
+					id="hour" > @for(i <- 0 until 6){
 					<option>@(i)</option> }
 				</select> Heures <select name="minute" id="minute"> @for(i <- 1
 					until 13){
 					<option>@(i*5)</option> }
 				</select> Minutes </br> </br> <label for="positiveP">Nombre de points par bonne
-					réponse : </label> <input type="number" id="positiveP" name="positiveP">
+					réponse : </label> <input type="number" id="positiveP" name="positiveP" value="1">
 				</br> </br> <label for="negativeP">Nombre de points par mauvaise
-					réponse : </label> <input type="number" id="negativeP" name="negativeP">
+					réponse : </label> <input type="number" id="negativeP" name="negativeP" value="0">
 				</br> </br> <label for="nullP">Nombre de points par réponse vide: </label> <input
-					type="number" id="nullP" name="nullP"> </br> </br>
+					type="number" id="nullP" name="nullP" value="0"> </br> </br>
 
-				<button id="next_exam" type="submit" class="btn btn-info btn-lg pull-right">Suivant</button>
+				<span id="next_exam" class="btn btn-info btn-lg pull-right">Suivant</span>
+				
+				
 				</div>
 				
-		<!--  <div id="view_questin_exam">
-								<table class="table table-striped">
-									<tr id="Q1">
-										<td>Question 1</td>
-										<td class="pull-right"><i class="fa fa-times"
-											onclick="removeDiv('Q1');"></i></td>
-									</tr>
-									<tr id="Q2">
-										<td>Question 2</td>
-										<td class="pull-right"><i class="fa fa-times"
-											onclick="removeDiv('Q2');"></i></td>
-									</tr>
-									<tr id="Q3">
-										<td>Question 3</td>
-										<td class="pull-right"><i class="fa fa-times"
-											onclick="removeDiv('Q3');"></i></td>
-
-									</tr>
-									</tbody>
-								</table>
+			<div id="view_question_exam">
+			<div id="QQtest"></div>
 								
-								<button type="submit" class="btn btn-info btn-lg pull-center">Enregistrer</button>
+								<button type="submit" class="btn btn-info btn-lg pull-right">Enregistrer</button>
 								
-							</div> -->
+							</div>
 								
 						
 

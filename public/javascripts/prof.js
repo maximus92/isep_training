@@ -123,13 +123,17 @@ $(document).ready(function(){
 		/** EXAMEN **/
 		
 		$("#add_exam").hide();
-		$("#view_questin_exam").hide();
+		$("#view_question_exam").hide();
 		
 		$("#create-exam").click(function(){
 	  		$("#exam-info").hide();
 	  		$("#add_exam").fadeIn();
 	  	});
 		
+		$("#next_exam").click(function(){
+	  		$("#add_exam").hide();
+	  		$("#view_question_exam").fadeIn();
+	  	});
 					$("#examen-li").one("click",function(){
 								dataString = "";
 
@@ -162,6 +166,30 @@ $(document).ready(function(){
 									$(exam).css({display: "none"});
 							});
 						});
+					
+					$("#next_exam").one("click",function(){
+						dataString = "";
+
+						$.ajax({
+							type : "POST",
+							url : "/select-question-exam",
+							data : dataString,
+							dataType : "json",
+
+							success : function(data) {
+								for (var i = 0; i < data.length; i++) {
+									$("#QQtest").append('<table class="table table-striped">'+
+											'<tr id="'+data[i].id_question+'">'+
+										'<td>'+data[i].question+'</td>'+
+										'</tr>');
+								}
+							}
+						
+						});
+
+					});
+
+					
 
 		
 	
