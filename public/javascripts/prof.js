@@ -190,9 +190,15 @@ $(document).ready(function(){
 						});
 
 					});
+					$("#cancel_exam").click(function(){
+				  		$("#add_exam").hide();
+				  		$("#view_question_exam").hide();
+				  		$("#exam-info").fadeIn();
 
+				  		
+				  	});
 					
-
+					
 		
 	
 		 
