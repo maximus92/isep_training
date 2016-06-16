@@ -512,8 +512,7 @@ public class ProfessorController extends Controller {
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
         String forexam1 = "1";
-        String limitQ = form.get( "nbrQ" );
-        //Logger.debug(limitQ);
+
         
         ArrayList<Question> list = Question.getQuestionForExam(id, forexam1);
         JsonNode json = Json.toJson( list );

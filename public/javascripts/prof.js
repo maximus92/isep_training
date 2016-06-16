@@ -169,6 +169,7 @@ $(document).ready(function(){
 					
 					$("#next_exam").one("click",function(){
 						dataString = "";
+						var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
 
 						$.ajax({
 							type : "POST",
@@ -177,10 +178,11 @@ $(document).ready(function(){
 							dataType : "json",
 
 							success : function(data) {
-								for (var i = 0; i < data.length; i++) {
-									$("#QQtest").append('<table class="table table-striped">'+
+								for (var i = 0; i < nbQ; i++) {
+									$("#exam_questions").append('<table class="table table-striped">'+
 											'<tr id="'+data[i].id_question+'">'+
 										'<td>'+data[i].question+'</td>'+
+										'<td class="pull-right"><i class="fa fa-times"></i></td>'+
 										'</tr>');
 								}
 							}

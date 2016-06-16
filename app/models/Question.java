@@ -455,7 +455,6 @@ public class Question {
         statement = connection.prepareStatement( GET_QUESTIONS_FOR_EXAM );
         statement.setInt( 1, id );
         statement.setString( 2, forexam1 );
-        //statement.setString( 3, limitQ );
         
 
         ResultSet rs = statement.executeQuery();
