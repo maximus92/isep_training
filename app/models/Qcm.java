@@ -29,6 +29,7 @@ public class Qcm {
     private String                    chapter;
     private Date                      finishat;
     private Integer                   max_score;
+    private int						  id_test = 0;
 
     private static ArrayList<Integer> questions_id_array                          = new ArrayList<Integer>();
 
@@ -37,8 +38,8 @@ public class Qcm {
                                                                                           + "ORDER BY RAND() "
                                                                                           + "LIMIT ?";
 
-    private static final String       CREATE_STUDENT_QCM                          = "INSERT INTO qcm (createby, time, nbofquestions, good_answer, bad_answer, no_answer, id_chapter) "
-                                                                                          + "VALUES (? ,?, ?, ?, ?, ?, ?)";
+    private static final String       CREATE_STUDENT_QCM                          = "INSERT INTO qcm (createby, time, nbofquestions, good_answer, bad_answer, no_answer, id_chapter, id_test) "
+                                                                                          + "VALUES (? ,?, ?, ?, ?, ?, ?, ?)";
 
     private static final String       STUDENT_QCM_QUESTIONS                       = "INSERT INTO join_qcm_question (id_qcm, id_question) "
                                                                                           + "VALUES (?, ?)";
@@ -84,6 +85,7 @@ public class Qcm {
                                                                                           + "INNER JOIN module m "
                                                                                           + "ON c.id_module = m.id_module "
                                                                                           + "WHERE id_chapter = ?";
+    private static final String		  GET_QCM_BY_ID_TEST_AND_CREATEBY			  = "SELECT * FROM qcm WHERE createby = ? AND id_test = ?";
 
     public int getId_qcm() {
         return id_qcm;
@@ -91,6 +93,10 @@ public class Qcm {
 
     public void setId_qcm( int id_qcm ) {
         this.id_qcm = id_qcm;
+    }
+    
+    public void setId_test( int id_test ) {
+        this.id_test = id_test;
     }
 
     public int getTime() {
@@ -259,6 +265,7 @@ public class Qcm {
         statement.setInt( 5, bad_answer );
         statement.setInt( 6, no_answer );
         statement.setInt( 7, id_chapter );
+        statement.setInt( 8, this.id_test );
         statement.executeUpdate();
 
         result = statement.getGeneratedKeys();
