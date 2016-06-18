@@ -7,6 +7,50 @@
 	color: white;
 }
 
+.chapters-list{
+	height: 150px;
+	overflow-x: hidden;
+}
+
+.student-module-list{
+	height:150px;
+}
+
+.settings-container{
+	margin-bottom: 25px;
+	margin-top: 50px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.settings-center{
+	display: inline-block;
+	text-align: center;
+}
+
+.settings-center #number-of-questions{
+	display: inline-block;
+	width: 40%;
+}
+
+.settings-center #question-level, .settings-center input{
+	display: inline-block;
+	width: 25%
+}
+
+.settings-scale{
+	margin-top: 50px;
+}
+
+#student-qcm-settings-part-2 .settings-nav{
+	margin-top: 50px;
+}
+
+.settings-nav{
+	display: inline-block;
+	text-align: right;
+}
+
 .student-qcm-question{
 	text-align: center;
 }

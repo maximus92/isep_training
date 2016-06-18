@@ -297,7 +297,7 @@ $(document).ready(function(){
 
 			
 		 }); 
-		var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
+		//var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
 
 	  
 	  $("#filter_question").click(function(){

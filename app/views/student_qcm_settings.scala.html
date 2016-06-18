@@ -3,11 +3,11 @@
 
 <div class="container">
     <div class="student-qcm-settings">
-      <a href="">home</a>/<a href="">paramètres</a>
-       <div class="col-md-10 col-md-offset-1" id="student-qcm-settings-part-1">
-            <div>
-                <div class="col-md-4">
-                    <ul class="list-group" id="module">
+      <a href="@routes.StudentController.index">Home</a> / <a href="">Paramètres</a>
+       <div class="row" id="student-qcm-settings-part-1">
+            <div class="settings-container col-md-8 col-md-offset-2">
+                <div class="col-md-6">
+                    <ul class="student-module-list list-group" id="module">
                         @for(module <- modules){
                             <li class="list-group-item" id="id-module-@module.getId_module">@module.getModule_name</li>
                         }
@@ -17,7 +17,7 @@
                 <div class="col-md-1 btn-lg">
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </div>
-                <div class="all-chapters col-md-4">
+                <div class="all-chapters col-md-5">
 	                @for(module <- modules){
 	                	<ul class="chapters-list list-group" id="chapters-module-@module.getId_module">
 	                        @for(chapter <- chapters){
@@ -27,17 +27,19 @@
 	                        }
 	                    </ul>
 	                }
+	                
+	                 <input type="text" class="col-md-12" id="search-chapter">
                 </div>
             </div>
-            <div class="col-md-4 col-md-offset-6">
+            <div class="settings-nav col-md-8 col-md-offset-2">
                 <a href='@routes.StudentController.index()'><button type="button" class="btn btn-lg btn-default">Retour</button></a>
                 <button type="button" class="btn btn-lg btn-default col-md-offset-1" id="pass-to-settings-second-part">Suivant</button>
             </div>
         </div>
 
-        <div id="student-qcm-settings-part-2">
-            <div class="col-md-12">
-                <div class="col-md-3">
+        <div class="row" id="student-qcm-settings-part-2">
+            <div class="settings-container col-md-11 col-md-offset-1">
+                <div class="settings-center col-md-3">
                     <h3>Nombre de questions</h3>
                     <select name="number-of-questions" id="number-of-questions" class="form-control">
                         @for(i <- 1 until 11){
@@ -45,27 +47,32 @@
                         }
                     </select>
                 </div>
-                <div class="col-md-3 col-md-offset-1">
+                <div class="settings-center col-md-3 col-md-offset-1">
                     <h3>Temps imparti</h3>
-                    <div class="col-md-4">
-                        <select name="qcm-time-hours" id="qcm-time-hours" class="form-control">
-                            @for(i <- 0 until 4){
-                                  <option>@(i)</option>
-                            }
-                        </select>
+                    <div class=" setting-time-input col-md-12">
+                       <div class="form-inline">
+                           <div class="form-group">
+                                <select name="qcm-time-hours" id="qcm-time-hours" class="form-control">
+                                    @for(i <- 0 until 4){
+                                          <option>@(i)</option>
+                                    }
+                                </select>
+                                <label for="qcm-time-hours">H</label>
+                            </div>
+                           <div class="form-group">
+                                <select name="qcm-time-minutes" id="qcm-time-minutes" class="form-control">
+                                    @for(i <- 1 until 13){
+                                          <option>@(i*5)</option>
+                                    }
+                                </select>
+                                <label for="qcm-time-minutes">Min</label>
+                            </div>   
+                       </div>
+                         
                     </div>
-                    <p class="col-md-2">H</p>
-                    <div class="col-md-4">
-                        <select name="qcm-time-minutes" id="qcm-time-minutes" class="form-control">
-                            @for(i <- 1 until 13){
-                                  <option>@(i*5)</option>
-                            }
-                        </select>
-                    </div>    
-                    <p class="col-md-2">Min</p>
                 </div>
 
-                <div class="col-md-3 col-md-offset-1">
+                <div class="settings-center col-md-3 col-md-offset-1">
                     <h3>Difficulté</h3>
                     <select name="question-level" id="question-level" class="form-control">
                         @for(i <- 1 until 4){
@@ -73,28 +80,22 @@
                         }
                     </select>
                 </div>
-                <div class="col-md-12">
-                    <div class="col-md-3">
+                <div class="settings-scale col-md-12">
+                    <div class="settings-center col-md-3">
                         <h3>Bonne réponse</h3>
-                        <div class="col-md-4">
-                            <input type="number" name="good-answer" id="good-answer" value="1">
-                        </div>
+                        <input type="number" name="good-answer" id="good-answer" value="1">
                     </div>
-                    <div class="col-md-3 col-md-offset-1">
+                    <div class="settings-center col-md-3 col-md-offset-1">
                         <h3>Mauvaise réponse</h3>
-                        <div class="col-md-4">
-                            <input type="number" name="bad-answer" id="bad-answer" value="0">
-                        </div>
+                        <input type="number" name="bad-answer" id="bad-answer" value="0">
                     </div>
-                    <div class="col-md-3 col-md-offset-1">
+                    <div class="settings-center col-md-3 col-md-offset-1">
                         <h3>Pas de réponse</h3>
-                        <div class="col-md-4">
-                            <input type="number" name="no-answer" id="no-answer" value="0">
-                        </div>
+                        <input type="number" name="no-answer" id="no-answer" value="0">
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-md-offset-6">
+            <div class="settings-nav col-md-4 col-md-offset-6">
                 <button type="button" class="btn btn-lg btn-default" id="back-to-settings-first-part">Retour</button>
                 <button type="button" class="btn btn-lg btn-default col-md-offset-1" id="send-qcm-settings">Commencer</button>
             </div>

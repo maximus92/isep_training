@@ -97,6 +97,21 @@ $(document).ready(
 				});
 			});
 			
+			// recherche d'un chapitre 
+			
+			$('#search-chapter').keyup(function(){
+				$("#chapters-module-" + id_module + " > li").hide();
+				var search_string = $(this).val().toLowerCase();
+				
+				$("#chapters-module-" + id_module + " > li").each(function(){
+					var module = $(this).text().toLowerCase();
+					
+					if(module.indexOf(search_string) >= 0){
+						$(this).show();
+					}
+				});
+			});
+			
 			
 
 			// selection du chapitre
