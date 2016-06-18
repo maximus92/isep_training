@@ -9,8 +9,15 @@
                   <table class="table">
                       <tr>
                         <td class="module-and-chapter col-md-6">
-                            <div class="module">@qcm.getModule</div>
-                            <div class="chapter">@qcm.getChapter</div>
+                           @if(qcm.getTitle == ""){
+                               <div class="module">@qcm.getModule</div>
+                                @for(chapter <- qcm.getChapter_list){
+                                    <span class="chapter">@(chapter); </span>
+                                }
+                           }else {
+                               <div class="test_title">@qcm.getTitle</div>
+                           }
+                            
                         </td>
                         <td class="qcm-date col-md-2">
                             @qcm.getFinishat

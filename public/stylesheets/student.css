@@ -2,6 +2,11 @@
 	display: none;	
 }
 
+.selected-chapter{
+	background-color: #0D6186;
+	color: white;
+}
+
 .student-qcm-question{
 	text-align: center;
 }

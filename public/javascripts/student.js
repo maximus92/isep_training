@@ -41,7 +41,6 @@ $(document).ready(
 			// Sélection du modules
 			
 			var id_module;
-			var id_chapter;
 
 			// selectionner automatiquement le premier module et chapitre
 			if($('#module').length){
@@ -53,12 +52,7 @@ $(document).ready(
 				$("#module li:first-child").addClass("selected-module");
 				id_module = $("#module li:first-child").attr("id").substring(10);
 				
-				$("#chapters-module-" + id_module + " li:first-child").css({
-					'background-color' : '#0D6186',
-					'color' : 'white'
-				});
-
-				id_chapter = $("#chapters-module-" + id_module + " li:first-child").attr("id").substring(11);
+				$("#chapters-module-" + id_module + " li:first-child").addClass('selected-chapter');
 
 			}
 			
@@ -79,11 +73,12 @@ $(document).ready(
 				// Récupération de l'id du module selectionné
 				id_module = $(this).attr("id").substring(10);
 
-				// Cacher les Chapitres affichés
+				// Cacher et deselectionner les Chapitres affichés
 				$(".chapters-list").hide();
-
+				$(".selected-chapter").removeClass("selected-chapter");
 				// Afficher les chapitres correspondants au module selectionné
 				$("#chapters-module-" + id_module).show();
+				$("#chapters-module-" + id_module + " li:first-child").addClass("selected-chapter");
 
 			});
 		
@@ -107,17 +102,12 @@ $(document).ready(
 			// selection du chapitre
 
 			$(".chapters-list > li").click(function() {
-				$(".chapters-list > li").css({
-					'background-color' : 'white',
-					'color' : '#333'
-				});
-				$(this).css({
-					'background-color' : '#0D6186',
-					'color' : 'white'
-				});
-
-				// Récupération de l'id du chapitre selectionné
-				id_chapter = $(this).attr("id").substring(11);
+				
+				if($(this).hasClass("selected-chapter")){
+					$(this).removeClass("selected-chapter");
+				} else{
+					$(this).addClass("selected-chapter");
+				}
 
 			});
 
@@ -137,6 +127,13 @@ $(document).ready(
 			var qcm_json_settings;
 
 			$("#send-qcm-settings").click(function() {
+
+				var id_chapters = "";
+				
+				$(".selected-chapter").each(function(){
+					id_chapters += " " + $(this).attr("id").substring(11);
+				});
+				
 				var question_num = parseInt($("#number-of-questions")
 						.find(":selected").text());
 				var qcm_time = (parseInt($("#qcm-time-hours").find(
@@ -152,7 +149,7 @@ $(document).ready(
 				var no_answer = parseInt($("#no-answer").val());
 
 				qcm_json_settings = { 
-					"id_chapter" : id_chapter,
+					"id_chapter" : id_chapters,
 					"question_num" : question_num,
 					"qcm_time" : qcm_time,
 					"question_level" : question_level,
@@ -293,7 +290,7 @@ $(document).ready(
 							$('.modal-answers').append(
 									'<div class="form-group modal-answer">'+
 						               ' <label class="col-md-12">'+
-					                    '<input type="checkbox" class="answer" id="answer' + data[1][i].id_answer + '" ' + checked + '  readonly >'+
+					                    '<input type="checkbox" class="answer" id="answer' + data[1][i].id_answer + '" ' + checked + '  readonly disabled>'+
 					                    '<span class="col-md-offset-1 '+isgoodanswer+'" id="answer-' + data[1][i].id_answer + '">'+ data[1][i].answer + '</span>'+
 						                '</label>' +
 						            '</div>'
@@ -383,7 +380,7 @@ $(document).ready(
 						for(var i=0; i<data.length;i++){
 							div = '<div class="col-xs-6">'+data[i].title+'</div>'+
 									'<div class="col-xs-6">'+
-										'<button class="btn btn-primary btn-answer-to-test" id="btn-answer-to-test'+data[i].id_test+'">Répondre</button>'+
+										'<button class="btn btn-primary btn-answer-to-test" data-title="' + data[i].title + '" id="btn-answer-to-test'+data[i].id_test+'">Répondre</button>'+
 									'</div>';
 						}
 						$("#test_result_from_select").html(div);
@@ -393,9 +390,11 @@ $(document).ready(
 			
 			$("#test_result_from_select").on("click",".btn-answer-to-test",function(){
 				var id_test = $(".btn-answer-to-test").attr("id").substring(18);
+				var title = $(".btn-answer-to-test").data("title");
 				$("#test_cours_modal_password").modal("show");
 				$("#test_student_password").val("");
 				$("#student_test_id_test").val(id_test);
+				$("#student_test_title").val(title);
 			});
 			
 			$("#test-student-modal-btn-confirmation").click(function(){
@@ -405,8 +404,8 @@ $(document).ready(
 					url: '/student/displayTest',
 					data: dataString,
 					success: function(data){
-						if(!data.wrong_password){
-							alert("OK");
+						if(data.password){
+							window.location.href = "trainingQcm?question_num=1";
 						}else{
 							alert("Mauvais mot de passe");
 						}

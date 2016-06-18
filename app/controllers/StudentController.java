@@ -3,6 +3,7 @@ package controllers;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import models.Answer;
 import models.Chapter;
@@ -58,7 +59,12 @@ public class StudentController extends Controller {
 
     public Result studentPostTrainingQcmSettings() throws NumberFormatException, SQLException {
         DynamicForm form = Form.form().bindFromRequest();
-        Integer id_chapter = Integer.parseInt( form.get( "id_chapter" ) );
+        String id_chapter = form.get( "id_chapter" );
+        Scanner scanner = new Scanner( id_chapter );
+        List<Integer> id_chapter_list = new ArrayList<Integer>();
+        while ( scanner.hasNextInt() ) {
+            id_chapter_list.add( scanner.nextInt() );
+        }
         Integer question_num = Integer.parseInt( form.get( "question_num" ) );
         Integer question_level = Integer.parseInt( form.get( "question_level" ) );
         Integer qcm_time = Integer.parseInt( form.get( "qcm_time" ) );
@@ -68,10 +74,14 @@ public class StudentController extends Controller {
         String token = session().get( "token" );
         Qcm qcm = new Qcm();
 
+        // empêche de charger le dernier test lancé si celui-ci est encore en
+        // mémoire
+        qcm.setId_test( -1 );
+
         ArrayList<Integer> questionsArray = new ArrayList<Integer>();
 
         questionsArray = Qcm.getQuestionsIdArrayByParam(
-                id_chapter,
+                id_chapter_list,
                 question_num,
                 question_level
                 );
@@ -84,7 +94,7 @@ public class StudentController extends Controller {
                 good_answer,
                 bad_answer,
                 no_answer,
-                id_chapter
+                id_chapter_list
                 );
 
         JsonNode json = Json.toJson( questionsArray );
@@ -125,18 +135,6 @@ public class StudentController extends Controller {
             answers_list = Answer.getAnswersByQuestionId( question.getId_question() );
         }
 
-        // for ( int i = 0; i < answers_list.size(); i++ ) {
-        // if ( session().get( "answer" + answers_list.get( i ).id_answer ) !=
-        // null &&
-        // session().get( "answer" + answers_list.get( i ).id_answer ).equals(
-        // "1" ) ) {
-        //
-        // answers_list.get( i ).is_select = true;
-        // } else {
-        // answers_list.get( i ).is_select = false;
-        // }
-        // }
-
         return ok( student_training_qcm.render( "", question, answers_list, qcm_info ) );
     }
 
@@ -148,15 +146,10 @@ public class StudentController extends Controller {
         for ( int i = 0; i < Integer.parseInt( form.get( "nb-of-answers" ) ); i++ ) {
             if ( form.get( "answer" + i ) != null ) {
 
-                // changement depuis l'id de la checkbox
-                // session().put( "answer" + form.get( "answer" + i ), "1" );
                 Answer.updateStudentQcmAnswer( id_qcm,
                         Integer.parseInt( form.get( "answer" + i ) ), true );
             } else {
 
-                // changement depuis l'id d'un input caché (ajax ne renvoie pas
-                // l'id des réponses non cochées)
-                // session().put( "answer" + form.get( "id-answer-" + i ), "0");
                 Answer.updateStudentQcmAnswer( id_qcm,
                         Integer.parseInt( form.get( "id-answer-" + i ) ), false );
             }
@@ -175,7 +168,6 @@ public class StudentController extends Controller {
         answersSelected = Answer.getSelectedAnswers( id_qcm, id_question );
 
         JsonNode json = Json.toJson( answersSelected );
-        Logger.debug( json.toString() );
         return ok( json );
     }
 
@@ -248,33 +240,37 @@ public class StudentController extends Controller {
         JsonNode json = Json.toJson( list_test );
         return ok( json );
     }
-    
+
     public Result displayTest() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
-        int id_test = Integer.parseInt(form.get("student_test_id_test"));
-        String password = form.get("test_student_password");
-        Test test = Test.getTestByIdTest(id_test);
+        int id_test = Integer.parseInt( form.get( "student_test_id_test" ) );
+        String title = form.get( "student_test_title" );
+        String password = form.get( "test_student_password" );
+        Test test = Test.getTestByIdTest( id_test );
         ObjectNode result = Json.newObject();
-        if(test.checkPassword(password)){
-        	
-        	int id_chapter = test.getId_chapter();
-        	String token = session().get( "token" );
-        	int id_user = User.getIdByToken(token);
-        	List<Question> questionsArray = Question.selectQuestionByIdTest(id_test, id_user);
-        	ArrayList<Integer> questionIdArray = new ArrayList<>();
-        	for(int i=0; i<questionsArray.size();i++){
-        		questionIdArray.add(questionsArray.get(i).getId_question());
-        	}
-        	Qcm qcm = new Qcm();
-        	qcm.setId_test(id_test);
-        	qcm.createStudentQcm(questionIdArray, 0, token, questionsArray.size(), 1, 0, 0, id_chapter);
-        	result.put( "res", "true" );
-        }else{
-        	result.put( "wrong_password", "true" );
+        if ( test.checkPassword( password ) ) {
+
+            int id_chapter = test.getId_chapter();
+            List<Integer> id_chapter_list = new ArrayList<Integer>();
+            id_chapter_list.add( id_chapter );
+            String token = session().get( "token" );
+            int id_user = User.getIdByToken( token );
+            List<Question> questionsArray = Question.selectQuestionByIdTest( id_test, id_user );
+            ArrayList<Integer> questionIdArray = new ArrayList<>();
+            for ( int i = 0; i < questionsArray.size(); i++ ) {
+                questionIdArray.add( questionsArray.get( i ).getId_question() );
+            }
+            Qcm qcm = new Qcm();
+            qcm.setId_test( id_test );
+            qcm.setTitle( title );
+            qcm.createStudentQcm( questionIdArray, 3600, token, questionsArray.size(), 1, 0, 0, id_chapter_list );
+            result.put( "password", true );
+            result.put( "id_qcm", qcm.getId_qcm() );
+        } else {
+            result.put( "password", false );
         }
         return ok( result );
     }
-    
 
     /********** Historique des qcms *************/
 
