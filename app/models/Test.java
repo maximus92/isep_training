@@ -8,20 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import play.Logger;
 import play.db.DB;
 
 public class Test {
 	private final static String SELECT_TEST_BY_ID_USER = "SELECT * FROM test "
 			+ "WHERE createby = ?";
-	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+	private final static String INSERT_TEST = "INSERT INTO test(title,id_module,id_chapter,createby,isenable,password) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
 	private final static String UPDATE_IS_ENABLE = "UPDATE test "
 			+ "SET isenable = ? "
 			+ "WHERE createby = ? AND id_test = ?";
 	private final static String DELETE_TEST = "DELETE FROM test "
 			+ "WHERE createby=? AND id_test=?";
 	private final static String SELECT_TEST_BY_ID_MODULE = "SELECT * FROM test WHERE id_module = ? AND isenable = true ";
+	private final static String SELECT_TEST_BY_ID_TEST = "SELECT * FROM test WHERE id_test = ?";
 	
 	private String title;
 	private int id_module;
@@ -29,6 +32,7 @@ public class Test {
 	private int createby;
 	private String isenable;
 	private int id_test;
+	private String password;
 	
 	public String getTitle() {
 		return title;
@@ -36,6 +40,10 @@ public class Test {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public int getId_module() {
@@ -114,11 +122,13 @@ public class Test {
 		Connection connection = DB.getConnection();;
 		PreparedStatement statement = connection.prepareStatement(INSERT_TEST,Statement.RETURN_GENERATED_KEYS);
 		int id = -1;
+		String pwd = BCrypt.hashpw(this.password, BCrypt.gensalt());
 		statement.setString(1,this.title);
 		statement.setInt(2,this.id_module);
 		statement.setInt(3,this.id_chapter);
 		statement.setInt(4,this.createby);
 		statement.setString(5,this.isenable);
+		statement.setString(6,pwd);
 		statement.executeUpdate();
 		ResultSet resultat = statement.getGeneratedKeys();
 		if(resultat.next()){
@@ -176,5 +186,35 @@ public class Test {
 		statement.close();
 		Model.closeConnection(connection);
 		return list;
+	}
+	
+	public static Test getTestByIdTest(int idTest) throws SQLException{
+		Connection connection = DB.getConnection();
+		PreparedStatement statement = connection.prepareStatement(SELECT_TEST_BY_ID_TEST);;	
+		Test test = new Test();
+		statement.setInt(1,idTest);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+		        int id_module = rs.getInt("id_module");
+				int id_test = rs.getInt("id_test");
+				int id_chapter = rs.getInt("id_chapter");
+				String title = rs.getString("title");
+				String isenable = rs.getString("isenable");
+				String password = rs.getString("password");
+				test.setId_test(id_test);
+				test.setId_chapter(id_chapter);
+				test.setId_module(id_module);
+				test.setTitle(title);
+				test.setPassword(password);
+				test.setIsenable(isenable);
+				//add each test to the list
+		}
+		statement.close();
+		Model.closeConnection(connection);
+		return test;
+	}
+	
+	public boolean checkPassword(String pwd){
+		return BCrypt.checkpw(pwd, this.password);
 	}
 }

@@ -50,6 +50,7 @@ POST    /delete-test              controllers.ProfessorController.deleteTest
 POST	/add-exam				controllers.ProfessorController.addExam
 POST    /select-exam            controllers.ProfessorController.selectExam
 POST    /delete-exam             controllers.ProfessorController.deleteExam
+POST    /select-question-exam            controllers.ProfessorController.selectQuestionForExam
 
 
 
@@ -72,6 +73,7 @@ POST 	/student/getCorrectionForQuestion 	controllers.StudentController.getCorrec
 GET 	/student/qcmPreview					controllers.StudentController.qcmPreview(id_qcm: Integer)
 
 GET		/student/course-test				controllers.StudentController.courseTest
+POST	/student/displayTestList			controllers.StudentController.displayTestList
 POST	/student/displayTest				controllers.StudentController.displayTest
 
 GET		/student/history					controllers.StudentController.studentHistory

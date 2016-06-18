@@ -123,13 +123,17 @@ $(document).ready(function(){
 		/** EXAMEN **/
 		
 		$("#add_exam").hide();
-		$("#view_questin_exam").hide();
+		$("#view_question_exam").hide();
 		
 		$("#create-exam").click(function(){
 	  		$("#exam-info").hide();
 	  		$("#add_exam").fadeIn();
 	  	});
 		
+		$("#next_exam").click(function(){
+	  		$("#add_exam").hide();
+	  		$("#view_question_exam").fadeIn();
+	  	});
 					$("#examen-li").one("click",function(){
 								dataString = "";
 
@@ -162,7 +166,39 @@ $(document).ready(function(){
 									$(exam).css({display: "none"});
 							});
 						});
+					
+					$("#next_exam").one("click",function(){
+						dataString = "";
+						var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
 
+						$.ajax({
+							type : "POST",
+							url : "/select-question-exam",
+							data : dataString,
+							dataType : "json",
+
+							success : function(data) {
+								for (var i = 0; i < nbQ; i++) {
+									$("#exam_questions").append('<table class="table table-striped">'+
+											'<tr id="'+data[i].id_question+'">'+
+										'<td>'+data[i].question+'</td>'+
+										'<td class="pull-right"><i class="fa fa-times"></i></td>'+
+										'</tr>');
+								}
+							}
+						
+						});
+
+					});
+					$("#cancel_exam").click(function(){
+				  		$("#add_exam").hide();
+				  		$("#view_question_exam").hide();
+				  		$("#exam-info").fadeIn();
+
+				  		
+				  	});
+					
+					
 		
 	
 		 
@@ -313,8 +349,30 @@ $(document).ready(function(){
 	  		$("#add-test").fadeIn();
 	  		displayModuleInSelect("#test_module", 0);
 	  	});
-	  	
-		$("#add-test-cancel").click(function(){
+	  
+	  $("#test_module").change(function(){
+		  var id_module = $(this).val();
+		  displayChapterInSelect("#create_test_chapter", 0, id_module);
+	  });
+	  
+	  $("#form-add-test").validate({
+          rules : {
+        	  test_password : {
+                  minlength : 5
+              },
+              confirmation_test_password : {
+                  minlength : 5,
+                  equalTo : "#test_password"
+              }
+          },
+          errorElement:'span',
+		  errorPlacement: function(error, element) {
+			  error.css({display: "block"});
+			  error.appendTo(element.parent());
+	      }
+	  });
+	  
+	  $("#add-test-cancel").click(function(){
 	  		$("#add-test").hide();
 	  		$(".test-info").fadeIn();
 	  		$(".Qpaire").remove();

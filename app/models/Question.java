@@ -49,6 +49,10 @@ public class Question {
     private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
             																	+ "WHERE createby=? AND forexam=? AND level=? ";
     
+    private static final String GET_QUESTIONS_FOR_EXAM 					= "SELECT * FROM question "
+    																			+"WHERE createby=? AND forexam=? ";
+    
+    
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -433,6 +437,45 @@ public class Question {
             q.setId_chapter( id_chapter );
             q.setForexam( forexam );
             q.setFile( file );
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+    }
+    
+    public static ArrayList<Question> getQuestionForExam( int id, String forexam1 ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Question> list = new ArrayList<Question>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_QUESTIONS_FOR_EXAM );
+        statement.setInt( 1, id );
+        statement.setString( 2, forexam1 );
+        
+
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
+            // add each employee to the list
             list.add( q );
         }
         statement.close();
