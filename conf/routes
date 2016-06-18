@@ -50,7 +50,6 @@ POST    /delete-test              controllers.ProfessorController.deleteTest
 POST	/add-exam				controllers.ProfessorController.addExam
 POST    /select-exam            controllers.ProfessorController.selectExam
 POST    /delete-exam             controllers.ProfessorController.deleteExam
-POST    /select-question-exam            controllers.ProfessorController.selectQuestionForExam
 
 
 

@@ -29,7 +29,8 @@
 			</div>
 			<div class="col-sm-4 col-xs-8">
 				<div class="thumbnail thumbnail_prof">
-					<a href="#addManually" data-toggle="tab">Ajouter une question</a>
+					<a href="#addManually" id="link_addManually" data-toggle="tab">Ajouter
+						une question</a>
 
 				</div>
 			</div>
@@ -43,8 +44,8 @@
 					<div class="col-xs-2">
 						<label>Difficulté : </label>
 					</div>
-					<div class="col-xs-3">
-						<SELECT name="level">
+					<div class="col-xs-2">
+						<SELECT name="level" class="form-control">
 							<OPTION value="0">Facile</OPTION>
 							<OPTION value="1">Moyen</OPTION>
 							<OPTION value="2">Difficile</OPTION>
@@ -53,8 +54,8 @@
 					<div class="col-xs-3">
 						<label>Question pour : </label>
 					</div>
-					<div class="col-xs-2">
-						<SELECT name="forexam">
+					<div class="col-xs-4">
+						<SELECT name="forexam" class="form-control">
 							<OPTION value="0">Entrainement des élèves</OPTION>
 							<OPTION value="1">Examen</OPTION>
 						</SELECT>
@@ -62,25 +63,21 @@
 				</div>
 				</br>
 				<div class="row">
-					<div class="col-xs-2">
+					<div class="col-sm-2  padding-10">
 						<label for="module">Module : </label>
 					</div>
-					<div class="col-xs-3">
-
-						<SELECT name="module" size="1">
-							<OPTION>Mathématiques</OPTION>
-							<OPTION>Physique</OPTION>
-							<OPTION>Anglais</OPTION>
-						</SELECT>
+					<div class="col-sm-2">
+						<select class="form-control" name="question_module"
+							id="question_module"></select>
 					</div>
-					<div class="col-xs-3">
+					<div class="col-sm-2 padding-10">
 						<label for="chapter">Chapitre : </label>
 					</div>
-					<div class="col-xs-2">
-						<SELECT name="id_chapter" size="1">
-							<OPTION value="0">Espace vectoriel</OPTION>
-							<OPTION>Examen</OPTION>
-						</SELECT>
+					<div class="col-sm-4">
+						<select class="form-control" name="question_chapter"
+							id="question_chapter">
+							<option value="0">Aucun</option>
+						</select>
 					</div>
 				</div>
 				</br>
@@ -410,9 +407,29 @@
 				<div id="add_exam">
 
 					<input type="text" class="form-control" id="title_exam"
-						placeholder="Titre" name="title_exam" size=100%> </br> </br> <label
-						for="nbrQ">Nombre de questions : </label> <select name="nbrQ"
-						id="nbrQ"> @for(i <- 0 until 200){
+						placeholder="Titre" name="title_exam" size=100%> </br> </br>
+
+					<div class="row">
+						<div class="col-sm-2  padding-10">
+							<label for="module">Module : </label>
+						</div>
+						<div class="col-sm-2">
+							<select class="form-control" name="exam_module"
+								id="exam_module"></select>
+						</div>
+						<div class="col-sm-2 padding-10">
+							<label for="chapter">Chapitre : </label>
+						</div>
+						<div class="col-sm-4">
+							<ul name="exam_chapter" id="exam_chapter">
+								
+							</ul>
+						</div>
+					
+					</div>
+
+					<label for="nbrQ">Nombre de questions : </label> <select
+						name="nbrQ" id="nbrQ"> @for(i <- 0 until 200){
 						<option>@(i)</option> }
 
 					</select> </br> </br> <label for="nbrR">Maximum de réponses possibles : </label> <select
@@ -431,21 +448,15 @@
 						id="negativeP" name="negativeP" value="0"> </br> </br> <label
 						for="nullP">Nombre de points par réponse vide: </label> <input
 						type="number" id="nullP" name="nullP" value="0"> </br> </br> <span
-						id="next_exam" class="btn btn-info btn-lg pull-right">Suivant</span>
-
-
-				</div>
-
-				<div id="view_question_exam">
-					<div id="exam_questions">
-						</br>
-						<label>Récapitulatif des question :</label></br>
-					</div>
-					<span id="cancel_exam" class="btn btn-warning btn-lg pull-left">Annuler</span>
-
+						id="cancel_exam" class="btn btn-warning btn-lg pull-left">Annuler</span>
 					<button type="submit" class="btn btn-info btn-lg pull-right">Enregistrer</button>
 
+
 				</div>
+
+
+
+
 
 
 
