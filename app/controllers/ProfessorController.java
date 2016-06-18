@@ -54,7 +54,7 @@ public class ProfessorController extends Controller {
         String question = form.get( "question" );
         String correction = form.get( "correction" );
         String level = form.get( "level" );
-        String id_chapter = form.get( "id_chapter" );
+        String id_chapter = form.get( "question_chapter" );
         String forexam = form.get( "forexam" );
         String file = form.get( "file" );
         String token = session().get( "token" );
@@ -507,16 +507,6 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
     
-    public Result selectQuestionForExam() throws SQLException {
-    	DynamicForm form = Form.form().bindFromRequest();
-        String token = session().get( "token" );
-        int id = User.getIdByToken( token );
-        String forexam1 = "1";
-
-        
-        ArrayList<Question> list = Question.getQuestionForExam(id, forexam1);
-        JsonNode json = Json.toJson( list );
-        return ok( json );
-    }
+   
 
 }

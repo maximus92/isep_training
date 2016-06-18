@@ -43,6 +43,17 @@ $(document).ready(function(){
 			 $("#remove"+id).remove();
 		 });
 		 
+		 
+		  $("#link_addManually").click(function(){
+		  		displayModuleInSelect("#question_module", "0");
+		  	});
+		  
+		  $("#question_module").change(function(){
+			  var id_module = $(this).val();
+			  displayChapterInSelect("#question_chapter", "0", id_module);
+		  });
+		 
+		 
 	
 	  /**** MODULE ***/
 	  
@@ -121,6 +132,27 @@ $(document).ready(function(){
 	  
 	/*** FIN MODULE ***/
 		/** EXAMEN **/
+		  $("#exam_chapter").hide();
+
+		
+		 $("#create-exam").click(function(){
+		  		displayModuleInSelect("#exam_module", "0");
+		  	});
+		 
+		 $("#exam_module").click(function(){
+			  $("#exam_chapter").fadeIn();
+		  });
+		 
+		  
+		  $("#exam_module").change(function(){
+			  var id_module = $(this).val();
+			  displayChapterInUl("#exam_chapter", id_module);
+		  });
+		  
+		  $("#exam_chapter").on("click", ".display_chapter", function(event){
+			    $(this).css('backgroundColor','#BABABA')
+			});
+		 
 		
 		$("#add_exam").hide();
 		$("#view_question_exam").hide();
@@ -130,10 +162,7 @@ $(document).ready(function(){
 	  		$("#add_exam").fadeIn();
 	  	});
 		
-		$("#next_exam").click(function(){
-	  		$("#add_exam").hide();
-	  		$("#view_question_exam").fadeIn();
-	  	});
+		
 					$("#examen-li").one("click",function(){
 								dataString = "";
 
@@ -167,32 +196,9 @@ $(document).ready(function(){
 							});
 						});
 					
-					$("#next_exam").one("click",function(){
-						dataString = "";
-						var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
-
-						$.ajax({
-							type : "POST",
-							url : "/select-question-exam",
-							data : dataString,
-							dataType : "json",
-
-							success : function(data) {
-								for (var i = 0; i < nbQ; i++) {
-									$("#exam_questions").append('<table class="table table-striped">'+
-											'<tr id="'+data[i].id_question+'">'+
-										'<td>'+data[i].question+'</td>'+
-										'<td class="pull-right"><i class="fa fa-times"></i></td>'+
-										'</tr>');
-								}
-							}
-						
-						});
-
-					});
+					
 					$("#cancel_exam").click(function(){
 				  		$("#add_exam").hide();
-				  		$("#view_question_exam").hide();
 				  		$("#exam-info").fadeIn();
 
 				  		
@@ -290,7 +296,9 @@ $(document).ready(function(){
 			 $("#addQuestionA").append(newdiv);
 
 			
-		 });  
+		 }); 
+		var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
+
 	  
 	  $("#filter_question").click(function(){
 		  $("#form_filtre_question").submit(function(e){
@@ -335,6 +343,7 @@ $(document).ready(function(){
 				  
 		  }); 
 	  });
+	  
 	  
 	  
 	  
@@ -654,6 +663,19 @@ $(document).ready(function(){
 								}
 								$(select_id).append($(selected_value).val(this.id_chapter).text(this.chapter_name));
 							});
+					});
+		}
+		
+		function displayChapterInUl(ul_id, id_module){
+			var dataString = {id_module: id_module};
+			ajaxBody("/select-chapter",dataString,
+					function(data){
+				$(ul_id+' li').remove();
+
+				$.each(data, function() {
+				 $(ul_id).append('<li class="list-group-item display_chapter" id="'+this.id_chapter+'">'+this.chapter_name+'</li>');
+
+				});
 					});
 		}
 		
