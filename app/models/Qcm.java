@@ -517,14 +517,12 @@ public class Qcm {
         while ( result1.next() ) {
 
             Qcm qcm = new Qcm();
-            Logger.debug( "idchapter : " + Integer.toString( result1.getInt( "id_chapter" ) ) );
 
             statement = connection.prepareStatement( GET_MODULE_AND_CHAPTER_NAME );
             statement.setInt( 1, result1.getInt( "id_chapter" ) );
             result2 = statement.executeQuery();
 
             if ( result2.next() ) {
-                Logger.debug( "idqcm : " + Integer.toString( result1.getInt( "id_qcm" ) ) );
                 qcm.setId_qcm( result1.getInt( "id_qcm" ) );
                 qcm.setFinishat( result1.getDate( "finishat" ) );
                 qcm.setScore( result1.getInt( "score" ) );
