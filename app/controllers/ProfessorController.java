@@ -530,4 +530,25 @@ public class ProfessorController extends Controller {
 
     }
 
+    /*
+     * public Result selectExamByIdQcm() throws SQLException { DynamicForm form
+     * = Form.form().bindFromRequest(); int id_qcm = Integer.parseInt( form.get(
+     * "id" ) );
+     * 
+     * Qcm exam = new Qcm(); exam.getExamById(id_qcm);
+     * 
+     * JsonNode json = Json.toJson( exam ); return ok( json );
+     * 
+     * }
+     */
+
+    public Result selectExamByIdQcm() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_qcm = Integer.parseInt( form.get( "id" ) );
+        ArrayList<Qcm> list = Qcm.getExamById( id_qcm );
+        JsonNode json = Json.toJson( list );
+
+        return ok( json );
+
+    }
 }

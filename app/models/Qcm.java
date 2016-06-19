@@ -96,9 +96,14 @@ public class Qcm {
                                                                                           + "INNER JOIN chapter c "
                                                                                           + "ON m.id_module = c.id_module "
                                                                                           + "WHERE id_chapter = ?";
+<<<<<<< HEAD
     private static final String       GET_EXAM_MODE_BY_MODULE                     = "SELECT * "
                                                                                           + "FROM qcm "
                                                                                           + "WHERE id_module = ? AND exam = 1";
+=======
+    private static final String SELECT_QCM_BY_ID_QCM							= "SELECT * FROM qcm "
+            																				+ "WHERE id_qcm=?";
+>>>>>>> 8a5b403fd50f8cad66f035fe9ba19352eaab17e7
 
     public int getId_qcm() {
         return id_qcm;
@@ -629,14 +634,57 @@ public class Qcm {
 
         return qcm_list;
     }
+<<<<<<< HEAD
 
     public static List<Qcm> getExamModeByModule( int id_module ) throws SQLException {
         List<Qcm> exam_list = new ArrayList<Qcm>();
+=======
+    
+    public static ArrayList<Qcm> getExamById( int id_qcm) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Qcm> list = new ArrayList<Qcm>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
+        statement.setInt( 1, id_qcm );
+
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int nbanswermax = rs.getInt( "nbanswermax" );
+            int time = rs.getInt( "time" );
+            int level = rs.getInt( "level" );
+            int good_answer = rs.getInt( "good_answer" );
+            int bad_answer = rs.getInt( "bad_answer" );
+            int no_answer = rs.getInt( "no_answer" );
+            int nbofquestions = rs.getInt( "nbofquestions" );
+            String title = rs.getString( "title" );
+
+            Qcm q = new Qcm();
+            q.setNbanswermax(nbanswermax);
+            q.setTime(time);
+            q.setLevel(level);
+            q.setGood_answer(good_answer);
+            q.setBad_answer(bad_answer);
+            q.setNumber_of_questions(nbofquestions);
+            q.setTitle(title);
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+    }
+    
+    /*public void getExamById( int id_qcm ) throws SQLException {
+>>>>>>> 8a5b403fd50f8cad66f035fe9ba19352eaab17e7
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
         connection = DB.getConnection();
+<<<<<<< HEAD
         statement = connection.prepareStatement( GET_EXAM_MODE_BY_MODULE );
         statement.setInt( 1, id_module );
         result = statement.executeQuery();
@@ -651,4 +699,16 @@ public class Qcm {
 
         return exam_list;
     }
+=======
+        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
+        statement.setInt( 1, id_qcm );
+        result = statement.executeQuery();
+
+        if ( result.next() ) {
+      
+          
+        }
+ 
+    }*/
+>>>>>>> 8a5b403fd50f8cad66f035fe9ba19352eaab17e7
 }
