@@ -75,6 +75,10 @@ GET		/student/course-test				controllers.StudentController.courseTest
 POST	/student/displayTestList			controllers.StudentController.displayTestList
 POST	/student/displayTest				controllers.StudentController.displayTest
 
+GET 	/student/examMode					controllers.StudentController.examMode
+POST	/student/displayExamList			controllers.StudentController.displayExamList
+POST	/student/displayExam				controllers.StudentController.displayExam
+
 GET		/student/history					controllers.StudentController.studentHistory
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
