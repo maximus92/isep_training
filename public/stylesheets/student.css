@@ -23,6 +23,27 @@
 	padding-right: 0;
 }
 
+.qcm-nav, .qcm-nav .previous, .qcm-nav .next{
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#qcm-time{
+	text-align: center;
+}
+
+.question-number{
+	margin-top: -12px;
+}
+
+.qcm-container{
+	margin-top: 60px;
+}
+
+#student-qcm-question-container{
+	margin-bottom: 30px;
+}
+
 .settings-center{
 	display: inline-block;
 	text-align: center;
@@ -86,6 +107,10 @@
 
 .td-answered{
 	text-align: right;
+}
+
+.history-container{
+	margin-top: 15px;
 }
 
 .link-student-training a{

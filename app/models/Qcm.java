@@ -81,7 +81,7 @@ public class Qcm {
     private static final String       GET_END_QCM_BY_USER                         = "SELECT * "
                                                                                           + "FROM qcm "
                                                                                           + "WHERE createby = ? AND finishat IS NOT NULL "
-                                                                                          + "ORDER BY finishat ";
+                                                                                          + "ORDER BY finishat DESC ";
     private static final String       GET_CHAPTER_NAME                            = "SELECT c.id_chapter, chapter_name "
                                                                                           + "FROM chapter c "
                                                                                           + "INNER JOIN join_qcm_chapter j "
