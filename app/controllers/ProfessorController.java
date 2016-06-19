@@ -14,6 +14,7 @@ import models.Qcm;
 import models.Question;
 import models.Test;
 import models.User;
+import models.JoinQcmChapter;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -485,6 +486,11 @@ public class ProfessorController extends Controller {
         examen.setExam(exam);
         
         examen.createExam();
+        
+        int id_qcm = examen.createExam();
+        // Insert questions and answers in DB
+        insertQandAFromTest( form, createby, id_qcm );
+        
         return redirect( "/prof" );
     
     }
@@ -505,6 +511,22 @@ public class ProfessorController extends Controller {
         ObjectNode result = Json.newObject();
         result.put( "id_qcm", id_qcm );
         return ok( result );
+    }
+    
+    public void insertExamWithChapter( DynamicForm form, int createby, int id_qcm ) throws SQLException {
+        int chapter_counter = Integer.parseInt( form.get( "hidden_nbr_id_chapter" ) );
+        
+        for ( int i = 0; i <= chapter_counter; i++ ) {
+            int id_chapter = Integer.parseInt(form.get( "chapter_for_exam"+i ));
+            
+            JoinQcmChapter join = new JoinQcmChapter();
+            
+            join.setId_chapter(id_chapter);
+            join.setId_qcm(id_qcm);
+            join.insert();
+        	
+        }
+           
     }
     
    

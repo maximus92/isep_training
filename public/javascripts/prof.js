@@ -142,16 +142,21 @@ $(document).ready(function(){
 		 $("#exam_module").click(function(){
 			  $("#exam_chapter").fadeIn();
 		  });
-		 
+
 		  
 		  $("#exam_module").change(function(){
 			  var id_module = $(this).val();
 			  displayChapterInUl("#exam_chapter", id_module);
+			  var nbr_id_chapter = $("#hidden_nbr_id_chapter").val();
+				nbr_id_chapter = $(".chapter_for_exam").length;
+			  	$("#hidden_nbr_id_chapter").val(nbr_id_chapter);
+			  
 		  });
 		  
-		  $("#exam_chapter").on("click", ".display_chapter", function(event){
-			    $(this).css('backgroundColor','#BABABA')
-			});
+		  
+		  
+	
+
 		 
 		
 		$("#add_exam").hide();
@@ -670,12 +675,12 @@ $(document).ready(function(){
 			var dataString = {id_module: id_module};
 			ajaxBody("/select-chapter",dataString,
 					function(data){
-				$(ul_id+' li').remove();
+				$(ul_id+' label').remove();
 
-				$.each(data, function() {
-				 $(ul_id).append('<li class="list-group-item display_chapter" id="'+this.id_chapter+'">'+this.chapter_name+'</li>');
+		        for(var i=0;i< data.length;i++){
+				 $(ul_id).append('<label><input type="checkbox" class="chapter_for_exam"  name="chapter_for_exam'+i+'" id="'+data[i].id_chapter+'" value="'+data[i].id_chapter+'">'+data[i].chapter_name+'</label>');
 
-				});
+				}
 					});
 		}
 		

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -486,11 +487,13 @@ public class Qcm {
 
     }
 
-    public void createExam() throws SQLException {
+    public int createExam() throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         connection = DB.getConnection();
-        stmt = connection.prepareStatement( CREATE_PROFESSOR_EXAM );
+        stmt = connection.prepareStatement( CREATE_PROFESSOR_EXAM, Statement.RETURN_GENERATED_KEYS );
+        int id = -1;
+
         stmt.setInt( 1, this.createby );
         stmt.setInt( 2, this.nbanswermax );
         stmt.setInt( 3, this.time );
@@ -502,10 +505,13 @@ public class Qcm {
         stmt.setString( 9, this.title );
 
         stmt.executeUpdate();
-        stmt.close();
-        if ( connection != null ) {
-            connection.close();
+        ResultSet resultat = stmt.getGeneratedKeys();
+        if ( resultat.next() ) {
+            id = resultat.getInt( 1 );
         }
+        stmt.close();
+        Model.closeConnection( connection );
+        return id;
     }
 
     public static ArrayList<Qcm> selectExam( int id ) throws SQLException {

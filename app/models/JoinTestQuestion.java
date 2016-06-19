@@ -18,13 +18,19 @@ public class JoinTestQuestion {
 		this.id_question = id_question;
 	}
 	
-	public void insert() throws SQLException{
+	public int insert() throws SQLException{
 		Connection connection = DB.getConnection();
 		PreparedStatement statement = connection.prepareStatement(INSERT_JOIN_TEST_QUESTION);
-    	statement.setInt(1,this.id_test);
+        int id = -1;
+		statement.setInt(1,this.id_test);
     	statement.setInt(2,this.id_question);
     	statement.executeUpdate();
+        ResultSet resultat = statement.getGeneratedKeys();
+        if ( resultat.next() ) {
+            id = resultat.getInt( 1 );
+        }
     	statement.close();
     	Model.closeConnection(connection);
+        return id;
 	}
 }
