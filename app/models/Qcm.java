@@ -95,6 +95,8 @@ public class Qcm {
                                                                                           + "INNER JOIN chapter c "
                                                                                           + "ON m.id_module = c.id_module "
                                                                                           + "WHERE id_chapter = ?";
+    private static final String SELECT_QCM_BY_ID_QCM							= "SELECT * FROM qcm "
+            																				+ "WHERE id_qcm=?";
 
     public int getId_qcm() {
         return id_qcm;
@@ -615,4 +617,58 @@ public class Qcm {
 
         return qcm_list;
     }
+    
+    public static ArrayList<Qcm> getExamById( int id_qcm) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Qcm> list = new ArrayList<Qcm>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
+        statement.setInt( 1, id_qcm );
+
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int nbanswermax = rs.getInt( "nbanswermax" );
+            int time = rs.getInt( "time" );
+            int level = rs.getInt( "level" );
+            int good_answer = rs.getInt( "good_answer" );
+            int bad_answer = rs.getInt( "bad_answer" );
+            int no_answer = rs.getInt( "no_answer" );
+            int nbofquestions = rs.getInt( "nbofquestions" );
+            String title = rs.getString( "title" );
+
+            Qcm q = new Qcm();
+            q.setNbanswermax(nbanswermax);
+            q.setTime(time);
+            q.setLevel(level);
+            q.setGood_answer(good_answer);
+            q.setBad_answer(bad_answer);
+            q.setNumber_of_questions(nbofquestions);
+            q.setTitle(title);
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+    }
+    
+    /*public void getExamById( int id_qcm ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
+        statement.setInt( 1, id_qcm );
+        result = statement.executeQuery();
+
+        if ( result.next() ) {
+      
+          
+        }
+ 
+    }*/
 }

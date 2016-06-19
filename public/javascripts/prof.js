@@ -187,6 +187,15 @@ $(document).ready(function(){
 								});
 
 							});
+					
+					$(".display_exam").on('click', ".exam-details", function() {
+						  var id = $(this).attr('id').substring(11);
+							var dataString = {id : id};
+							ajaxBody("/select-exam-id",dataString,function(data) {
+								$(".details_exam").append(data[i].title);
+							});
+					  });
+					
 					$(".display_exam").on('click', ".exam-delete", function() {
 						  var id = $(this).attr('id').substring(10);
 							var dataString = {id : id};
@@ -211,6 +220,7 @@ $(document).ready(function(){
 //					  $("#hidden_nbr_id_chapter").val(chapchecked);
 			  
 					  });
+					
 					
 		
 	
