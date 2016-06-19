@@ -489,7 +489,7 @@ public class ProfessorController extends Controller {
         
         int id_qcm = examen.createExam();
         // Insert questions and answers in DB
-        insertQandAFromTest( form, createby, id_qcm );
+        insertExamWithChapter( form, createby, id_qcm );
         
         return redirect( "/prof" );
     
