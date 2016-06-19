@@ -180,6 +180,17 @@ public class ProfessorController extends Controller {
         insertQandAFromTest( form, createby, id_test );
         return redirect( "/prof" );
     }
+    
+    public Result getQuestionByChapter() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	List<Question> list_question = new ArrayList<Question>();
+    	int id_chapter = Integer.parseInt(form.get("id_chapter"));
+    	int id_user = getUserID();
+    	Question question = new Question();
+    	list_question = question.getQuestionByIdChapterAndUser(id_chapter,id_user);
+    	JsonNode json = Json.toJson( list_question );
+    	return ok(json);
+    }
 
     public void insertQandAFromTest( DynamicForm form, int createby, int id_test ) throws SQLException {
         int answer_test_counter = Integer.parseInt( form.get( "answer_test_counter" ) );
@@ -187,7 +198,13 @@ public class ProfessorController extends Controller {
         String id_chapter = form.get( "test_chapter" );
         for ( int i = 0; i <= question_test_counter; i++ ) {
             String question = form.get( "question" + i );
-
+            String old_question_id = form.get("old_question_id"+i);
+            
+            if(old_question_id != null && old_question_id != "0" && old_question_id != ""){
+            	 JoinTestQuestion join_test_question = new JoinTestQuestion( id_test, Integer.parseInt(old_question_id));
+            	 join_test_question.insert();	 
+            }
+            
             if ( question != null && question != "" ) {
                 Question q = new Question();
                 q.setQuestion( question );
