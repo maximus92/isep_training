@@ -629,6 +629,12 @@ public class Qcm {
 
         }
 
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
+
         return qcm_list;
     }
 
@@ -686,6 +692,12 @@ public class Qcm {
             qcm.setTitle( result.getString( "title" ) );
 
             exam_list.add( qcm );
+        }
+
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
         }
 
         return exam_list;

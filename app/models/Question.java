@@ -47,10 +47,8 @@ public class Question {
                                                                                 + "ON s.id_answer = a.id_answer "
                                                                                 + "WHERE a.id_question = j.id_question AND s.id_qcm = ?)";
     private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
-            																	+ "WHERE createby=?";
-    
-   
-    
+                                                                                + "WHERE createby=?";
+
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -340,6 +338,11 @@ public class Question {
 
             questions_list.add( question );
         }
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
 
         return questions_list;
     }
@@ -358,6 +361,11 @@ public class Question {
             this.setId_question( result.getInt( "id_question" ) );
             this.setCorrection( result.getString( "correction" ) );
             this.setQuestion( result.getString( "question" ) );
+        }
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
         }
     }
 
@@ -405,7 +413,8 @@ public class Question {
 
         return questions_list;
     }
-    public static ArrayList<Question> filterQuestion( int id) throws SQLException {
+
+    public static ArrayList<Question> filterQuestion( int id ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
@@ -413,8 +422,6 @@ public class Question {
         connection = DB.getConnection();
         statement = connection.prepareStatement( SELECT_QUESTION_BY_USER_FILTERED );
         statement.setInt( 1, id );
-
-
 
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {
@@ -442,6 +449,5 @@ public class Question {
         }
         return list;
     }
-    
-   
+
 }

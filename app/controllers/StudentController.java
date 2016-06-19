@@ -279,7 +279,7 @@ public class StudentController extends Controller {
         String token = session().get( "token" );
         int id_user = User.getIdByToken( token );
 
-        qcm_list = Qcm.getEndQcmByUser( id_user );
+        qcm_list = Qcm.getEndQcmByUser( id_user ).subList( 0, 10 );
 
         return ok( student_qcm_history.render( "", qcm_list ) );
     }
