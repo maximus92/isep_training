@@ -47,7 +47,7 @@ public class Question {
                                                                                 + "ON s.id_answer = a.id_answer "
                                                                                 + "WHERE a.id_question = j.id_question AND s.id_qcm = ?)";
     private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
-            																	+ "WHERE createby=? AND forexam=? AND level=? ";
+            																	+ "WHERE createby=?";
     
    
     
@@ -405,7 +405,7 @@ public class Question {
 
         return questions_list;
     }
-    public static ArrayList<Question> filterQuestion( int id, String forexam1, String level1 ) throws SQLException {
+    public static ArrayList<Question> filterQuestion( int id) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
@@ -413,8 +413,7 @@ public class Question {
         connection = DB.getConnection();
         statement = connection.prepareStatement( SELECT_QUESTION_BY_USER_FILTERED );
         statement.setInt( 1, id );
-        statement.setString( 2, forexam1);
-        statement.setString( 3, level1);
+
 
 
         ResultSet rs = statement.executeQuery();

@@ -309,6 +309,7 @@ $(document).ready(function(){
 		  $("#form_filtre_question").submit(function(e){
 			  e.preventDefault(); });
 			$(".question-select").hide();
+			$(".question_filter").remove();
 			var forexam;
 			var level;
 		  dataString = "";

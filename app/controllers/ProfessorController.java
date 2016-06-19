@@ -251,7 +251,6 @@ public class ProfessorController extends Controller {
     public Result updateQuestionWithAnswer() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
-        // Logger.debug( form.get( "question" ));
         String question = form.get( "question" );
         String correction = form.get( "correction" );
         String level = form.get( "level" );
@@ -271,7 +270,6 @@ public class ProfessorController extends Controller {
         int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ) );
 
         for ( int i = 0; i < reponse_counter_modify; i++ ) {
-            Logger.debug( form.get( "id_answer" + i ) );
             int id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
             String answer = form.get( "reponse" + i + "" );
 
@@ -449,10 +447,8 @@ public class ProfessorController extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
-        String forexam1 = form.get("entrainement_or_exam");
-        String level1 = form.get("choose_level");
-        Logger.debug(forexam1+" "+level1);
-        ArrayList<Question> list = Question.filterQuestion(id, forexam1, level1);
+
+        ArrayList<Question> list = Question.filterQuestion(id);
         JsonNode json = Json.toJson( list );
         return ok( json );
         }
@@ -488,8 +484,7 @@ public class ProfessorController extends Controller {
         examen.createExam();
         
         int id_qcm = examen.createExam();
-        // Insert questions and answers in DB
-        insertExamWithChapter( form, createby, id_qcm );
+        insertExamWithChapter( form, id_qcm );
         
         return redirect( "/prof" );
     
@@ -513,10 +508,10 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
     
-    public void insertExamWithChapter( DynamicForm form, int createby, int id_qcm ) throws SQLException {
+    public void insertExamWithChapter( DynamicForm form, int id_qcm ) throws SQLException {
         int chapter_counter = Integer.parseInt( form.get( "hidden_nbr_id_chapter" ) );
         
-        for ( int i = 0; i <= chapter_counter; i++ ) {
+        for ( int i = 0; i <= 1; i++ ) {
             int id_chapter = Integer.parseInt(form.get( "chapter_for_exam"+i ));
             
             JoinQcmChapter join = new JoinQcmChapter();
