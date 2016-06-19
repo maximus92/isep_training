@@ -172,7 +172,7 @@ public class ProfessorController extends Controller {
         test.setId_module( Integer.parseInt( form.get( "test_module" ) ) );
         test.setId_chapter( 0 );
         test.setCreateby( createby );
-        test.setPassword(form.get("test_password"));
+        test.setPassword( form.get( "test_password" ) );
         test.setIsenable( "0" );
 
         int id_test = test.insert();
@@ -387,135 +387,135 @@ public class ProfessorController extends Controller {
         result.put( "res", "ok" );
         return ok( result );
     }
-    
 
-    public Result selectChapter() throws SQLException{
-    	DynamicForm form = Form.form().bindFromRequest();
-    	int id_module = Integer.parseInt(form.get("id_module"));
-        ArrayList<Chapter> list = Chapter.getChaptersByModuleId(id_module);
+    public Result selectChapter() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_module = Integer.parseInt( form.get( "id_module" ) );
+        ArrayList<Chapter> list = Chapter.getChaptersByModuleId( id_module );
         JsonNode json = Json.toJson( list );
         return ok( json );
     }
-    
-    public Result importQuestion() throws SQLException{
-    	int id_user = getUserID();
-    	DynamicForm form = Form.form().bindFromRequest();
-    	int id_module = Integer.parseInt(form.get("import-module"));
-    	String id_chapter = form.get("id_chapter");
 
-	 	play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
-	    
-	    if (file != null) {
-	        String fileName = file.getFilename();
-	        String contentType = file.getContentType();
-	        java.io.File fileio = file.getFile();
-	        ExcelFile excel_file = new ExcelFile();
-	        excel_file.setFile(fileio);
-	        excel_file.setId_user(id_user);
-	        excel_file.previewCsv(form);
-	        JsonNode result = excel_file.readCsvFile(true,form.get("import-chapter"));
-	        return ok(result);
-	    }
-	    ObjectNode result = Json.newObject();
-	    result.put( "column_number", "-1" );
+    public Result importQuestion() throws SQLException {
+        int id_user = getUserID();
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_module = Integer.parseInt( form.get( "import-module" ) );
+        String id_chapter = form.get( "id_chapter" );
+
+        play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile( "excel-file" );
+
+        if ( file != null ) {
+            String fileName = file.getFilename();
+            String contentType = file.getContentType();
+            java.io.File fileio = file.getFile();
+            ExcelFile excel_file = new ExcelFile();
+            excel_file.setFile( fileio );
+            excel_file.setId_user( id_user );
+            excel_file.previewCsv( form );
+            JsonNode result = excel_file.readCsvFile( true, form.get( "import-chapter" ) );
+            return ok( result );
+        }
+        ObjectNode result = Json.newObject();
+        result.put( "column_number", "-1" );
         return ok( result );
     }
 
+    public Result GetCsvColumnTitle() throws SQLException {
+        play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile( "excel-file" );
+        if ( file != null ) {
+            String fileName = file.getFilename();
+            String contentType = file.getContentType();
+            java.io.File fileio = file.getFile();
+            ExcelFile excel_file = new ExcelFile();
+            excel_file.setFile( fileio );
+            JsonNode result = excel_file.getCsvColumnTitle();
+            return ok( result );
+        }
+        ObjectNode result = Json.newObject();
+        result.put( "column_number", "-1" );
+        return ok( result );
+    }
 
-	public Result GetCsvColumnTitle() throws SQLException{
-		play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
-	    if (file != null) {
-	        String fileName = file.getFilename();
-	        String contentType = file.getContentType();
-	        java.io.File fileio = file.getFile();
-	        ExcelFile excel_file = new ExcelFile();
-	        excel_file.setFile(fileio);
-	        JsonNode result = excel_file.getCsvColumnTitle();
-	        return ok( result );
-	    }
-	    ObjectNode result = Json.newObject();
-	    result.put( "column_number", "-1" );
+    public Result PreviewCsv() throws SQLException {
+        int id_user = getUserID();
+        DynamicForm form = Form.form().bindFromRequest();
+        play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile( "excel-file" );
+        ObjectNode result = Json.newObject();
+        ArrayList<String> column_array = new ArrayList<String>();
+
+        if ( file != null ) {
+            String fileName = file.getFilename();
+            String contentType = file.getContentType();
+            java.io.File fileio = file.getFile();
+            ExcelFile excel_file = new ExcelFile();
+            excel_file.setFile( fileio );
+            excel_file.setId_user( id_user );
+            ArrayNode res = excel_file.previewCsv( form );
+            return ok( res );
+        }
+        result.put( "column_number", "-1" );
         return ok( result );
-	}
-	
-	public Result PreviewCsv() throws SQLException{
-		int id_user = getUserID();
-		DynamicForm form = Form.form().bindFromRequest();
-		play.mvc.Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-	    play.mvc.Http.MultipartFormData.FilePart<File> file = body.getFile("excel-file");
-	    ObjectNode result = Json.newObject();
-	    ArrayList<String> column_array = new ArrayList<String>();
-	    
-	    if (file != null) {
-	        String fileName = file.getFilename();
-	        String contentType = file.getContentType();
-	        java.io.File fileio = file.getFile();
-	        ExcelFile excel_file = new ExcelFile();
-	        excel_file.setFile(fileio);
-	        excel_file.setId_user(id_user);
-	        ArrayNode res = excel_file.previewCsv(form);
-	        return ok(res);
-	    }
-	    result.put( "column_number", "-1" );
-        return ok( result );
-	}
-	public Result filterQuestion() throws SQLException {
+    }
+
+    public Result filterQuestion() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
 
-        ArrayList<Question> list = Question.filterQuestion(id);
+        ArrayList<Question> list = Question.filterQuestion( id );
         JsonNode json = Json.toJson( list );
         return ok( json );
-        }
-	
+    }
+
     public Result addExam() throws SQLException {
-    	DynamicForm form = Form.form().bindFromRequest();
-    	List<String> chapter_id_array = new ArrayList<String>();
-    	if(form.get("hidden_nbr_id_chapter")!=null){
-    		int nb_chapter = Integer.parseInt(form.get("hidden_nbr_id_chapter"));
-    		for(int i=0;i<nb_chapter;i++){
-    			if(form.get("chapter_for_exam"+i)!=null){
-    				chapter_id_array.add(form.get("chapter_for_exam"+i));
-    			}
-    			
-    		}
-    	}
-    	
+        DynamicForm form = Form.form().bindFromRequest();
+        List<String> chapter_id_array = new ArrayList<String>();
+        if ( form.get( "hidden_nbr_id_chapter" ) != null ) {
+            int nb_chapter = Integer.parseInt( form.get( "hidden_nbr_id_chapter" ) );
+            for ( int i = 0; i < nb_chapter; i++ ) {
+                if ( form.get( "chapter_for_exam" + i ) != null ) {
+                    chapter_id_array.add( form.get( "chapter_for_exam" + i ) );
+                }
+
+            }
+        }
+
         String token = session().get( "token" );
-        int createby = User.getIdByToken( token );  
-        int nbanswermax = Integer.parseInt(form.get("maxR"));
-        int hours = Integer.parseInt(form.get( "hour" ));
-        int minutes = Integer.parseInt(form.get( "minute" ));
-        int time = (hours*60) + minutes;
-        int number_of_questions = Integer.parseInt(form.get( "nbrQ" ));
-        int good_answer = Integer.parseInt(form.get( "positiveP" ));
-        int bad_answer = Integer.parseInt(form.get( "negativeP" ));
-        int no_answer = Integer.parseInt(form.get( "nullP" ));
+        int createby = User.getIdByToken( token );
+        int nbanswermax = Integer.parseInt( form.get( "maxR" ) );
+        int hours = Integer.parseInt( form.get( "hour" ) ) * 60;
+        int minutes = Integer.parseInt( form.get( "minute" ) ) * 60;
+        int time = ( hours * 60 ) + minutes;
+        int number_of_questions = Integer.parseInt( form.get( "nbrQ" ) );
+        int good_answer = Integer.parseInt( form.get( "positiveP" ) );
+        int bad_answer = Integer.parseInt( form.get( "negativeP" ) );
+        int no_answer = Integer.parseInt( form.get( "nullP" ) );
+        int id_module = Integer.parseInt( form.get( "exam_module" ) );
         String title = form.get( "title_exam" );
         boolean exam = true;
-        
- 
+
         Qcm examen = new Qcm();
-        
-        examen.setCreateby(createby);
-        examen.setNbanswermax(nbanswermax);
-        examen.setTime(time);
-        examen.setNumber_of_questions(number_of_questions);
-        examen.setGood_answer(good_answer);
-        examen.setBad_answer(bad_answer);
-        examen.setNo_answer(no_answer);
-        examen.setTitle(title);
-        examen.setExam(exam);
+
+        examen.setCreateby( createby );
+        examen.setNbanswermax( nbanswermax );
+        examen.setTime( time );
+        examen.setNumber_of_questions( number_of_questions );
+        examen.setGood_answer( good_answer );
+        examen.setBad_answer( bad_answer );
+        examen.setNo_answer( no_answer );
+        examen.setTitle( title );
+        examen.setExam( exam );
+        examen.setId_module( id_module );
         int id_qcm = examen.createExam();
-        insertExamWithChapter(chapter_id_array, id_qcm );
-        
+        insertExamWithChapter( chapter_id_array, id_qcm );
+
         return redirect( "/prof" );
-    
+
     }
-    
+
     public Result selectExam() throws SQLException {
         String token = session().get( "token" );
         int id = User.getIdByToken( token );
@@ -523,6 +523,7 @@ public class ProfessorController extends Controller {
         JsonNode json = Json.toJson( list );
         return ok( json );
     }
+
     public Result deleteExam() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_qcm = Integer.parseInt( form.get( "id" ) );
@@ -533,19 +534,38 @@ public class ProfessorController extends Controller {
         result.put( "id_qcm", id_qcm );
         return ok( result );
     }
-    
+
     public void insertExamWithChapter( List<String> id_chapter_array, int id_qcm ) throws SQLException {
-        
+
         for ( int i = 0; i < id_chapter_array.size(); i++ ) {
-            int id_chapter = Integer.parseInt(id_chapter_array.get(i));
+            int id_chapter = Integer.parseInt( id_chapter_array.get( i ) );
             JoinQcmChapter join = new JoinQcmChapter();
-            join.setId_chapter(id_chapter);
-            join.setId_qcm(id_qcm);
+            join.setId_chapter( id_chapter );
+            join.setId_qcm( id_qcm );
             join.insert();
         }
-           
-    }
-    
-   
 
+    }
+
+    /*
+     * public Result selectExamByIdQcm() throws SQLException { DynamicForm form
+     * = Form.form().bindFromRequest(); int id_qcm = Integer.parseInt( form.get(
+     * "id" ) );
+     * 
+     * Qcm exam = new Qcm(); exam.getExamById(id_qcm);
+     * 
+     * JsonNode json = Json.toJson( exam ); return ok( json );
+     * 
+     * }
+     */
+
+    public Result selectExamByIdQcm() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_qcm = Integer.parseInt( form.get( "id" ) );
+        ArrayList<Qcm> list = Qcm.getExamById( id_qcm );
+        JsonNode json = Json.toJson( list );
+
+        return ok( json );
+
+    }
 }

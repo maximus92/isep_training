@@ -51,6 +51,7 @@ POST    /delete-test              controllers.ProfessorController.deleteTest
 POST	/add-exam				controllers.ProfessorController.addExam
 POST    /select-exam            controllers.ProfessorController.selectExam
 POST    /delete-exam             controllers.ProfessorController.deleteExam
+POST    /select-exam-id            controllers.ProfessorController.selectExamByIdQcm
 
 
 
@@ -75,6 +76,10 @@ GET 	/student/qcmPreview					controllers.StudentController.qcmPreview(id_qcm: In
 GET		/student/course-test				controllers.StudentController.courseTest
 POST	/student/displayTestList			controllers.StudentController.displayTestList
 POST	/student/displayTest				controllers.StudentController.displayTest
+
+GET 	/student/examMode					controllers.StudentController.examMode
+POST	/student/displayExamList			controllers.StudentController.displayExamList
+POST	/student/displayExam				controllers.StudentController.displayExam
 
 GET		/student/history					controllers.StudentController.studentHistory
 # Map static resources from the /public folder to the /assets URL path

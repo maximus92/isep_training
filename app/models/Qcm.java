@@ -32,6 +32,7 @@ public class Qcm {
     private Date                      finishat;
     private Integer                   max_score;
     private int                       id_test                                     = 0;
+    private int                       id_module;
 
     private static ArrayList<Integer> questions_id_array                          = new ArrayList<Integer>();
 
@@ -72,8 +73,8 @@ public class Qcm {
     private static final String       STUDENT_ANSWER_IS_TRUE                      = "UPDATE join_qcm_question "
                                                                                           + "SET points = ? "
                                                                                           + "WHERE id_qcm = ? AND id_question = ?";
-    private static final String       CREATE_PROFESSOR_EXAM                       = "INSERT INTO qcm (createby, nbanswermax, time, exam, nbofquestions, good_answer, bad_answer, no_answer, title) "
-                                                                                          + "VALUES (? ,?, ?, ?, ?, ?, ?,?, ?)";
+    private static final String       CREATE_PROFESSOR_EXAM                       = "INSERT INTO qcm (createby, nbanswermax, time, exam, nbofquestions, good_answer, bad_answer, no_answer, title, id_module) "
+                                                                                          + "VALUES (? ,?, ?, ?, ?, ?, ?,?, ?, ?)";
     private static final String       SELECT_PROFESSOR_EXAM                       = "SELECT * FROM qcm "
                                                                                           + "WHERE createby=? AND exam=1";
     private static final String       DELETE_EXAM_PROFESSOR_BY_ID_USER_AND_ID_QCM = "DELETE FROM qcm "
@@ -81,7 +82,7 @@ public class Qcm {
     private static final String       GET_END_QCM_BY_USER                         = "SELECT * "
                                                                                           + "FROM qcm "
                                                                                           + "WHERE createby = ? AND finishat IS NOT NULL "
-                                                                                          + "ORDER BY finishat ";
+                                                                                          + "ORDER BY finishat DESC ";
     private static final String       GET_CHAPTER_NAME                            = "SELECT c.id_chapter, chapter_name "
                                                                                           + "FROM chapter c "
                                                                                           + "INNER JOIN join_qcm_chapter j "
@@ -95,6 +96,11 @@ public class Qcm {
                                                                                           + "INNER JOIN chapter c "
                                                                                           + "ON m.id_module = c.id_module "
                                                                                           + "WHERE id_chapter = ?";
+    private static final String       GET_EXAM_MODE_BY_MODULE                     = "SELECT * "
+                                                                                          + "FROM qcm "
+                                                                                          + "WHERE id_module = ? AND exam = 1";
+    private static final String       SELECT_QCM_BY_ID_QCM                        = "SELECT * FROM qcm "
+                                                                                          + "WHERE id_qcm=?";
 
     public int getId_qcm() {
         return id_qcm;
@@ -234,6 +240,14 @@ public class Qcm {
 
     public void setChapter_list( List<String> chapter_list ) {
         this.chapter_list = chapter_list;
+    }
+
+    public int getId_module() {
+        return id_module;
+    }
+
+    public void setId_module( int id_module ) {
+        this.id_module = id_module;
     }
 
     public static ArrayList<Integer> getQuestionsIdArrayByParam( List<Integer> id_chapter_list, int question_num,
@@ -380,6 +394,7 @@ public class Qcm {
             this.setLevel( result.getInt( "level" ) );
             this.setScore( result.getInt( "score" ) );
             this.setGood_answer( result.getInt( "good_answer" ) );
+            this.setId_module( result.getInt( "id_module" ) );
         }
 
         statement.close();
@@ -503,6 +518,7 @@ public class Qcm {
         stmt.setInt( 7, this.bad_answer );
         stmt.setInt( 8, this.no_answer );
         stmt.setString( 9, this.title );
+        stmt.setInt( 10, this.id_module );
 
         stmt.executeUpdate();
         ResultSet resultat = stmt.getGeneratedKeys();
@@ -614,5 +630,64 @@ public class Qcm {
         }
 
         return qcm_list;
+    }
+
+    public static ArrayList<Qcm> getExamById( int id_qcm ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ArrayList<Qcm> list = new ArrayList<Qcm>();
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
+        statement.setInt( 1, id_qcm );
+
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int nbanswermax = rs.getInt( "nbanswermax" );
+            int time = rs.getInt( "time" );
+            int level = rs.getInt( "level" );
+            int good_answer = rs.getInt( "good_answer" );
+            int bad_answer = rs.getInt( "bad_answer" );
+            int no_answer = rs.getInt( "no_answer" );
+            int nbofquestions = rs.getInt( "nbofquestions" );
+            String title = rs.getString( "title" );
+
+            Qcm q = new Qcm();
+            q.setNbanswermax( nbanswermax );
+            q.setTime( time );
+            q.setLevel( level );
+            q.setGood_answer( good_answer );
+            q.setBad_answer( bad_answer );
+            q.setNumber_of_questions( nbofquestions );
+            q.setTitle( title );
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+    }
+
+    public static List<Qcm> getExamModeByModule( int id_module ) throws SQLException {
+        List<Qcm> exam_list = new ArrayList<Qcm>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_EXAM_MODE_BY_MODULE );
+        statement.setInt( 1, id_module );
+        result = statement.executeQuery();
+
+        while ( result.next() ) {
+            Qcm qcm = new Qcm();
+            qcm.setId_qcm( result.getInt( "id_qcm" ) );
+            qcm.setTitle( result.getString( "title" ) );
+
+            exam_list.add( qcm );
+        }
+
+        return exam_list;
     }
 }

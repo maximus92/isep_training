@@ -1,8 +1,8 @@
 @(message: String, question: models.Question, answers: ArrayList[models.Answer], qcm_info: models.Qcm)
-@main("Qcm Personnalisé"){
+@main("Qcm"){
 
 <div class="container">
-  <a href="@routes.StudentController.index">Home</a> / <a href="@routes.StudentController.studentQcmSettings">Paramètres</a> / <a href="">Qcm personnalisé</a>
+  <a href="@routes.StudentController.index">Home</a> / <a href="">Qcm</a>
    <div class="row">
    
    
@@ -21,7 +21,7 @@
 	                	</div>
 	                </div>
 	                <div class="modal-footer">
-	                	<button class="preview-correct-qcm">Corriger le Qcm</button>
+	                	<button class="preview-correct-qcm btn btn-lg btn-block btn-primary">Corriger le Qcm</button>
 	                </div>
 	            </div>
 	        </div>
@@ -29,7 +29,7 @@
 	    
 	    
 	    
-   <div class="qcm-container" id="qcm-@qcm_info.getId_qcm">
+   <div class="qcm-container row" id="qcm-@qcm_info.getId_qcm">
        <div class="col-md-8 col-md-offset-2" id="student-qcm-question-container">
         <h3 class="student-qcm-question" id="question@question.getId_question">@question.getQuestion</h3>
         
@@ -48,9 +48,9 @@
             }
         </form>
     </div>
-    <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-            <button class="qcm_question_nav btn btn-lg btn-primary" id="last-question">Précédent</button>
+    <div class="qcm-nav col-md-12">
+        <div class="previous col-md-2 col-md-offset-2">
+            <button class="qcm_question_nav btn btn-lg btn-warning btn-block" id="last-question">Précédent</button>
         </div>
         <div class="col-md-2 col-md-offset-1" >
 			<div class="question-number col-md-12">
@@ -58,11 +58,11 @@
 					<h4>Question <span class="question-num"></span> sur @qcm_info.getNumber_of_questions</h4>
 				</a>
 			</div>       
-        	<div class="col-md-7" id="qcm-time">@qcm_info.getTime</div>
+        	<div class="col-md-8 col-md-offset-2" id="qcm-time">@qcm_info.getTime</div>
         </div>
-        <div class="col-md-2 col-md-offset-2">
+        <div class="next col-md-2 col-md-offset-1">
         	<span class="last-question" id="number-of-question-@qcm_info.getNumber_of_questions"></span>
-            <button class="qcm_question_nav btn btn-lg btn-primary" id="next-question">Suivant</button>
+            <button class="qcm_question_nav btn btn-lg btn-primary btn-block" id="next-question">Suivant</button>
         </div>
     </div>
    </div>

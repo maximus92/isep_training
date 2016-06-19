@@ -44,16 +44,17 @@ $(document).ready(
 
 			// selectionner automatiquement le premier module et chapitre
 			if($('#module').length){
-				$("#module li:first-child").css({
-					'background-color' : '#0D6186',
-					'color' : 'white'
-				});
-				
-				$("#module li:first-child").addClass("selected-module");
-				id_module = $("#module li:first-child").attr("id").substring(10);
-				
-				$("#chapters-module-" + id_module + " li:first-child").addClass('selected-chapter');
-
+				if($('#student-qcm-settings-part-1').length){
+					$("#module li:first-child").css({
+						'background-color' : '#0D6186',
+						'color' : 'white'
+					});
+					
+					$("#module li:first-child").addClass("selected-module");
+					id_module = $("#module li:first-child").attr("id").substring(10);
+					
+					$("#chapters-module-" + id_module + " li:first-child").addClass('selected-chapter');
+				}
 			}
 			
 			
@@ -201,7 +202,7 @@ $(document).ready(
 			}
 			if($('.last-question').length){
 				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
-				$("#next-question").text("valider");
+				$("#next-question").text("Valider");
 			}
 			}
 			
@@ -441,6 +442,57 @@ $(document).ready(
 				var id_qcm = $(this).data("id");
 				
 				window.location.href = "resultat?id_qcm=" + id_qcm;
+			});
+			
+			
+			/**************************Scripts pour le mode exam*******************/
+			
+			$("#module > li").click(function(){
+				var id_module = $(this).attr("id").substring(10);
+				
+				$.ajax({
+					type: 'POST',
+					url: '/student/displayExamList',
+					data: {id_module: id_module},
+					dataType : 'json',
+					
+					success: function(data){
+						$("#exam-list > li").remove();
+						for(var i = 0; i < data.length; i++){
+							$("#exam-list").append('<li class="list-group-item" id="exam-' + data[i].id_qcm + '">' + data[i].title +'</li> ');
+						}
+					}
+				})
+			});
+			
+			$("#exam-list").delegate('li', 'click', function() {
+				$(".selected-exam").css({
+					'background-color' : 'white',
+					'color' : '#333'
+				});
+				$(".selected-exam").removeClass("selected-exam");
+				$(this).addClass("selected-exam");
+				
+				
+				$(this).css({
+					'background-color' : '#0D6186',
+					'color' : 'white'
+				});
+				
+			});
+			
+			$("#start-exam").click(function(){
+				var id_exam = $(".selected-exam").attr("id").substring(5);
+				
+				$.ajax({
+					type: 'POST',
+					url: '/student/displayExam',
+					data: {id_exam: id_exam},
+					
+					success: function(){
+						window.location.href = "trainingQcm?question_num=1";
+					}
+				});
 			});
 			
 		});

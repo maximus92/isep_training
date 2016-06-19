@@ -5,34 +5,41 @@
     <a href="@routes.StudentController.index">Home</a> / <a href="">Historique</a>
     <div class="history-container">
        <div class="date-history-container">
-           @for(qcm <- qcm_list){
-               <div class="qcm-history row">
-                  <table class="table">
-                      <tr>
-                        <td class="module-and-chapter col-md-6">
-                           @if(qcm.getTitle == ""){
-                               <div class="module">@qcm.getModule</div>
-                                @for(chapter <- qcm.getChapter_list){
-                                    <span class="chapter">@(chapter); </span>
-                                }
-                           }else {
-                               <div class="test_title">@qcm.getTitle</div>
-                           }
-                            
-                        </td>
-                        <td class="qcm-date col-md-2">
-                            @qcm.getFinishat
-                        </td>
-                        <td class="score col-md-2">
-                            @qcm.getScore / @qcm.getMax_score
-                        </td>
-                        <td col-md-2>
-                            <button class="history-show-correction btn btn-default" data-id="@qcm.getId_qcm">Corrigé</button>
-                        </td>
-                      </tr>
-                  </table>
-               </div>
-           }
+           <div class="qcm-history row">
+       	   	  <h2>Historique</h2>
+              <table class="table table-bordered">
+              	<tr>
+              		<th>Qcm</th>
+              		<th>Date</th>
+              		<th>Score</th>
+              		<th>Correction</th>
+              	</tr>
+       			@for(qcm <- qcm_list){
+                  <tr>
+                    <td class="module-and-chapter col-md-6">
+                       @if(qcm.getTitle == ""){
+                           <div class="module">@qcm.getModule</div>
+                            @for(chapter <- qcm.getChapter_list){
+                                <span class="chapter">@(chapter); </span>
+                            }
+                       }else {
+                           <div class="test_title">@qcm.getTitle</div>
+                       }
+                        
+                    </td>
+                    <td class="qcm-date col-md-2">
+                        @qcm.getFinishat
+                    </td>
+                    <td class="score col-md-2">
+                        @qcm.getScore / @qcm.getMax_score
+                    </td>
+                    <td col-md-2>
+                        <button class="history-show-correction btn btn-warning btn-block" data-id="@qcm.getId_qcm">Corrigé</button>
+                    </td>
+                  </tr>
+                 }
+              </table>
+           </div>
        </div>        
     </div>
 </div>

@@ -158,7 +158,15 @@ $(document).ready(function(){
 								}
 							}
 						});
-				});
+					});
+					
+			$(".display_exam").on('click', ".exam-details", function() {
+				  var id = $(this).attr('id').substring(11);
+					var dataString = {id : id};
+					ajaxBody("/select-exam-id",dataString,function(data) {
+						$(".details_exam").append(data[i].title);
+					});
+			  });
 			
 			$(".display_exam").on('click', ".exam-delete", function() {
 				  var id = $(this).attr('id').substring(10);
@@ -173,8 +181,6 @@ $(document).ready(function(){
 			$("#cancel_exam").click(function(){
 		  		$("#add_exam").hide();
 		  		$("#exam-info").fadeIn();
-
-		  		
 		  	});	
 		 
 			
