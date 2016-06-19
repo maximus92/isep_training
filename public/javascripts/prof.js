@@ -309,7 +309,6 @@ $(document).ready(function(){
 		  $("#form_filtre_question").submit(function(e){
 			  e.preventDefault(); });
 			$(".question-select").hide();
-			$(".question_filter").remove();
 			var forexam;
 			var level;
 		  dataString = "";
@@ -320,6 +319,7 @@ $(document).ready(function(){
 			  dataType: "json",
 			  
 			  success: function(data) {
+				  
 				  for(var i=0; i< data.length;i++){
 					  if(data[i].level == "0"){
 							 level = "facile";
