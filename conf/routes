@@ -31,6 +31,7 @@ POST    /filter-question           controllers.ProfessorController.filterQuestio
 
 
 POST    /add-test                 	controllers.ProfessorController.addTest
+POST	/prof/get-question-by-chapter	controllers.ProfessorController.getQuestionByChapter
 POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ

@@ -49,7 +49,7 @@ public class Question {
     private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
             																	+ "WHERE createby=?";
     
-   
+    private static final String SELECT_QUESTION_BY_ID_CHAPTER_AND_USER	= "SELECT * FROM question WHERE id_chapter= ? AND createby = ? AND forexam = ?";
     
     private int                 id_question;
     private String              question;
@@ -442,6 +442,29 @@ public class Question {
         }
         return list;
     }
+
+	public List<Question> getQuestionByIdChapterAndUser(int id_chapter,int id_user) throws SQLException{
+        ArrayList<Question> list = new ArrayList<Question>();
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT_QUESTION_BY_ID_CHAPTER_AND_USER);
+        statement.setInt( 1, id_chapter );
+        statement.setInt(2, id_user);
+        statement.setString(3, "0");
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+	}
     
    
 }

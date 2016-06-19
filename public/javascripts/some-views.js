@@ -51,7 +51,7 @@
 									'<div class="col-xs-12 padding-10">'+
 										'<label for="question">Question</label>'+
 									'</div>'+
-									'<div class="col-xs-8">'+
+									'<div class="col-xs-8" id="question_input_div'+i+'">'+
 										'<input type="text"class="form-control width-100" name="question'+i+'">'+
 									'</div>'+
 								'</div>'+	
@@ -88,21 +88,24 @@
     }
     
     function addTestAnswerDiv(id,m){
-      var div = '<div id="question'+id+'_answer'+m+'">'+ 
+      var div = '<div class="remove_answer_div'+id+'" id="question'+id+'_answer'+m+'">'+ 
               '<div class="row">'+
                '<div class="col-xs-8 padding-10">'+
                  '<label for="reponse">Réponse</label>'+
                '</div>'+
+               '<div class="col-xs-4 padding-left-100">'+
+					'<label id="cocher_reponse'+m+'"></label>'+
+				'</div>'+
              '</div>'+	
              '<div class="row">'+ 
                '<div class="col-xs-8">'+ 
-                 '<input type="text" class="form-control width-100" name="question'+id+'_answer'+m+'" >'+ 
+                 '<input type="text" class="form-control width-100" id="input_test_answer'+m+'" name="question'+id+'_answer'+m+'" >'+ 
                '</div>'+ 
                '<div class="col-xs-2 align-right">'+ 
                    '<input type="checkbox" value="1" name="question'+id+'_goodA'+m+'">'+  
                '</div>'+ 
                '<div class="col-xs-2 center">'+ 
-                 '<i class="fa fa-times test_cours_delete_answer" id="question'+id+'_delete_answer'+m+'"></i>'+ 
+               	'<span class="glyphicon glyphicon-remove test_cours_delete_answer" aria-hidden="true" id="question'+id+'_delete_answer'+m+'"></span>'+
                '</div>'+ 
              '</div>'+ 
            '</div>';

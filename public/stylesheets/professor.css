@@ -97,4 +97,7 @@
 .question-filter{
 	background-color: rgba( 173, 216, 230,0.5);
 }
+.glyphicon-remove:hover {
+    cursor: pointer;
+}
 

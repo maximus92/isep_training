@@ -9,7 +9,7 @@ import java.sql.Statement;
 import play.db.DB;
 
 public class JoinTestQuestion {
-	private String INSERT_JOIN_TEST_QUESTION = "INSERT INTO join_test_question(id_test,id_question) VALUES (?, ?)";
+	private static final String INSERT_JOIN_TEST_QUESTION = "INSERT INTO join_test_question(id_test,id_question) VALUES (?, ?)";
 	private int id_question;
 	private int id_test;
 	
@@ -19,8 +19,9 @@ public class JoinTestQuestion {
 	}
 	
 	public int insert() throws SQLException{
+		PreparedStatement statement = null;
 		Connection connection = DB.getConnection();
-		PreparedStatement statement = connection.prepareStatement(INSERT_JOIN_TEST_QUESTION);
+		statement = connection.prepareStatement(INSERT_JOIN_TEST_QUESTION, statement.RETURN_GENERATED_KEYS);
         int id = -1;
 		statement.setInt(1,this.id_test);
     	statement.setInt(2,this.id_question);

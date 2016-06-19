@@ -1,41 +1,21 @@
-	function removeDiv(divId) {
-		$("#" + divId).remove();
-	}
-	
-	
-	
 	function getfile(){
 	    document.getElementById('hiddenfile').click();
 	    document.getElementById('selectedfile').value=document.getElementById('hiddenfile').value;
 	}
-	
-	addOption("#nbrQ",200);
-	addOption("#minR",10);
-	addOption("#maxR",10);
-	addOption("#hour",10);
-	addOption("#minute",60);
-	
-	function addOption(id_select,num){
-		for (var i = 1; i <= num; i++) {
-			$(id_select).append($('<option>', { 
-		        value: i,
-		        text : i 
-		    }));
-			
-		}
-	}
-	
 
 $(document).ready(function(){ 
-		 var l = 0;
-		 var v = $("#reponse_counter").val(); 
+	
+	/***************** AJOUTER QUESTION MANUELLEMENT *************/
+	
+		 var add_answer_div_id = 0;
+		 var add_answer_reponse_counter = $("#reponse_counter").val(); 
 		  
 		 $("#addAnswer").click(function(){
-				l++;
-				v++; 
-				var newdiv = addAnswerDiv(l);
+			 	add_answer_div_id++;
+			 	add_answer_reponse_counter++; 
+				var newdiv = addAnswerDiv(add_answer_div_id);
 			 	$("#addQuestion").append(newdiv);
-			 	$("#reponse_counter").val(v); 
+			 	$("#reponse_counter").val(add_answer_reponse_counter); 
 		 });
 		 
 		 $("#addQuestion").on('click', ".delete_answer", function() {
@@ -43,10 +23,9 @@ $(document).ready(function(){
 			 $("#remove"+id).remove();
 		 });
 		 
-		 
 		  $("#link_addManually").click(function(){
 		  		displayModuleInSelect("#question_module", "0");
-		  	});
+		  });
 		  
 		  $("#question_module").change(function(){
 			  var id_module = $(this).val();
@@ -55,7 +34,7 @@ $(document).ready(function(){
 		 
 		 
 	
-	  /**** MODULE ***/
+	  /*************************** MODULE *****************************/
 	  
 		$("#module-form").submit(function(event){ 
 		  event.preventDefault(); 
@@ -130,29 +109,24 @@ $(document).ready(function(){
 			});
 		});
 	  
-	/*** FIN MODULE ***/
-		/** EXAMEN **/
-		  $("#exam_chapter").hide();
-
 		
+		/************************ EXAMEN ************************/
+		
+		 $("#exam_chapter").hide();
+
 		 $("#create-exam").click(function(){
 		  		displayModuleInSelect("#exam_module", "0");
-		  		
-
-		  	});
+		  });
 		 
 		 $("#exam_module").click(function(){
 			  $("#exam_chapter").fadeIn();
 		  });
-
 		  
 		  $("#exam_module").change(function(){
 			  var id_module = $(this).val();
 			  displayChapterInUl("#exam_chapter", id_module);
-
 		  });
 		  
-		 
 
 		$("#add_exam").hide();
 		$("#view_question_exam").hide();
@@ -163,58 +137,49 @@ $(document).ready(function(){
 	  	});
 		
 		
-					$("#examen-li").one("click",function(){
-								dataString = "";
+			$("#examen-li").one("click",function(){
+						dataString = "";
 
-								$.ajax({
-									type : "POST",
-									url : "/select-exam",
-									data : dataString,
-									dataType : "json",
+						$.ajax({
+							type : "POST",
+							url : "/select-exam",
+							data : dataString,
+							dataType : "json",
 
-									success : function(data) {
-										for (var i = 0; i < data.length; i++) {
-											if (data.length >= 1) {
-												$('.nothing-in-exam').hide();
-												$(".display_exam").append('<div class="padding 10 col-sm-6 exam-display'+data[i].id_qcm+'">'+data[i].title+
-														'</div>'+
-									  					'<div class="padding 10 col-sm-4 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-primary exam-details" id="examdetails'+data[i].id_qcm+'">Détails</button></div>'+
-									  					'<div class="padding 10 col-sm-2 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-danger exam-delete" id="deleteExam'+data[i].id_qcm+'">Supprimer</button></div></br></br>');
-											}
-
-										}
+							success : function(data) {
+								for (var i = 0; i < data.length; i++) {
+									if (data.length >= 1) {
+										$('.nothing-in-exam').hide();
+										$(".display_exam").append('<div class="padding 10 col-sm-6 exam-display'+data[i].id_qcm+'">'+data[i].title+
+												'</div>'+
+							  					'<div class="padding 10 col-sm-4 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-primary exam-details" id="examdetails'+data[i].id_qcm+'">Détails</button></div>'+
+							  					'<div class="padding 10 col-sm-2 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-danger exam-delete" id="deleteExam'+data[i].id_qcm+'">Supprimer</button></div></br></br>');
 									}
-								});
-
-							});
-					$(".display_exam").on('click', ".exam-delete", function() {
-						  var id = $(this).attr('id').substring(10);
-							var dataString = {id : id};
-							ajaxBody("/delete-exam",dataString,function(data) {
-									var exam = ".exam-display"+data.id_qcm;
-									$(exam).css({display: "none"});
-							});
+								}
+							}
 						});
-					
-					
-					$("#cancel_exam").click(function(){
-				  		$("#add_exam").hide();
-				  		$("#exam-info").fadeIn();
+				});
+			
+			$(".display_exam").on('click', ".exam-delete", function() {
+				  var id = $(this).attr('id').substring(10);
+					var dataString = {id : id};
+					ajaxBody("/delete-exam",dataString,function(data) {
+							var exam = ".exam-display"+data.id_qcm;
+							$(exam).css({display: "none"});
+					});
+				});
+			
+			
+			$("#cancel_exam").click(function(){
+		  		$("#add_exam").hide();
+		  		$("#exam-info").fadeIn();
 
-				  		
-				  	});
-				
-					$("#exam_chapter").on('change',".chapter_for_exam", function(){
-//						 chapchecked = $("#hidden_nbr_id_chapter").val();
-//						 chapchecked ++;
-//					  $("#hidden_nbr_id_chapter").val(chapchecked);
-			  
-					  });
-					
-		
-	
+		  		
+		  	});	
 		 
-	/** BDD **/
+			
+	/************************* BDD ******************************/
+			
 	  $("#bdd-li").one("click",function(){
 		  dataString = "";
 		  var level;
@@ -347,8 +312,6 @@ $(document).ready(function(){
 				  for(var i=0; i< data.length;i++){
 					  if(filtre_forexam == data[i].forexam && filtre_level == data[i].level){
 						  
-					  
-					  
 					  if(data[i].level == "0"){
 							 level = "facile";
 						 }
@@ -374,21 +337,17 @@ $(document).ready(function(){
 					  }
 					  else{
 						  
-					  }
-					 
+					  }			 
 			  }
 			  }
 				  
 		  }); 
 	  });
 	  
-	  
-	  
-	  
-
   
-	  /** TEST DE COURS **/
-		$("#add-test").hide();
+	  /********************** TEST DE COURS ********************/
+	  
+	  $("#add-test").hide();
 	  $(".test-detail").hide();
 	  
 	  $("#create-test").click(function(){
@@ -431,29 +390,22 @@ $(document).ready(function(){
 	  	
 	  	var answer_test_counter = $("#answer_test_counter").val();
 	  	var question_test_counter = $("#question_test_counter").val(); 
-	  	var i = 2;
-	  	var m = 1;
+	  	var counter_paire_ou_impaire = 2;
+	  	var test_answer_id = 1;
 		$("#ajouter-test-q").click(function(){
-				m++;
-				var paire_ou_impaire;
-				if(i/2 == Math.round(i/2)){
-						paire_ou_impaire = "Qpaire";
-				}else{
-						paire_ou_impaire = "Qimpaire";
-				}
-				var newdiv =  addTestQuestionDiv(paire_ou_impaire,i,m);
-				$("#container_testQ").append(newdiv)
-			 	i++;
-				question_test_counter++;
-				$("#question_test_counter").val(question_test_counter);
-				answer_test_counter++;
-				$("#answer_test_counter").val(answer_test_counter);
+			paireCode();
+		 	counter_paire_ou_impaire++;
+			question_test_counter++;
+			$("#question_test_counter").val(question_test_counter);
+			answer_test_counter++;
+			$("#answer_test_counter").val(answer_test_counter);
 		});
+		
 		
 		$("#container_testQ").on('click', ".ajouter-test-r", function() {
 				var id = $(this).attr("id").substring(14);
-				m++;
-			 	var newdiv = addTestAnswerDiv(id,m);
+				test_answer_id++;
+			 	var newdiv = addTestAnswerDiv(id,test_answer_id);
 				$("#question"+id).append(newdiv);
 				answer_test_counter++;
 				$("#answer_test_counter").val(answer_test_counter);
@@ -558,7 +510,76 @@ $(document).ready(function(){
 				});
 			});
 			
-			/*** IMPORT QUESTION REPONSE ***/
+			$("#choice-ajouter-test-q").click(function(){
+				$("#test-modal-question-choice").modal("show");
+				$(".modal-error").html("");
+			});
+			
+			$("#ajouter-test-q-old").click(function(){
+					var test_chapter = $("#create_test_chapter").val();
+					if(test_chapter == "0"){
+						$(".modal-error").html("Vous devez sélectionner un chapitre.");
+						return false;
+					}
+					var dataString = {id_chapter: test_chapter};
+					var div_option = '<option value="0">Aucune</option>';
+					
+					$.ajax({ 
+						type: "POST", 
+						async: false,
+						url: "/prof/get-question-by-chapter",
+						data: dataString, 
+						dataType: "json",
+						success: function(data) {
+							for(var i = 0; i<data.length;i++){
+								div_option += '<option value="'+data[i].id_question+'">'+data[i].question+'</option>';
+							}
+						}	 
+					}); 
+					
+					paireCode();
+					$("#question_input_div"+counter_paire_ou_impaire).html(
+							"<select class='form-control old_question_id' name='old_question_id"+counter_paire_ou_impaire+"' id='old_question_id"+counter_paire_ou_impaire+"'></select>"
+							);
+					$("#question"+counter_paire_ou_impaire+"_answer"+test_answer_id).remove();
+					$("#old_question_id"+counter_paire_ou_impaire).append(div_option);
+					
+				 	counter_paire_ou_impaire++;
+					question_test_counter++;
+					$("#question_test_counter").val(question_test_counter);
+					answer_test_counter++;
+					$("#answer_test_counter").val(answer_test_counter);
+			});
+			
+			$("#container_testQ").on("change",".old_question_id",function(){
+				var id_div = $(this).attr("id").substring(15);
+				var id_question = $(this).val();
+				var dataString = {id: id_question};
+				ajaxBody("/select-answer", dataString, function(data){
+					var div="";
+					$(".remove_answer_div"+id_div).remove();
+					for(var i=0; i<data[0].length;i++){
+						div = addTestAnswerDiv(id_div,test_answer_id);
+						$("#question"+id_div).append(div);
+						if(i==0){
+							$("#cocher_reponse"+test_answer_id).html("Cocher les bonnes </br>réponses");
+						}
+						$("#question"+id_div+"_answer"+test_answer_id).find('input[type="text"]').val(data[0][i].answer);
+						if(data[0][i].istrue){
+							$("#question"+id_div+"_answer"+test_answer_id).find('input[type="checkbox"]').prop('checked', true);
+						}
+						$("#question"+id_div).find(".test_cours_delete_answer").remove();
+						$("#question"+id_div).find('input').prop('disabled', true);
+						test_answer_id++;
+						answer_test_counter++;
+					}
+					$("#answer_test_counter").val(answer_test_counter);
+				});
+			});
+			
+			
+			
+			/*************************** IMPORT QUESTION REPONSE ******************************/
 			
 			$("#link_addFile").click(function(){
 				displayModuleInSelect("#import-module","0");
@@ -574,12 +595,11 @@ $(document).ready(function(){
 				var formData = new FormData();
 				formData.append('excel-file', file);
 				$.ajax({
-				    url: "/get-csv-column-title",  //Server script to process data
+				    url: "/get-csv-column-title",
 				    type: 'POST',
 				    data: formData,
 				    contentType: false,
 				    processData: false,
-				    //Ajax events
 				    success: function(data){
 				    	var i =1;
 				    	$(".import-modal-body").remove();
@@ -658,7 +678,9 @@ $(document).ready(function(){
 		});
 		
 			
-			
+
+		/*************** FONCTIONS GENERALES ******************/
+		
 		function ajaxBody(url,dataString,successFunction){
 			$.ajax({ 
 					type: "POST", 
@@ -715,6 +737,19 @@ $(document).ready(function(){
 
 				}
 					});
+		}
+		
+		function paireCode(){
+			$("#test-modal-question-choice").modal('toggle');
+			test_answer_id++;
+			var paire_ou_impaire;
+			if(counter_paire_ou_impaire/2 == Math.round(counter_paire_ou_impaire/2)){
+					paire_ou_impaire = "Qpaire";
+			}else{
+					paire_ou_impaire = "Qimpaire";
+			}
+			var newdiv =  addTestQuestionDiv(paire_ou_impaire,counter_paire_ou_impaire,test_answer_id);
+			$("#container_testQ").append(newdiv);
 		}
 		
 });
