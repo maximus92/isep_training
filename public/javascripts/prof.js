@@ -204,17 +204,13 @@ $(document).ready(function(){
 				  		
 				  	});
 					
-					$("#chapter_for_exam0").change( function() {
-					    alert($(this).is(":checked"));
+					$('#exam_chapter').delegate('label', 'click', function(){
+						if(!$(this).hasClass("checked")){
+							$(this).addClass("checked");
+						} else {
+							$(this).removeClass("checked");
+						}
 					});
-					
-
-					$(".chapter_for_exam").change( function() {
-						 chapchecked = $("#hidden_nbr_id_chapter").val();
-						 chapchecked ++;
-					  $("#hidden_nbr_id_chapter").val(chapchecked);
-			  
-					  });
 					
 		
 	

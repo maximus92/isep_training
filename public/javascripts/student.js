@@ -201,7 +201,7 @@ $(document).ready(
 			}
 			if($('.last-question').length){
 				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
-				$("#next-question").text("valider");
+				$("#next-question").text("Valider");
 			}
 			}
 			
