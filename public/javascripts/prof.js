@@ -137,6 +137,8 @@ $(document).ready(function(){
 		
 		 $("#create-exam").click(function(){
 		  		displayModuleInSelect("#exam_module", "0");
+		  		
+
 		  	});
 		 
 		 $("#exam_module").click(function(){
@@ -147,18 +149,11 @@ $(document).ready(function(){
 		  $("#exam_module").change(function(){
 			  var id_module = $(this).val();
 			  displayChapterInUl("#exam_chapter", id_module);
-			  var nbr_id_chapter = $("#hidden_nbr_id_chapter").val();
-				nbr_id_chapter = $(".chapter_for_exam").length;
-			  	$("#hidden_nbr_id_chapter").val(nbr_id_chapter);
-			  
+
 		  });
 		  
-		  
-		  
-	
-
 		 
-		
+
 		$("#add_exam").hide();
 		$("#view_question_exam").hide();
 		
@@ -209,6 +204,17 @@ $(document).ready(function(){
 				  		
 				  	});
 					
+					$("#chapter_for_exam0").change( function() {
+					    alert($(this).is(":checked"));
+					});
+					
+
+					$(".chapter_for_exam").change( function() {
+						 chapchecked = $("#hidden_nbr_id_chapter").val();
+						 chapchecked ++;
+					  $("#hidden_nbr_id_chapter").val(chapchecked);
+			  
+					  });
 					
 		
 	
@@ -266,6 +272,15 @@ $(document).ready(function(){
 			});
 		});
 	  
+	  $(".question_filter").on('click', ".question-delete", function() {
+		  var id = $(this).attr('id').substring(7);
+			var dataString = {id : id};
+			ajaxBody("/delete-question",dataString,function(data) {
+					var ques = ".question-display"+data.id_question;
+					$(ques).css({display: "none"});
+			});
+		});
+	  
 	  
 	  $(".question-select").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
@@ -276,6 +291,17 @@ $(document).ready(function(){
 				$("#reponse_counter_modify").val(data[0].length);
 			});
 	  });
+	  
+	  $(".question_filter").on('click', ".modifyQA", function() {
+		  var id = $(this).attr('id').substring(8);
+			var dataString = {id : id};
+			ajaxBody("/select-answer",dataString,function(data) {
+				$(".form_update_question").remove();
+				$(".answer-select").append(questionUpdateDiv(data));
+				$("#reponse_counter_modify").val(data[0].length);
+			});
+	  });
+	  
 	  
 	  $(".answer-select").on('click', "#validateModification", function() {
 		  dataString = "";
@@ -302,7 +328,6 @@ $(document).ready(function(){
 
 			
 		 }); 
-		//var nbQ = document.getElementById("form_add_exam").elements.namedItem("nbrQ").value;
 
 	  
 	  $("#filter_question").click(function(){
@@ -311,6 +336,9 @@ $(document).ready(function(){
 			$(".question-select").hide();
 			var forexam;
 			var level;
+			var filtre_forexam = document.getElementById("form_filtre_question").elements.namedItem("entrainement_or_exam").value;
+			var filtre_level = document.getElementById("form_filtre_question").elements.namedItem("choose_level").value;
+
 		  dataString = "";
 		  $.ajax({ 
 			  type: "POST", 
@@ -319,8 +347,13 @@ $(document).ready(function(){
 			  dataType: "json",
 			  
 			  success: function(data) {
-				  
+					$(".filtre").remove();
+
 				  for(var i=0; i< data.length;i++){
+					  if(filtre_forexam == data[i].forexam && filtre_level == data[i].level){
+						  
+					  
+					  
 					  if(data[i].level == "0"){
 							 level = "facile";
 						 }
@@ -336,14 +369,18 @@ $(document).ready(function(){
 						 else{
 							 forexam = "Examen";
 						 }
-					  $(".question_filter").append('<div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
+					  $(".question_filter").append('<div class="filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
 	  					'</div>'+
 	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+forexam+'</div>'+
 	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+level+
 	  					'</div>'+
 	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
-	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br>');
-
+	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br></div>');
+					  }
+					  else{
+						  
+					  }
+					 
 			  }
 			  }
 				  
@@ -679,7 +716,7 @@ $(document).ready(function(){
 				$(ul_id+' label').remove();
 
 		        for(var i=0;i< data.length;i++){
-				 $(ul_id).append('<label><input type="checkbox" class="chapter_for_exam"  name="chapter_for_exam'+i+'" id="'+data[i].id_chapter+'" value="'+data[i].id_chapter+'">'+data[i].chapter_name+'</label>');
+				 $(ul_id).append('<label><input type="checkbox" class="chapter_for_exam"  name="chapter_for_exam'+i+'" id="chapter_for_exam'+i+'" value="'+data[i].id_chapter+'">'+data[i].chapter_name+'</label>');
 
 				}
 					});
