@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.lang.Object;
 import java.util.ArrayList;
+import java.util.List;
 
 import models.Answer;
 import models.Chapter;
@@ -455,6 +456,17 @@ public class ProfessorController extends Controller {
 	
     public Result addExam() throws SQLException {
     	DynamicForm form = Form.form().bindFromRequest();
+    	List<String> chapter_id_array = new ArrayList<String>();
+    	if(form.get("hidden_nbr_id_chapter")!=null){
+    		int nb_chapter = Integer.parseInt(form.get("hidden_nbr_id_chapter"));
+    		for(int i=0;i<nb_chapter;i++){
+    			if(form.get("chapter_for_exam"+i)!=null){
+    				chapter_id_array.add(form.get("chapter_for_exam"+i));
+    			}
+    			
+    		}
+    	}
+    	
         String token = session().get( "token" );
         int createby = User.getIdByToken( token );  
         int nbanswermax = Integer.parseInt(form.get("maxR"));
@@ -480,11 +492,8 @@ public class ProfessorController extends Controller {
         examen.setNo_answer(no_answer);
         examen.setTitle(title);
         examen.setExam(exam);
-        
-        examen.createExam();
-        
         int id_qcm = examen.createExam();
-        insertExamWithChapter( form, id_qcm );
+        insertExamWithChapter(chapter_id_array, id_qcm );
         
         return redirect( "/prof" );
     
@@ -508,18 +517,14 @@ public class ProfessorController extends Controller {
         return ok( result );
     }
     
-    public void insertExamWithChapter( DynamicForm form, int id_qcm ) throws SQLException {
-        int chapter_counter = Integer.parseInt( form.get( "hidden_nbr_id_chapter" ) );
+    public void insertExamWithChapter( List<String> id_chapter_array, int id_qcm ) throws SQLException {
         
-        for ( int i = 0; i <= 1; i++ ) {
-            int id_chapter = Integer.parseInt(form.get( "chapter_for_exam"+i ));
-            
+        for ( int i = 0; i < id_chapter_array.size(); i++ ) {
+            int id_chapter = Integer.parseInt(id_chapter_array.get(i));
             JoinQcmChapter join = new JoinQcmChapter();
-            
             join.setId_chapter(id_chapter);
             join.setId_qcm(id_qcm);
             join.insert();
-        	
         }
            
     }

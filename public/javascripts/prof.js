@@ -203,14 +203,14 @@ $(document).ready(function(){
 
 				  		
 				  	});
-					
-					$('#exam_chapter').delegate('label', 'click', function(){
-						if(!$(this).hasClass("checked")){
-							$(this).addClass("checked");
-						} else {
-							$(this).removeClass("checked");
-						}
-					});
+
+				
+					$("#exam_chapter").on('change',".chapter_for_exam", function(){
+//						 chapchecked = $("#hidden_nbr_id_chapter").val();
+//						 chapchecked ++;
+//					  $("#hidden_nbr_id_chapter").val(chapchecked);
+			  
+					  });
 					
 		
 	
@@ -710,7 +710,7 @@ $(document).ready(function(){
 			ajaxBody("/select-chapter",dataString,
 					function(data){
 				$(ul_id+' label').remove();
-
+				$("#hidden_nbr_id_chapter").val(data.length);
 		        for(var i=0;i< data.length;i++){
 				 $(ul_id).append('<label><input type="checkbox" class="chapter_for_exam"  name="chapter_for_exam'+i+'" id="chapter_for_exam'+i+'" value="'+data[i].id_chapter+'">'+data[i].chapter_name+'</label>');
 
