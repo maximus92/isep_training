@@ -229,6 +229,7 @@
 	/************************* BDD ******************************/
 			
 	  $("#bdd-li").one("click",function(){
+		  displayModuleInSelect("#choose_module", "0");
 		  dataString = "";
 		  var level;
 		  var forexam;
@@ -267,6 +268,10 @@
 					 }
 				  }
 		  }); 
+	  });
+	  
+	  $("#choose_module").change(function(){
+		  displayChapterInSelect("#choose_chapter", "0", $(this).val()); 
 	  });
 	  
 	  
@@ -336,7 +341,7 @@
 
 			
 		 }); 
-
+	  
 	  
 	  $("#filter_question").click(function(){
 		  $("#form_filtre_question").submit(function(e){
@@ -344,6 +349,8 @@
 			$(".question-select").hide();
 			var forexam;
 			var level;
+			var filtre_module = $("#choose_module").val();
+			var filtre_chapter = $("#choose_chapter").val();
 			var filtre_forexam = document.getElementById("form_filtre_question").elements.namedItem("entrainement_or_exam").value;
 			var filtre_level = document.getElementById("form_filtre_question").elements.namedItem("choose_level").value;
 
@@ -356,43 +363,49 @@
 			  
 			  success: function(data) {
 					$(".filtre").remove();
-
+					
 				  for(var i=0; i< data.length;i++){
 					  if(filtre_forexam == data[i].forexam && filtre_level == data[i].level){
-
-					  if(data[i].level == "0"){
-							 level = "facile";
-						 }
-						 if(data[i].level == 1){
-							 level = "moyen";
-						 }
-						 if(data[i].level == 2){
-							 level = "difficile";
-						 }
-						 if(data[i].forexam == 0){
-							 forexam = "Entrainement";
-						 }
-						 else{
-							 forexam = "Examen";
-						 }
-					  $(".question_filter").append('<div class="filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
-	  					'</div>'+
-	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+forexam+'</div>'+
-	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+level+
-	  					'</div>'+
-	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
-	  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br></div>');
-					  }
-					  else{
 						  
-					  	
+						  if(data[i].level == "0"){
+								 level = "facile";
+							 }
+							 if(data[i].level == 1){
+								 level = "moyen";
+							 }
+							 if(data[i].level == 2){
+								 level = "difficile";
+							 }
+							 if(data[i].forexam == 0){
+								 forexam = "Entrainement";
+							 }
+							 else{
+								 forexam = "Examen";
+							 }
+							 
+							 if(filtre_chapter != 0){
+								 if(filtre_chapter == data[i].id_chapter){
+									 displayFiltre(data,i,level,forexam);
+								 }
+							 }else{
+								 displayFiltre(data,i,level,forexam);
+							 }
 					  }
-			  }
+				  }
 			  }
 				  
 		  }); 
 	  });
 	  
+	  function displayFiltre(data,i,level,forexam){
+		  $(".question_filter").append('<div class="filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
+					'</div>'+
+					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+forexam+'</div>'+
+					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+level+
+					'</div>'+
+					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
+					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br></div>');
+	  }
   
 	  /********************** TEST DE COURS ********************/
 	  

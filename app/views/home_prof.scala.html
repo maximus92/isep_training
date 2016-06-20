@@ -502,45 +502,51 @@
 		<div id="bdd" class="tab-pane fade">
 
 			<div class="row question-filter">
-				<form id="form_filtre_question">
-					</br>
-					<div class="col-sm-4">
-						<label for="entrainement_or_exam">Question pour:</label> <SELECT
-							name="entrainement_or_exam" id="entrainement_or_exam" size="1">
-							<OPTION value="0">Entrainement des éleves</OPTION>
-							<OPTION value="1">Examen</OPTION>
-						</SELECT>
+				<form id="form_filtre_question" class="form-horizontal">
+					<div class="form-group">
+						</br>
+						<label for="entrainement_or_exam" class=" control-label col-sm-2">Question pour:</label> 
+						<div class="col-sm-3">
+							<SELECT name="entrainement_or_exam" id="entrainement_or_exam" class="form-control" size="1">
+								<OPTION value="0">Entrainement des éleves</OPTION>
+								<OPTION value="1">Examen</OPTION>
+							</SELECT>
+						</div>
+						<label for="choose_level" class=" control-label col-sm-2">Niveau:</label> 
+						<div class="col-sm-3">
+							<SELECT class="form-control" name="choose_level" size="1">
+								<OPTION value="0">Facile</OPTION>
+								<OPTION value="1">Moyen</OPTION>
+								<OPTION value="2">Difficile</OPTION>
+							</SELECT>
+						</div>	
 					</div>
-
-					<div class="col-sm-4">
-						<label for="choose_level">Niveau:</label> <SELECT
-							name="choose_level" size="1">
-							<OPTION value="0">Facile</OPTION>
-							<OPTION value="1">Moyen</OPTION>
-							<OPTION value="2">Difficile</OPTION>
-						</SELECT>
-					</div>
-					<div class="col-sm-4">
-						<!-- <input type="text" id="question-search" name="question-search" placeholder="Mot cle"/>
-					-->
+					<div class="form-group">
+						<label for="choose_level" class=" control-label col-sm-2">Module:</label> 
+						<div class="col-sm-3">
+							<select class="form-control" name="choose_module" id="choose_module" size="1"></select>
+						</div>
+						<label for="choose_chapter" class=" control-label col-sm-2">Chapitre:</label> 
+						<div class="col-sm-3">
+							<select class="form-control" name="choose_chapter" id="choose_chapter" size="1">
+								<option value="0">Aucun</option>
+							</select>
+						</div>
+						<div class="col-sm-2 center">
+							<span class="btn btn-info filter_question" id="filter_question">Filtrer</span>
+						</div>
+					</div>	
 				</form>
-				<span class="btn btn-info pull-right filter_question"
-					id="filter_question">Filtrer</span>
 			</div>
-
-		</div>
+			
 		</br>
 
 		<div class="row list-question-display">
 			<div class="col-sm-4">Question</div>
-			<div class="col-sm-2">
-				Type de</br>question
-			</div>
+			<div class="col-sm-2">Type de</br>question</div>
 			<div class="col-sm-2">Niveau</div>
 			<div class="col-sm-2"></div>
 			<div class="col-sm-2"></div>
-
-
 		</div>
 		<div class="row question-select"></div>
 
