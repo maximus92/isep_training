@@ -365,37 +365,54 @@
 					$(".filtre").remove();
 					
 				  for(var i=0; i< data.length;i++){
-					  if(filtre_forexam == data[i].forexam && filtre_level == data[i].level){
-						  
-						  if(data[i].level == "0"){
-								 level = "facile";
+					  if(data[i].level == 0){
+							 level = "facile";
+						 }
+						 if(data[i].level == 1){
+							 level = "moyen";
+						 }
+						 if(data[i].level == 2){
+							 level = "difficile";
+						 }
+						 if(data[i].forexam == 0){
+							 forexam = "Entrainement";
+						 }
+						 if(data[i].forexam == 1){
+							 forexam = "Examen";
+						 }
+						
+						 if(filtre_level != "aucun"){
+							 if(filtre_level == data[i].level){
+								 filtreForExam(filtre_forexam,filtre_chapter,data,i,level,forexam);
 							 }
-							 if(data[i].level == 1){
-								 level = "moyen";
-							 }
-							 if(data[i].level == 2){
-								 level = "difficile";
-							 }
-							 if(data[i].forexam == 0){
-								 forexam = "Entrainement";
-							 }
-							 else{
-								 forexam = "Examen";
-							 }
-							 
-							 if(filtre_chapter != 0){
-								 if(filtre_chapter == data[i].id_chapter){
-									 displayFiltre(data,i,level,forexam);
-								 }
-							 }else{
-								 displayFiltre(data,i,level,forexam);
-							 }
-					  }
+						 }else{
+							 filtreForExam(filtre_forexam,filtre_chapter,data,i,level,forexam);
+						 }
 				  }
 			  }
 				  
 		  }); 
 	  });
+	  
+	  function filtreForExam(filtre_forexam,filtre_chapter,data,i,level,forexam){
+		  if(filtre_forexam!= "aucun"){
+				if(filtre_forexam == data[i].forexam){
+					filtreChapitre(filtre_chapter,data,i,level,forexam);
+				}
+			}else{
+				filtreChapitre(filtre_chapter,data,i,level,forexam);
+			} 
+	  }
+	  
+	  function filtreChapitre(filtre_chapter,data,i,level,forexam){
+		  if(filtre_chapter != 0){
+				 if(filtre_chapter == data[i].id_chapter){
+					 displayFiltre(data,i,level,forexam);
+				 }
+			 }else{
+				 displayFiltre(data,i,level,forexam);
+			 }
+	  }
 	  
 	  function displayFiltre(data,i,level,forexam){
 		  $(".question_filter").append('<div class="filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
