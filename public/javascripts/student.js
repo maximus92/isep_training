@@ -272,13 +272,83 @@ $(document).ready(
 			
 			// sauvegarde au rafraichissement
 			
-			window.onbeforeunload = function(event) {
-			    $.ajax({
-			    	
-			    })
-			}
+			$(window).bind('beforeunload', function() {
+				if($(".qcm-container").length){
+					var question_num;
+					var update_qcm_json = $('form').serialize();
+					var time = $("#qcm-time").countdown('getTimes');
+					var current_time = $.countdown.periodsToSeconds(time);
+					if($(this).attr("id") == "next-question"){
+						question_num = parseInt(getUrlParameter('question_num')) + 1;
+					} 
+					if($(this).attr("id") == "last-question"){
+						question_num = parseInt(getUrlParameter('question_num')) - 1;
+					}
+					
+					$.ajax({
+						type: 'POST',
+						url: '/student/updateQcm',
+						async: false,
+						data: update_qcm_json + '&time=' + current_time,
+						
+					});
+				}
+				
+				if($(".result-container").length){
+					
+				}
+				
+			});
 
-			
+			window.onload = function () {
+			    if ($(".result-container").length || $(".qcm-container").length) {
+					if (typeof history.pushState === "function") {
+						history.pushState("jibberish", null, null);
+						window.onpopstate = function() {
+							history.pushState('newjibberish', null, null);
+							// Handle the back (or forward) buttons here
+							// Will NOT le refresh, use onbeforeunload for this.
+							
+							if($(".qcm-container").length){
+								var question_num;
+								var update_qcm_json = $('form').serialize();
+								var time = $("#qcm-time").countdown('getTimes');
+								var current_time = $.countdown.periodsToSeconds(time);
+								if($(this).attr("id") == "next-question"){
+									question_num = parseInt(getUrlParameter('question_num')) + 1;
+								} 
+								if($(this).attr("id") == "last-question"){
+									question_num = parseInt(getUrlParameter('question_num')) - 1;
+								}
+								
+								$.ajax({
+									type: 'POST',
+									url: '/student/updateQcm',
+									async: false,
+									data: update_qcm_json + '&time=' + current_time,
+									
+								});
+							} else {
+								window.location.href = "/student";
+							}
+						};
+					} else {
+						var ignoreHashChange = true;
+						window.onhashchange = function() {
+							if (!ignoreHashChange) {
+								ignoreHashChange = true;
+								window.location.hash = Math.random();
+								// Detect and redirect change here
+								// Works in older FF and IE9
+								// * it does mess with your hash symbol (anchor?) pound sign
+								// delimiter on the end of the URL
+							} else {
+								ignoreHashChange = false;
+							}
+						};
+					}
+				}
+			}
 			
 
 			/**********************Script pour la correction d'un qcm*************************/
@@ -504,26 +574,4 @@ $(document).ready(
 					}
 				});
 			});
-			
-$(window).bind('beforeunload', function() {
-	if()
-	var question_num;
-	var update_qcm_json = $('form').serialize();
-	var time = $("#qcm-time").countdown('getTimes');
-	var current_time = $.countdown.periodsToSeconds(time);
-	if($(this).attr("id") == "next-question"){
-		question_num = parseInt(getUrlParameter('question_num')) + 1;
-	} 
-	if($(this).attr("id") == "last-question"){
-		question_num = parseInt(getUrlParameter('question_num')) - 1;
-	}
-	
-	$.ajax({
-		type: 'POST',
-		url: '/student/updateQcm',
-		async: false,
-		data: update_qcm_json + '&time=' + current_time,
-		
-	});
-});
 		});
