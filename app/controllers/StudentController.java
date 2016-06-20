@@ -106,13 +106,21 @@ public class StudentController extends Controller {
         return ok( json );
     }
 
-    public Result studentTrainingQcm( Integer question_num ) throws SQLException {
+    public Result studentTrainingQcm( Integer question_num, Integer qcm ) throws SQLException {
 
         ArrayList<Answer> answers_list = null;
         Question question = new Question();
         Qcm qcm_info = new Qcm();
         int id_qcm = -1;
         String token = session().get( "token" );
+
+        if ( qcm != null && qcm > 0 ) {
+            id_qcm = qcm;
+            qcm_info.getInfoById( id_qcm );
+            if ( qcm_info.getTime() == 0 ) {
+                return redirect( "/student/resultat?id_qcm=" + id_qcm );
+            }
+        }
 
         if ( id_qcm == -1 ) {
             id_qcm = Qcm.getLastQcmForUser( token );
@@ -123,7 +131,7 @@ public class StudentController extends Controller {
         }
         if ( id_qcm != -1 ) {
             if ( question_num <= 0 ) {
-                return redirect( "/student/trainingQcm?question_num=1" );
+                return redirect( "/student/trainingQcm/0?question_num=1" );
             }
             if ( question_num > qcm_info.getNumber_of_questions() ) {
                 return redirect( "/student/resultat?id_qcm=" + id_qcm );
@@ -139,7 +147,6 @@ public class StudentController extends Controller {
     }
 
     public Result updateQcm() throws NumberFormatException, SQLException {
-        Logger.debug( "okok" );
         DynamicForm form = Form.form().bindFromRequest();
         int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
 
@@ -339,6 +346,16 @@ public class StudentController extends Controller {
                 );
         JsonNode json = Json.toJson( id_question_list );
         id_question_list.clear();
+        return ok( json );
+    }
+
+    public Result currentsQcm() throws SQLException {
+        List<Qcm> qcm_list = new ArrayList<Qcm>();
+        String token = session().get( "token" );
+        int id_user = User.getIdByToken( token );
+
+        qcm_list = Qcm.getCurrentsQcm( id_user ).subList( 0, 5 );
+        JsonNode json = Json.toJson( qcm_list );
         return ok( json );
     }
 

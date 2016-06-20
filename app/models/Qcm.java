@@ -30,6 +30,7 @@ public class Qcm {
     private String                    chapter;
     private List<String>              chapter_list                                = new ArrayList<String>();
     private Date                      finishat;
+    private Date                      createat;
     private Integer                   max_score;
     private int                       id_test                                     = 0;
     private int                       id_module;
@@ -101,6 +102,10 @@ public class Qcm {
                                                                                           + "WHERE id_module = ? AND exam = 1";
     private static final String       SELECT_QCM_BY_ID_QCM                        = "SELECT * FROM qcm "
                                                                                           + "WHERE id_qcm=?";
+    private static final String       GET_CURRENTS_QCM                            = "SELECT * "
+                                                                                          + "FROM qcm WHERE createby = ? "
+                                                                                          + "AND finishat IS NULL "
+                                                                                          + "ORDER BY createat DESC ";
 
     public int getId_qcm() {
         return id_qcm;
@@ -250,6 +255,14 @@ public class Qcm {
         this.id_module = id_module;
     }
 
+    public Date getCreateat() {
+        return createat;
+    }
+
+    public void setCreateat( Date createat ) {
+        this.createat = createat;
+    }
+
     public static ArrayList<Integer> getQuestionsIdArrayByParam( List<Integer> id_chapter_list, int question_num,
             int question_level )
             throws SQLException {
@@ -260,7 +273,7 @@ public class Qcm {
             builder.append( "?," );
         }
 
-        String stmt = "SELECT id_question FROM question WHERE id_chapter IN ("
+        String stmt = "SELECT id_question FROM question WHERE forexam = 0 AND id_chapter IN ("
                 + builder.deleteCharAt( builder.length() - 1 ).toString() + ") ORDER BY RAND() LIMIT ?";
 
         Connection connection = null;
@@ -539,7 +552,7 @@ public class Qcm {
         statement = connection.prepareStatement( SELECT_PROFESSOR_EXAM );
         statement.setInt( 1, id );
         ResultSet rs = statement.executeQuery();
-        
+
         while ( rs.next() ) {
             int id_qcm = rs.getInt( "id_qcm" );
             int nbanswermax = rs.getInt( "nbanswermax" );
@@ -660,12 +673,12 @@ public class Qcm {
             String title = rs.getString( "title" );
 
             Qcm q = new Qcm();
-            q.setNbanswermax(nbanswermax);
+            q.setNbanswermax( nbanswermax );
             q.setTime( time );
             q.setLevel( level );
             q.setGood_answer( good_answer );
             q.setBad_answer( bad_answer );
-            q.setNo_answer(no_answer);
+            q.setNo_answer( no_answer );
             q.setNumber_of_questions( nbofquestions );
             q.setTitle( title );
             list.add( q );
@@ -703,5 +716,58 @@ public class Qcm {
         }
 
         return exam_list;
+    }
+
+    public static List<Qcm> getCurrentsQcm( int id_user ) throws SQLException {
+        List<Qcm> qcm_list = new ArrayList<Qcm>();
+        String module_name = "";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result1 = null;
+        ResultSet result2 = null;
+        ResultSet result3 = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_CURRENTS_QCM );
+        statement.setInt( 1, id_user );
+        result1 = statement.executeQuery();
+
+        while ( result1.next() ) {
+
+            Qcm qcm = new Qcm();
+
+            statement = connection.prepareStatement( GET_CHAPTER_NAME );
+            statement.setInt( 1, result1.getInt( "id_qcm" ) );
+            result2 = statement.executeQuery();
+
+            List<String> list = new ArrayList<String>();
+            while ( result2.next() ) {
+                if ( result2.isFirst() ) {
+                    statement = connection.prepareStatement( GET_MODULE_NAME_BY_CHAPTER_ID );
+                    statement.setInt( 1, result2.getInt( "id_chapter" ) );
+                    result3 = statement.executeQuery();
+                    if ( result3.next() ) {
+                        module_name = result3.getString( "name" );
+                    }
+                }
+                list.add( result2.getString( "chapter_name" ) );
+                qcm.setChapter_list( list );
+            }
+            qcm.setId_qcm( result1.getInt( "id_qcm" ) );
+            qcm.setCreateat( result1.getDate( "createat" ) );
+            qcm.setNumber_of_questions( result1.getInt( "nbofquestions" ) );
+            qcm.setModule( module_name );
+            qcm.setTitle( result1.getString( "title" ) );
+
+            qcm_list.add( qcm );
+        }
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
+
+        return qcm_list;
     }
 }
