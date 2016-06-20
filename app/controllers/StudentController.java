@@ -286,7 +286,11 @@ public class StudentController extends Controller {
         String token = session().get( "token" );
         int id_user = User.getIdByToken( token );
 
-        qcm_list = Qcm.getEndQcmByUser( id_user ).subList( 0, 10 );
+        qcm_list = Qcm.getEndQcmByUser( id_user );
+
+        if ( qcm_list.size() > 10 ) {
+            qcm_list = Qcm.getEndQcmByUser( id_user ).subList( 0, 10 );
+        }
 
         return ok( student_qcm_history.render( "", qcm_list ) );
     }
@@ -354,7 +358,11 @@ public class StudentController extends Controller {
         String token = session().get( "token" );
         int id_user = User.getIdByToken( token );
 
-        qcm_list = Qcm.getCurrentsQcm( id_user ).subList( 0, 5 );
+        qcm_list = Qcm.getCurrentsQcm( id_user );
+
+        if ( qcm_list.size() > 5 ) {
+            qcm_list = Qcm.getCurrentsQcm( id_user ).subList( 0, 5 );
+        }
         JsonNode json = Json.toJson( qcm_list );
         return ok( json );
     }

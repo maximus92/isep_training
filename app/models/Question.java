@@ -474,4 +474,19 @@ public class Question {
         }
         return list;
     }
+
+    public void getNumberAnswers( int id_question ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( SELECT_QUESTION_BY_ID_QUESTION );
+        statement.setInt( 1, id_question );
+        result = statement.executeQuery();
+
+        if ( result.next() ) {
+            this.setQuestion( result.getString( "question" ) );
+        }
+    }
 }

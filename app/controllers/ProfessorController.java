@@ -573,12 +573,17 @@ public class ProfessorController extends Controller {
 
     public Result testResults( int id_test, int id_question ) throws SQLException {
         List<Answer> list_answer = new ArrayList<Answer>();
+        Question question = new Question();
+        int number_of_answer = 0;
 
+        question.getNumberAnswers( id_question );
         list_answer = Answer.getAnswerTestAndCountAnswer( id_test, id_question );
 
-        Logger.debug( list_answer.get( 1 ).getAnswer() );
+        for ( int i = 0; i < list_answer.size(); i++ ) {
+            number_of_answer += list_answer.get( i ).getCount_answer();
+        }
 
-        return ok( prof_test_results.render( "" ) );
+        return ok( prof_test_results.render( "", list_answer, question, number_of_answer ) );
     }
 
 }
