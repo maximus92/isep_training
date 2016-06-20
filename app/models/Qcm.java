@@ -654,21 +654,5 @@ public class Qcm {
         }
         return list;
     }
-    
-    /*public void getExamById( int id_qcm ) throws SQLException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet result = null;
-
-        connection = DB.getConnection();
-        statement = connection.prepareStatement( SELECT_QCM_BY_ID_QCM );
-        statement.setInt( 1, id_qcm );
-        result = statement.executeQuery();
-
-        if ( result.next() ) {
-      
-          
-        }
  
-    }*/
 }

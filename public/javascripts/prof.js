@@ -133,6 +133,9 @@ $(document).ready(function(){
 	/*** FIN MODULE ***/
 		/** EXAMEN **/
 		  $("#exam_chapter").hide();
+		  $("#details_of_exam").hide();
+
+		  
 
 		
 		 $("#create-exam").click(function(){
@@ -192,7 +195,12 @@ $(document).ready(function(){
 						  var id = $(this).attr('id').substring(11);
 							var dataString = {id : id};
 							ajaxBody("/select-exam-id",dataString,function(data) {
+								$("#exam-info").hide();
+								  $("#details_of_exam").fadeIn();
+
+								for(var i=0; i< data.length;i++){
 								$(".details_exam").append(data[i].title);
+								}
 							});
 					  });
 					
