@@ -369,8 +369,7 @@
 							<button id="add-test-cancel" class="btn btn-warning btn-lg ">Annuler</button>
 						</div>
 						<div class="col-sm-4 center">
-							<button type="button" class="btn btn-primary btn-lg"
-								id="ajouter-test-q">Ajouter une question</button>
+							<button type="button" class="btn btn-primary btn-lg" id="choice-ajouter-test-q">Ajouter une question</button>
 						</div>
 						<div class="col-sm-4 pull-right">
 							<button type="submit" class="btn btn-success btn-lg pull-right">Valider</button>
@@ -379,6 +378,32 @@
 				</form>
 			</div>
 
+		</div>
+		
+		<!-- MODAL AJOUTER TEST -->
+		<div class="modal fade" id="test-modal-question-choice" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12 center padding-10">
+								<h4>Type de question</h4>
+								<span class="red modal-error"></span>
+							</div>
+							<br/>
+							<div class="col-xs-6 align-right padding-10">
+								<button class="btn btn-lg btn-default" id="ajouter-test-q">Nouvelle</button>
+							</div>
+							<div class="col-xs-6 padding-10">
+								<button class="btn btn-lg btn-default" id="ajouter-test-q-old">Existante</button>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 

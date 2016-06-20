@@ -31,6 +31,7 @@ POST    /filter-question           controllers.ProfessorController.filterQuestio
 
 
 POST    /add-test                 	controllers.ProfessorController.addTest
+POST	/prof/get-question-by-chapter	controllers.ProfessorController.getQuestionByChapter
 POST    /select-test-prof           controllers.ProfessorController.selectTest
 POST	/enable-test-prof			controllers.ProfessorController.enableTest
 POST    /addq                       controllers.ProfessorController.addQ
@@ -75,6 +76,10 @@ GET 	/student/qcmPreview					controllers.StudentController.qcmPreview(id_qcm: In
 GET		/student/course-test				controllers.StudentController.courseTest
 POST	/student/displayTestList			controllers.StudentController.displayTestList
 POST	/student/displayTest				controllers.StudentController.displayTest
+
+GET 	/student/examMode					controllers.StudentController.examMode
+POST	/student/displayExamList			controllers.StudentController.displayExamList
+POST	/student/displayExam				controllers.StudentController.displayExam
 
 GET		/student/history					controllers.StudentController.studentHistory
 # Map static resources from the /public folder to the /assets URL path

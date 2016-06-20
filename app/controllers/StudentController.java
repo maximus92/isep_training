@@ -99,10 +99,10 @@ public class StudentController extends Controller {
 
         JsonNode json = Json.toJson( questionsArray );
         questionsArray.clear();
-
-        for ( int i = 0; i < session().size(); i++ ) {
-            session().get( "answer" );
-        }
+        //
+        // for ( int i = 0; i < session().size(); i++ ) {
+        // session().get( "answer" );
+        // }
         return ok( json );
     }
 
@@ -279,9 +279,67 @@ public class StudentController extends Controller {
         String token = session().get( "token" );
         int id_user = User.getIdByToken( token );
 
-        qcm_list = Qcm.getEndQcmByUser( id_user );
+        qcm_list = Qcm.getEndQcmByUser( id_user ).subList( 0, 10 );
 
         return ok( student_qcm_history.render( "", qcm_list ) );
+    }
+
+    /*************** Mode Examen ***********************/
+
+    public Result examMode() throws SQLException {
+
+        ArrayList<Module> modules = new ArrayList<Module>();
+
+        modules = Module.getAllModules();
+
+        return ok( student_exam_mode.render( "", modules ) );
+    }
+
+    public Result displayExamList() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_module = Integer.parseInt( form.get( "id_module" ) );
+
+        List<Qcm> exam_list = Qcm.getExamModeByModule( id_module );
+        JsonNode json = Json.toJson( exam_list );
+
+        return ok( json );
+    }
+
+    public Result displayExam() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        Qcm qcm = new Qcm();
+        List<Chapter> chapter_list = new ArrayList<Chapter>();
+        ArrayList<Integer> id_question_list = new ArrayList<Integer>();
+        List<Integer> id_chapter_list = new ArrayList<Integer>();
+        String token = session().get( "token" );
+
+        qcm.setId_test( -1 );
+
+        qcm.getInfoById( Integer.parseInt( form.get( "id_exam" ) ) );
+
+        chapter_list = Chapter.getChaptersByModuleId( qcm.getId_module() );
+        for ( int i = 0; i < chapter_list.size(); i++ ) {
+            id_chapter_list.add( chapter_list.get( i ).getId_chapter() );
+        }
+        id_question_list = Qcm.getQuestionsIdArrayByParam(
+                id_chapter_list,
+                qcm.getNumber_of_questions(),
+                qcm.getLevel()
+                );
+
+        qcm.createStudentQcm(
+                id_question_list,
+                qcm.getTime(),
+                token,
+                qcm.getNumber_of_questions(),
+                qcm.getGood_answer(),
+                qcm.getBad_answer(),
+                qcm.getNo_answer(),
+                id_chapter_list
+                );
+        JsonNode json = Json.toJson( id_question_list );
+        id_question_list.clear();
+        return ok( json );
     }
 
 }

@@ -47,10 +47,10 @@ public class Question {
                                                                                 + "ON s.id_answer = a.id_answer "
                                                                                 + "WHERE a.id_question = j.id_question AND s.id_qcm = ?)";
     private static final String SELECT_QUESTION_BY_USER_FILTERED        = "SELECT * FROM question "
-            																	+ "WHERE createby=?";
-    
-   
-    
+                                                                                + "WHERE createby=?";
+
+    private static final String SELECT_QUESTION_BY_ID_CHAPTER_AND_USER  = "SELECT * FROM question WHERE id_chapter= ? AND createby = ? AND forexam = ?";
+
     private int                 id_question;
     private String              question;
     private String              correction;
@@ -340,6 +340,11 @@ public class Question {
 
             questions_list.add( question );
         }
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
 
         return questions_list;
     }
@@ -358,6 +363,11 @@ public class Question {
             this.setId_question( result.getInt( "id_question" ) );
             this.setCorrection( result.getString( "correction" ) );
             this.setQuestion( result.getString( "question" ) );
+        }
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
         }
     }
 
@@ -405,7 +415,8 @@ public class Question {
 
         return questions_list;
     }
-    public static ArrayList<Question> filterQuestion( int id) throws SQLException {
+
+    public static ArrayList<Question> filterQuestion( int id ) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ArrayList<Question> list = new ArrayList<Question>();
@@ -413,8 +424,6 @@ public class Question {
         connection = DB.getConnection();
         statement = connection.prepareStatement( SELECT_QUESTION_BY_USER_FILTERED );
         statement.setInt( 1, id );
-
-
 
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {
@@ -442,6 +451,27 @@ public class Question {
         }
         return list;
     }
-    
-   
+
+    public List<Question> getQuestionByIdChapterAndUser( int id_chapter, int id_user ) throws SQLException {
+        ArrayList<Question> list = new ArrayList<Question>();
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement( SELECT_QUESTION_BY_ID_CHAPTER_AND_USER );
+        statement.setInt( 1, id_chapter );
+        statement.setInt( 2, id_user );
+        statement.setString( 3, "0" );
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            list.add( q );
+        }
+        statement.close();
+        if ( connection != null ) {
+            connection.close();
+        }
+        return list;
+    }
 }

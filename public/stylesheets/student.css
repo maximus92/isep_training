@@ -1,17 +1,3 @@
-.btn-warning{
-	background-color: #EDC543;	
-	border-color: transparent;
-}
-
-.btn-warning:hover{
-	background-color: #FFD548;
-	border-color: transparent;
-}
-
-.btn-warning:target{
-	background-color: blue;
-}
-
 #student-qcm-settings-part-2{
 	display: none;	
 }
