@@ -285,7 +285,8 @@
 	  
 	  
 	  $(".question-select").on('click', ".modifyQA", function() {
-		  fieldModifyQ();
+		  var id = $(this).attr('id').substring(8);
+		  fieldModifyQ(id);
 	  });
 	  
 	  $("#modifyQ").on('change',"#test_module",function(){
@@ -294,11 +295,11 @@
 	  
 	  
 	  $(".question_filter").on('click', ".modifyQA", function() {
-		  fieldModifyQ();
+		  var id = $(this).attr('id').substring(8);
+		  fieldModifyQ(id);
 	  });
 	  
-	  function fieldModifyQ(){
-		  var id = $(this).attr('id').substring(8);
+	  function fieldModifyQ(id){
 			var dataString = {id : id};
 			ajaxBody("/select-answer",dataString,function(data) {
 				$(".form_update_question").remove();
