@@ -61,7 +61,7 @@ GET     /student                    		controllers.StudentController.index
 GET		/student/qcmSettings				controllers.StudentController.studentQcmSettings
 POST	/student/trainingQcmSettings		controllers.StudentController.studentPostTrainingQcmSettings
 
-GET 	/student/trainingQcm				controllers.StudentController.studentTrainingQcm(question_num: Integer)
+GET 	/student/trainingQcm/:qcm			controllers.StudentController.studentTrainingQcm(question_num: Integer, qcm: Integer)
 
 POST 	/student/updateQcm					controllers.StudentController.updateQcm
 
@@ -82,5 +82,7 @@ POST	/student/displayExamList			controllers.StudentController.displayExamList
 POST	/student/displayExam				controllers.StudentController.displayExam
 
 GET		/student/history					controllers.StudentController.studentHistory
+
+POST	/student/currentsQcm				controllers.StudentController.currentsQcm
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

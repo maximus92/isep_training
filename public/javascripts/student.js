@@ -181,7 +181,7 @@ $(document).ready(
 					dataType : "json",
 
 					success : function(data) {
-						window.location.href = "trainingQcm?question_num=1", data;
+						window.location.href = "/student/trainingQcm/0?question_num=1", data;
 					}
 				});
 
@@ -202,8 +202,9 @@ $(document).ready(
 			}
 			if($('.last-question').length){
 				if ($(".last-question").attr('id').substring(19) == getUrlParameter('question_num')){
-				$("#next-question").text("Valider");
-			}
+					$("#next-question").text("Valider");
+					$("#next-question").attr("data-toggle", "modal").attr("data-target","#preview-modal");
+				}
 			}
 			
 			
@@ -219,16 +220,17 @@ $(document).ready(
 				if($(this).attr("id") == "last-question"){
 					question_num = parseInt(getUrlParameter('question_num')) - 1;
 				}
-				
-				$.ajax({
-					type: 'POST',
-					url: '/student/updateQcm',
-					data: update_qcm_json + '&time=' + current_time,
-					
-					success: function(){
-						window.location.href = "trainingQcm?question_num=" + question_num;
-					}
-				});
+				if ($(".last-question").attr('id').substring(19) != getUrlParameter('question_num') || $(this).attr("id") == 'last-question'){
+					$.ajax({
+						type: 'POST',
+						url: '/student/updateQcm',
+						data: update_qcm_json + '&time=' + current_time,
+						
+						success: function(){
+							window.location.href = "?question_num=" + question_num;
+						}
+					});
+				}
 			});
 			
 			
@@ -241,7 +243,7 @@ $(document).ready(
 			    '{mn} : {sn} </b>', until: +(qcm_time), onExpiry: timeOut});
 			
 			function timeOut(){
-				window.location.href = "trainingQcm?question_num="+(parseInt($(".last-question").attr('id').substring(19) + 1));
+				window.location.href = "?question_num="+(parseInt($(".last-question").attr('id').substring(19) + 1));
 			}
 			
 			$('.question-num').html(getUrlParameter('question_num'))
@@ -292,10 +294,6 @@ $(document).ready(
 						data: update_qcm_json + '&time=' + current_time,
 						
 					});
-				}
-				
-				if($(".result-container").length){
-					
 				}
 				
 			});
@@ -401,7 +399,7 @@ $(document).ready(
 			
 			/**************************Prévisualisation Qcm**************************/
 			
-			$('#qcm-preview').click(function(){
+			$('#qcm-preview, #next-question').click(function(){
 				var id_qcm = $('.qcm-container').attr('id').substring(4);
 				$.ajax({
 					type: "GET",
@@ -442,7 +440,7 @@ $(document).ready(
 					data: update_qcm_json + '&time='+current_time,
 					
 					success: function(){
-						window.location.href = "trainingQcm?question_num="+id_question;
+						window.location.href = "?question_num="+id_question;
 					}
 				});
 				
@@ -458,7 +456,7 @@ $(document).ready(
 					data: update_qcm_json + '&time=0',
 					
 					success: function(){
-						window.location.href = "trainingQcm?question_num="+parseInt($(".last-question").attr('id').substring(19)) + 1;
+						window.location.href = "?question_num="+parseInt($(".last-question").attr('id').substring(19)) + 1;
 					}
 				});
 			});
@@ -501,7 +499,7 @@ $(document).ready(
 					data: dataString,
 					success: function(data){
 						if(data.password){
-							window.location.href = "trainingQcm?question_num=1";
+							window.location.href = "/student/trainingQcm/0?question_num=1";
 						}else{
 							alert("Mauvais mot de passe");
 						}
@@ -521,7 +519,7 @@ $(document).ready(
 			$(".history-show-correction").click(function(){
 				var id_qcm = $(this).data("id");
 				
-				window.location.href = "resultat?id_qcm=" + id_qcm;
+				window.location.href = "/student/resultat?id_qcm=" + id_qcm;
 			});
 			
 			
@@ -570,8 +568,34 @@ $(document).ready(
 					data: {id_exam: id_exam},
 					
 					success: function(){
-						window.location.href = "trainingQcm?question_num=1";
+						window.location.href = "/student/trainingQcm/0?question_num=1";
 					}
 				});
 			});
+			
+			
+			/******************Script page d'accueil********************/
+			
+			if($(".currents-qcm").length){
+				var dataString;
+				$.ajax({
+					type: 'POST',
+					url: '/student/currentsQcm',
+					data: dataString,
+					dataType: 'json',
+					
+					success: function(data){
+						for(var i = 0; i < data.length; i++){
+							$(".currents-qcm").append('<tr class="continue-qcm" data-id="' + data[i].id_qcm + '"><td>' + (i+1) + '</td>' +
+									'<td>' + data[i].module + '</td>' +
+									'<td>' + data[i].createat + '</td>'+
+									'<td>' + data[i].number_of_questions + '</td></tr></div>');
+						}
+					}
+				});
+				
+				$(".table").delegate('tr', 'click', function(){
+					window.location.href = "/student/trainingQcm/" + $(this).data("id") + "?question_num=1"
+				});
+			}
 		});
