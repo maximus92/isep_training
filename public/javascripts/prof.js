@@ -286,23 +286,34 @@
 	  
 	  $(".question-select").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
-			var dataString = {id : id};
-			ajaxBody("/select-answer",dataString,function(data) {
-				$(".form_update_question").remove();
-				$(".answer-select").append(questionUpdateDiv(data));
-				$("#reponse_counter_modify").val(data[0].length);
-			});
+		  fieldModifyQ(id);
 	  });
+	  
+	  $("#modifyQ").on('change',"#test_module",function(){
+		  displayChapterInSelect("#modifyQ #chapter_modal_modifyQ", "0", $(this).val());
+	  });
+	  
 	  
 	  $(".question_filter").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
+		  fieldModifyQ(id);
+	  });
+	  
+	  function fieldModifyQ(id){
 			var dataString = {id : id};
 			ajaxBody("/select-answer",dataString,function(data) {
 				$(".form_update_question").remove();
 				$(".answer-select").append(questionUpdateDiv(data));
 				$("#reponse_counter_modify").val(data[0].length);
+				var id_chapter = data[1][0].id_chapter;
+				ajaxBody("/get-module-from-chapter", {id_chapter: id_chapter}, function(data){
+					var id_module = data.id_module;
+					displayModuleInSelect("#modifyQ #test_module", id_module);
+					displayChapterInSelect("#modifyQ #chapter_modal_modifyQ", id_chapter, id_module);
+				});
+				
 			});
-	  });
+	  }
 	  
 	  
 	  $(".answer-select").on('click', "#validateModification", function() {
@@ -792,7 +803,7 @@
 							$(select_id+' option').remove();
 							$(select_id).append($("<option />").val("0").text("Aucun"));
 							$.each(data, function() {
-								if(this.id_module == option_selected){
+								if(this.id_chapter == option_selected){
 									var selected_value = "<option selected />";
 								}else{
 									var selected_value = "<option />";
@@ -814,6 +825,7 @@
 				}
 					});
 		}
+		
 		
 		function paireCode(){
 			$("#test-modal-question-choice").modal('toggle');

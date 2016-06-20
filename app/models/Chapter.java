@@ -14,6 +14,7 @@ public class Chapter {
     private static final String GET_ALL_CHAPTERS          = "SELECT id_chapter, chapter_name, id_module FROM chapter";
     private static final String INSERT_CHAPTER            = "INSERT INTO chapter (chapter_name, id_module) VALUES ( ?, ?)";
     private static final String DELETE_CHAPTER            = "DELETE FROM chapter WHERE id_chapter=? AND id_module=?";
+    private static final String GET_MODULE_ID_FROM_CHAPTER_ID = "SELECT id_module FROM chapter WHERE id_chapter = ?";
 
     private int                 id_chapter;
     private String              chapter_name;
@@ -115,5 +116,20 @@ public class Chapter {
         statement.close();
         Model.closeConnection( connection );
     }
+
+	public int getIdModuleFromIdChapter() throws SQLException {
+		int id_module = 0;
+		Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement( GET_MODULE_ID_FROM_CHAPTER_ID );
+        statement.setInt( 1, this.id_chapter );
+        ResultSet result = statement.executeQuery();
+        while ( result.next() ) {
+           id_module = result.getInt( "id_module" );
+        }
+        statement.close();
+        Model.closeConnection( connection );
+        return id_module;
+		
+	}
 
 }
