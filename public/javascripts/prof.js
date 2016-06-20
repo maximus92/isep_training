@@ -3,10 +3,10 @@
 	    document.getElementById('selectedfile').value=document.getElementById('hiddenfile').value;
 	}
 
-$(document).ready(function(){ 
 	
 	/***************** AJOUTER QUESTION MANUELLEMENT *************/
-	
+	$(document).ready(function(){ 
+
 		 var add_answer_div_id = 0;
 		 var add_answer_reponse_counter = $("#reponse_counter").val(); 
 		  
@@ -111,15 +111,14 @@ $(document).ready(function(){
 	  
 
 	/*** FIN MODULE ***/
-		/** EXAMEN **/
-		  $("#exam_chapter").hide();
-		  $("#details_of_exam").hide();
-
+		  
 		  
 
 
 		
 		/************************ EXAMEN ************************/
+		  $("#details_of_exam").hide();
+
 		
 		 $("#exam_chapter").hide();
 
@@ -165,9 +164,11 @@ $(document).ready(function(){
 							  					'<div class="padding 10 col-sm-2 exam-display'+data[i].id_qcm+'"> <button type="button" class="btn btn-danger exam-delete" id="deleteExam'+data[i].id_qcm+'">Supprimer</button></div></br></br>');
 									}
 
-								});
+								}
 
-							});
+							}
+						});
+			});
 					
 					$(".display_exam").on('click', ".exam-details", function() {
 						  var id = $(this).attr('id').substring(11);
@@ -190,11 +191,8 @@ $(document).ready(function(){
 									$(exam).css({display: "none"});
 							});
 
-								}
-							}
-
-						});
-					});
+								});
+					
 					
 			$(".display_exam").on('click', ".exam-details", function() {
 				  var id = $(this).attr('id').substring(11);
@@ -793,5 +791,4 @@ $(document).ready(function(){
 			var newdiv =  addTestQuestionDiv(paire_ou_impaire,counter_paire_ou_impaire,test_answer_id);
 			$("#container_testQ").append(newdiv);
 		}
-		
-});
+	});	

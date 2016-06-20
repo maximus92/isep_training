@@ -548,7 +548,7 @@ public class ProfessorController extends Controller {
            
     }
 
-    }
+    
 
     public Result selectExamByIdQcm() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
