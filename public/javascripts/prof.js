@@ -176,12 +176,37 @@
 							ajaxBody("/select-exam-id",dataString,function(data) {
 								$("#exam-info").hide();
 								  $("#details_of_exam").fadeIn();
+								  $(".view_details_exam").remove();
 
 								for(var i=0; i< data.length;i++){
-								$(".details_exam").append(data[i].title);
+								$(".details_exam").append('<div class="view_details_exam">'+
+										'<div id="title_Exam">'+data[i].title+'</div>'+
+										'<div class="row">'+
+										'<div class="col-sm-4  padding-10">'+
+										'<label for="module">Module : </label>'+
+									'</div>'+
+										'<div class="col-sm-4 padding-10">'+
+										'<label for="chapter">Chapitre : </label>'+
+									'</div>'+
+									'</div></br>'+
+									'<div class="row"><div class="col-sm-3  padding-10"><label for="nbrQ">Nombre de questions : </label></div><div class="col-sm-4  padding-10">'+data[i].number_of_questions+
+									'</div></div><div class="row"><div class="col-sm-2  padding-10"><label for="time">Temps imparti : </label></div><div class="col-sm-4  padding-10">'+(data[i].time)/60+'<strong> Heures </strong>'+
+									'</div></div><div class="row"><div class="col-sm-5  padding-10"><label for="positiveP">Nombre de points par bonne réponse : </label></div><div class="col-sm-4  padding-10">'+data[i].good_answer+
+									'</div></div><div class="row"><div class="col-sm-5  padding-10"><label for="negativeP">Nombre de points par mauvaise réponse : </label></div><div class="col-sm-4  padding-10">'+data[i].bad_answer+
+									'</div></div><div class="row"><div class="col-sm-5  padding-10"><label for="noP">Nombre de points par réponse vide : </label></div><div class="col-sm-4  padding-10">'+data[i].no_answer+
+									'</div></div>'+
+								'</div>');
 								}
 							});
 					  });
+					
+					$("#details_of_exam").on('click', "#return_exam", function() {
+						$("#details_of_exam").hide();
+						$("#exam-info").fadeIn();
+
+						
+					});
+					
 					
 					$(".display_exam").on('click', ".exam-delete", function() {
 						  var id = $(this).attr('id').substring(10);
@@ -193,23 +218,6 @@
 
 								});
 					
-					
-			$(".display_exam").on('click', ".exam-details", function() {
-				  var id = $(this).attr('id').substring(11);
-					var dataString = {id : id};
-					ajaxBody("/select-exam-id",dataString,function(data) {
-						$(".details_exam").append(data[i].title);
-					});
-			  });
-			
-			$(".display_exam").on('click', ".exam-delete", function() {
-				  var id = $(this).attr('id').substring(10);
-					var dataString = {id : id};
-					ajaxBody("/delete-exam",dataString,function(data) {
-							var exam = ".exam-display"+data.id_qcm;
-							$(exam).css({display: "none"});
-					});
-				});
 			
 			
 			$("#cancel_exam").click(function(){

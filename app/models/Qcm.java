@@ -539,6 +539,7 @@ public class Qcm {
         statement = connection.prepareStatement( SELECT_PROFESSOR_EXAM );
         statement.setInt( 1, id );
         ResultSet rs = statement.executeQuery();
+        
         while ( rs.next() ) {
             int id_qcm = rs.getInt( "id_qcm" );
             int nbanswermax = rs.getInt( "nbanswermax" );
@@ -659,11 +660,12 @@ public class Qcm {
             String title = rs.getString( "title" );
 
             Qcm q = new Qcm();
-            q.setNbanswermax( nbanswermax );
+            q.setNbanswermax(nbanswermax);
             q.setTime( time );
             q.setLevel( level );
             q.setGood_answer( good_answer );
             q.setBad_answer( bad_answer );
+            q.setNo_answer(no_answer);
             q.setNumber_of_questions( nbofquestions );
             q.setTitle( title );
             list.add( q );

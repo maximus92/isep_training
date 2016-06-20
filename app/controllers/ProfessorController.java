@@ -486,8 +486,8 @@ public class ProfessorController extends Controller {
         String token = session().get( "token" );
         int createby = User.getIdByToken( token );
         int nbanswermax = Integer.parseInt( form.get( "maxR" ) );
-        int hours = Integer.parseInt( form.get( "hour" ) ) * 60;
-        int minutes = Integer.parseInt( form.get( "minute" ) ) * 60;
+        int hours = Integer.parseInt( form.get( "hour" ) );
+        int minutes = Integer.parseInt( form.get( "minute" ) );
         int time = ( hours * 60 ) + minutes;
         int number_of_questions = Integer.parseInt( form.get( "nbrQ" ) );
         int good_answer = Integer.parseInt( form.get( "positiveP" ) );
@@ -509,6 +509,7 @@ public class ProfessorController extends Controller {
         examen.setTitle( title );
         examen.setExam( exam );
         examen.setId_module( id_module );
+        
         int id_qcm = examen.createExam();
         insertExamWithChapter( chapter_id_array, id_qcm );
 
@@ -553,8 +554,8 @@ public class ProfessorController extends Controller {
     public Result selectExamByIdQcm() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
         int id_qcm = Integer.parseInt( form.get( "id" ) );
-        ArrayList<Qcm> list = Qcm.getExamById( id_qcm );
-        JsonNode json = Json.toJson( list );
+        ArrayList<Qcm> qcm_list = Qcm.getExamById( id_qcm );
+        JsonNode json = Json.toJson( qcm_list );
 
         return ok( json );
 

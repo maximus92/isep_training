@@ -101,3 +101,13 @@
     cursor: pointer;
 }
 
+#title_Exam{
+	font-size: 25px;
+		margin-left: 20%;
+	
+}
+
+.view_details_exam{
+	margin-left: 20%;
+}
+
