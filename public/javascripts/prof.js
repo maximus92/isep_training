@@ -554,8 +554,7 @@
 				ajaxBody("/delete-test",dataString,function(data) {
 					$("#test-detail-list"+id_test).remove();
 					$(".test-info").fadeIn();
-			  		$(".test-detail").remove();
-			  		$('.nothing-in-test').fadeIn();
+			  		$(".test-detail").hide();
 				});
 			});
 			
