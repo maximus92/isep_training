@@ -139,7 +139,7 @@ public class StudentController extends Controller {
     }
 
     public Result updateQcm() throws NumberFormatException, SQLException {
-
+        Logger.debug( "okok" );
         DynamicForm form = Form.form().bindFromRequest();
         int id_qcm = Integer.parseInt( form.get( "id_qcm" ) );
 

@@ -270,6 +270,16 @@ $(document).ready(
 				});
 			}
 			
+			// sauvegarde au rafraichissement
+			
+			window.onbeforeunload = function(event) {
+			    $.ajax({
+			    	
+			    })
+			}
+
+			
+			
 
 			/**********************Script pour la correction d'un qcm*************************/
 
@@ -495,4 +505,25 @@ $(document).ready(
 				});
 			});
 			
+$(window).bind('beforeunload', function() {
+	if()
+	var question_num;
+	var update_qcm_json = $('form').serialize();
+	var time = $("#qcm-time").countdown('getTimes');
+	var current_time = $.countdown.periodsToSeconds(time);
+	if($(this).attr("id") == "next-question"){
+		question_num = parseInt(getUrlParameter('question_num')) + 1;
+	} 
+	if($(this).attr("id") == "last-question"){
+		question_num = parseInt(getUrlParameter('question_num')) - 1;
+	}
+	
+	$.ajax({
+		type: 'POST',
+		url: '/student/updateQcm',
+		async: false,
+		data: update_qcm_json + '&time=' + current_time,
+		
+	});
+});
 		});
