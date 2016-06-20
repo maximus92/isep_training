@@ -557,7 +557,17 @@ public class ProfessorController extends Controller {
         return ok( json );
 
     }
-<<<<<<< HEAD
+
+    public Result getModuleFromIdChapter() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        int id_chapter = Integer.parseInt( form.get( "id_chapter" ) );
+        Chapter chapter = new Chapter();
+        chapter.setId_chapter( id_chapter );
+        int id_module = chapter.getIdModuleFromIdChapter();
+        ObjectNode result = Json.newObject();
+        result.put( "id_module", id_module );
+        return ok( result );
+    }
 
     /****************** test resultats *********************/
 
@@ -569,17 +579,6 @@ public class ProfessorController extends Controller {
         Logger.debug( list_answer.get( 1 ).getAnswer() );
 
         return ok( prof_test_results.render( "" ) );
-=======
-    
-    public Result getModuleFromIdChapter() throws SQLException{
-    	DynamicForm form = Form.form().bindFromRequest();
-    	int id_chapter = Integer.parseInt(form.get("id_chapter"));
-    	Chapter chapter = new Chapter();
-    	chapter.setId_chapter(id_chapter);
-    	int id_module = chapter.getIdModuleFromIdChapter();
-    	ObjectNode result = Json.newObject();
-        result.put( "id_module", id_module );
-    	return ok(result);
->>>>>>> 72f8f2166d8e94bfcfba980705913833050af3db
     }
+
 }
