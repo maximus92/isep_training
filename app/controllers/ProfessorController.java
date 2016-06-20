@@ -560,4 +560,15 @@ public class ProfessorController extends Controller {
         return ok( json );
 
     }
+    
+    public Result getModuleFromIdChapter() throws SQLException{
+    	DynamicForm form = Form.form().bindFromRequest();
+    	int id_chapter = Integer.parseInt(form.get("id_chapter"));
+    	Chapter chapter = new Chapter();
+    	chapter.setId_chapter(id_chapter);
+    	int id_module = chapter.getIdModuleFromIdChapter();
+    	ObjectNode result = Json.newObject();
+        result.put( "id_module", id_module );
+    	return ok(result);
+    }
 }

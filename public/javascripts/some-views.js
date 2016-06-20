@@ -203,7 +203,7 @@
                                 '<label for="chapter">Chapitre: </label>'+
                               '</div>'+
                               '<div class="col-xs-3">'+
-                                '<select name="test_chapter" size="1">'+
+                                '<select id="chapter_modal_modifyQ" name="test_chapter" size="1">'+
                                   '<option value="">Aucun</option>'+
                                 '</select>'+
                               '</div>'+

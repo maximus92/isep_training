@@ -41,6 +41,7 @@ POST    /get-csv-column-title      	controllers.ProfessorController.GetCsvColumn
 POST	/preview-csv				controllers.ProfessorController.PreviewCsv
 
 POST    /select-answer            controllers.ProfessorController.selectAnswerWithQuestion
+POST	/get-module-from-chapter	controllers.ProfessorController.getModuleFromIdChapter
 
 POST    /update-question            controllers.ProfessorController.updateQuestionWithAnswer
 
