@@ -560,6 +560,7 @@
 						ajaxBody("/select-test-answer",dataString,function(data){
 							$(".test-detail-ul").remove();
 							$("#test-detail-question").append(displayTestDetailQuestionDiv(data));
+							$("#test-detail-question").attr("data-testid", id_test);
 						});		
 			});
 			
@@ -643,6 +644,13 @@
 					}
 					$("#answer_test_counter").val(answer_test_counter);
 				});
+			});
+			
+			$("#test-detail").on('click', '.test-question-results', function(){
+				var id_question = $(this).data('testquestionid');
+				var id_test = $('#test-detail-question').data('testid');
+				
+				window.location.href = "/prof/testResults?id_test="+id_test+"&id_question="+id_question;	
 			});
 			
 			

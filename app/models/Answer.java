@@ -11,37 +11,55 @@ import play.Logger;
 import play.db.DB;
 
 public class Answer {
-    private static final String GET_ANSWERS_BY_QUESTION_ID = "SELECT answer, id_answer, istrue "
-                                                                   + "FROM answer "
-                                                                   + "WHERE id_question = ?";
-    private static final String UPDATE_STUDENT_QCM_ANSWER  = "UPDATE student_qcm_answer "
-                                                                   + "SET isselected = ? "
-                                                                   + "WHERE id_qcm = ? AND id_answer = ?";
-    private static final String GET_STUDENT_QCM_ANSWER     = "SELECT id_student_qcm_answer "
-                                                                   + "FROM student_qcm_answer "
-                                                                   + "WHERE id_qcm = ? AND id_answer = ?";
-    private static final String CREATE_STUDENT_QCM_ANSWER  = "INSERT INTO student_qcm_answer (id_qcm, id_answer, isselected) "
-                                                                   + "VALUES (?, ?, ?)";
-    private static final String GET_SELECTED_ANSWERS       = "SELECT s.id_answer, s.isselected, a.answer "
-                                                                   + "FROM answer a "
-                                                                   + "LEFT JOIN student_qcm_answer s "
-                                                                   + "ON a.id_answer = s.id_answer "
-                                                                   + "WHERE id_qcm = ? AND id_question = ?";
+    private static final String GET_ANSWERS_BY_QUESTION_ID       = "SELECT answer, id_answer, istrue "
+                                                                         + "FROM answer "
+                                                                         + "WHERE id_question = ?";
+    private static final String UPDATE_STUDENT_QCM_ANSWER        = "UPDATE student_qcm_answer "
+                                                                         + "SET isselected = ? "
+                                                                         + "WHERE id_qcm = ? AND id_answer = ?";
+    private static final String GET_STUDENT_QCM_ANSWER           = "SELECT id_student_qcm_answer "
+                                                                         + "FROM student_qcm_answer "
+                                                                         + "WHERE id_qcm = ? AND id_answer = ?";
+    private static final String CREATE_STUDENT_QCM_ANSWER        = "INSERT INTO student_qcm_answer (id_qcm, id_answer, isselected) "
+                                                                         + "VALUES (?, ?, ?)";
+    private static final String GET_SELECTED_ANSWERS             = "SELECT s.id_answer, s.isselected, a.answer "
+                                                                         + "FROM answer a "
+                                                                         + "LEFT JOIN student_qcm_answer s "
+                                                                         + "ON a.id_answer = s.id_answer "
+                                                                         + "WHERE id_qcm = ? AND id_question = ?";
 
-    private static final String INSERT_ANSWER              = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
+    private static final String INSERT_ANSWER                    = "INSERT INTO answer(answer, id_question, istrue) VALUES (?, ?, ?)";
 
-    private static final String UPDATE_ANSWER_BY_ID_ANSWER = "UPDATE answer "
-                                                                   + "SET answer=?, istrue=? "
-                                                                   + " WHERE id_answer=?";
-    private static final String GET_ANSWER_PARAM           = "SELECT * "
-                                                                   + "FROM answer "
-                                                                   + "WHERE id_answer = ?";
+    private static final String UPDATE_ANSWER_BY_ID_ANSWER       = "UPDATE answer "
+                                                                         + "SET answer=?, istrue=? "
+                                                                         + " WHERE id_answer=?";
+    private static final String GET_ANSWER_PARAM                 = "SELECT * "
+                                                                         + "FROM answer "
+                                                                         + "WHERE id_answer = ?";
+
+    private static final String GET_ANSWER_TEST_AND_COUNT_ANSWER = "SELECT a.answer, COUNT(*) "
+                                                                         + "FROM qcm q "
+                                                                         + "INNER JOIN student_qcm_answer s "
+                                                                         + "ON q.id_qcm = s.id_qcm "
+                                                                         + "INNER JOIN answer a "
+                                                                         + "ON a.id_answer = s.id_answer "
+                                                                         + "WHERE q.id_test = ? AND a.id_question = ? "
+                                                                         + "GROUP BY a.answer";
 
     private String              answer;
     private int                 id_question;
     private boolean             istrue;
     private int                 id_answer;
     private boolean             is_select;
+    private int                 count_answer;
+
+    public int getCount_answer() {
+        return count_answer;
+    }
+
+    public void setCount_answer( int count_answer ) {
+        this.count_answer = count_answer;
+    }
 
     public String getAnswer() {
         return answer;
@@ -216,6 +234,28 @@ public class Answer {
         if ( connection != null ) {
             connection.close();
         }
+    }
+
+    public static List<Answer> getAnswerTestAndCountAnswer( int id_test, int id_question ) throws SQLException {
+        List<Answer> list_answer = new ArrayList<Answer>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( GET_ANSWER_TEST_AND_COUNT_ANSWER );
+        statement.setInt( 1, id_test );
+        statement.setInt( 2, id_question );
+        result = statement.executeQuery();
+
+        while ( result.next() ) {
+            Answer answer = new Answer();
+            answer.setAnswer( result.getString( "a.answer" ) );
+            answer.setCount_answer( result.getInt( "COUNT(*)" ) );
+
+            list_answer.add( answer );
+        }
+        return list_answer;
     }
 
 }

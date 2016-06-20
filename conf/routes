@@ -16,6 +16,7 @@ GET     /logout                     controllers.SigninController.logout
 ##### PROFESSOR ROUTES #####
 
 GET     /prof                       controllers.ProfessorController.index
+GET		/prof/testResults			controllers.ProfessorController.testResults(id_test: Integer, id_question: Integer)
 POST    /add-module                 controllers.ProfessorController.addModule
 POST    /select-module              controllers.ProfessorController.selectModule
 POST    /delete-module              controllers.ProfessorController.deleteModule

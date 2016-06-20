@@ -24,7 +24,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.With;
-import views.html.home_prof;
+import views.html.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -170,7 +170,7 @@ public class ProfessorController extends Controller {
         Test test = new Test();
         test.setTitle( form.get( "test_title" ) );
         test.setId_module( Integer.parseInt( form.get( "test_module" ) ) );
-        test.setId_chapter(Integer.parseInt(form.get("test_chapter")) );
+        test.setId_chapter( Integer.parseInt( form.get( "test_chapter" ) ) );
         test.setCreateby( createby );
         test.setPassword( form.get( "test_password" ) );
         test.setIsenable( "0" );
@@ -180,16 +180,16 @@ public class ProfessorController extends Controller {
         insertQandAFromTest( form, createby, id_test );
         return redirect( "/prof" );
     }
-    
-    public Result getQuestionByChapter() throws SQLException{
-    	DynamicForm form = Form.form().bindFromRequest();
-    	List<Question> list_question = new ArrayList<Question>();
-    	int id_chapter = Integer.parseInt(form.get("id_chapter"));
-    	int id_user = getUserID();
-    	Question question = new Question();
-    	list_question = question.getQuestionByIdChapterAndUser(id_chapter,id_user);
-    	JsonNode json = Json.toJson( list_question );
-    	return ok(json);
+
+    public Result getQuestionByChapter() throws SQLException {
+        DynamicForm form = Form.form().bindFromRequest();
+        List<Question> list_question = new ArrayList<Question>();
+        int id_chapter = Integer.parseInt( form.get( "id_chapter" ) );
+        int id_user = getUserID();
+        Question question = new Question();
+        list_question = question.getQuestionByIdChapterAndUser( id_chapter, id_user );
+        JsonNode json = Json.toJson( list_question );
+        return ok( json );
     }
 
     public void insertQandAFromTest( DynamicForm form, int createby, int id_test ) throws SQLException {
@@ -198,13 +198,13 @@ public class ProfessorController extends Controller {
         String id_chapter = form.get( "test_chapter" );
         for ( int i = 0; i <= question_test_counter; i++ ) {
             String question = form.get( "question" + i );
-            String old_question_id = form.get("old_question_id"+i);
-            
-            if(old_question_id != null && old_question_id != "0" && old_question_id != ""){
-            	 JoinTestQuestion join_test_question = new JoinTestQuestion( id_test, Integer.parseInt(old_question_id));
-            	 join_test_question.insert();	 
+            String old_question_id = form.get( "old_question_id" + i );
+
+            if ( old_question_id != null && old_question_id != "0" && old_question_id != "" ) {
+                JoinTestQuestion join_test_question = new JoinTestQuestion( id_test, Integer.parseInt( old_question_id ) );
+                join_test_question.insert();
             }
-            
+
             if ( question != null && question != "" ) {
                 Question q = new Question();
                 q.setQuestion( question );
@@ -509,7 +509,7 @@ public class ProfessorController extends Controller {
         examen.setTitle( title );
         examen.setExam( exam );
         examen.setId_module( id_module );
-        
+
         int id_qcm = examen.createExam();
         insertExamWithChapter( chapter_id_array, id_qcm );
 
@@ -546,10 +546,7 @@ public class ProfessorController extends Controller {
             join.insert();
         }
 
-           
     }
-
-    
 
     public Result selectExamByIdQcm() throws SQLException {
         DynamicForm form = Form.form().bindFromRequest();
@@ -559,5 +556,17 @@ public class ProfessorController extends Controller {
 
         return ok( json );
 
+    }
+
+    /****************** test resultats *********************/
+
+    public Result testResults( int id_test, int id_question ) throws SQLException {
+        List<Answer> list_answer = new ArrayList<Answer>();
+
+        list_answer = Answer.getAnswerTestAndCountAnswer( id_test, id_question );
+
+        Logger.debug( list_answer.get( 1 ).getAnswer() );
+
+        return ok( prof_test_results.render( "" ) );
     }
 }

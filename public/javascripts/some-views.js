@@ -271,15 +271,15 @@
     	var div = "";
     	for(var i=0; i< data[0].length;i++){
     			var num = i + 1;
-    			div += '<ul class="list-group test-detail-ul">'+
-				'<li class="list-group-item active">Question '+num+' : '+data[0][i].question+'</li>';
+    			div += '<ul class="row list-group test-detail-ul">'+
+				'<li class="col-md-12 list-group-item active"><div class="col-md-10">Question '+num+' : '+data[0][i].question+'</div><button class="test-question-results btn btn-warning col-md-2"data-testquestionid="' + data[0][i].id_question + '">Résultats</button> </li>';
     			
     			for(var j=0; j< data[1][i].length;j++){
     				var success ="";
     				if(data[1][i][j].istrue == "1"){
     					success = "list-group-item-success";
     				}
-    				div += '<li class="list-group-item '+success+'">'+data[1][i][j].answer+'</li>';
+    				div += '<li class="col-md-12 list-group-item '+success+'">'+data[1][i][j].answer+'</li>';
     			}
     			div += '</ul>';
     			  	
