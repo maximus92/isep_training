@@ -359,7 +359,7 @@
 
 				  for(var i=0; i< data.length;i++){
 					  if(filtre_forexam == data[i].forexam && filtre_level == data[i].level){
-						  
+
 					  if(data[i].level == "0"){
 							 level = "facile";
 						 }
@@ -385,7 +385,8 @@
 					  }
 					  else{
 						  
-					  }			 
+					  	
+					  }
 			  }
 			  }
 				  
