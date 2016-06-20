@@ -553,7 +553,8 @@
 										$("#test-detail-status").html("Statut : <span class='red'>Indisponible</span>");
 									}
 									$("#test-detail-delete").html("<button id='test-detail-delete"+id_test+"' class='btn btn-danger test-detail-delete'>Supprimer</button>");
-									displayModuleInSelect("#test-detail-module",data[0].id_module);		
+									displayModuleInSelect("#test-detail-module",data[0].id_module);
+									displayChapterInSelect("#test-detail-chapter", data[0].id_chapter, data[0].id_module);
 						});
 						
 						ajaxBody("/select-test-answer",dataString,function(data){
