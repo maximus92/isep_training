@@ -287,6 +287,26 @@
     	return div;
     }
     
+    function displayImportDetailQuestionDiv(data){
+    	var div = "";
+    	for(var i=0; i< data[0].length;i++){
+    			var num = i + 1;
+    			div += '<ul class="row list-group test-detail-ul">'+
+				'<li class="col-md-12 list-group-item active"><div class="col-md-10">Question '+num+' : '+data[0][i].question+'</div></li>';
+    			
+    			for(var j=0; j< data[1][i].length;j++){
+    				var success ="";
+    				if(data[1][i][j].istrue == "1"){
+    					success = "list-group-item-success";
+    				}
+    				div += '<li class="col-md-12 list-group-item '+success+'">'+data[1][i][j].answer+'</li>';
+    			}
+    			div += '</ul>';
+    			  	
+    	}
+    	return div;
+    }
+    
     function displayChapterDiv(data){
     	var div = "";
     	for(var i=0;i<data.length;i++){

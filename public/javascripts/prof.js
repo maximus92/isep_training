@@ -742,7 +742,7 @@
 			    //Ajax events
 			    success: function(data){
 			    	$('#import-modal').modal('toggle');
-			    	$("#import-reponse").append(displayTestDetailQuestionDiv(data))
+			    	$("#import-reponse").append(displayImportDetailQuestionDiv(data))
 			    }
 			});	
 		});	
