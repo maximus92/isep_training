@@ -252,13 +252,13 @@
 							 forexam = "Examen";
 						 }
 						 
-					  $(".question-select").append('<div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
+					  $(".question-select").append('<div class="row"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
 							  					'</div>'+
 							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+forexam+'</div>'+
 							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+level+
 							  					'</div>'+
 							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-warning modifyQA" data-toggle="modal" data-target="#modifyQ" id="modifyQA'+data[i].id_question+'">Modifier</button></div> '+
-							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></br></br>');
+							  					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'"> <button type="button" class="btn btn-danger question-delete" id="deleteQ'+data[i].id_question+'">Supprimer</button></div></div></br></br>');
 					  
 					 }
 				  }
@@ -332,7 +332,7 @@
 			  dataType: "json",
 			  
 			  success: function(data) {
-				  alert("La question a été modifiée!");
+				  
 			  }
 		  }); 
 		  
@@ -421,7 +421,7 @@
 	  }
 	  
 	  function displayFiltre(data,i,level,forexam){
-		  $(".question_filter").append('<div class="filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
+		  $(".question_filter").append('<div class="row filtre"><div class="padding 10 col-sm-4 question-display'+data[i].id_question+'">'+ data[i].question+ 
 					'</div>'+
 					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+forexam+'</div>'+
 					'<div class="padding 10 col-sm-2 question-display'+data[i].id_question+'">'+level+
