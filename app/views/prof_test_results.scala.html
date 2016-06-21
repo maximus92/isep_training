@@ -1,16 +1,30 @@
-@(message: String, list_answer: List[Answer], question: Question, number_of_answer: Integer)
+@(message: String, string: List[String], list_answer: List[Answer],list_answer2: List[Answer], question: Question, number_of_answer: Integer)
 
 @main("Résultats du test"){
 	<div class="container">
-		<h2 class="center">@question.getQuestion</h2>
-		@for(answer<-list_answer){
-			<div class="progress">
-				<div class="progress-bar" role="progressbar" aria-valuenow="@(answer.getCount_answer*100/number_of_answer)" aria-valuemin="0" aria-valuemax="100" style="width:@(answer.getCount_answer*100/number_of_answer)%; min-width:2em;">
-				@(answer.getCount_answer*100/number_of_answer)%
+		<h1 class="center">@question.getQuestion</h1>
+		<div class="row">
+			@for(answer<-list_answer){
+				<h4>@answer.getAnswer</h4>
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="@(answer.getCount_answer*100/number_of_answer)" aria-valuemin="0" aria-valuemax="100" style="width:@(answer.getCount_answer*100/number_of_answer)%; min-width:2em;">
+					@(answer.getCount_answer*100/number_of_answer)%
+					</div>
 				</div>
-				
-			</div>
-		}
+			}
+			
+			@for(answer<-list_answer2){
+				@if(!string.contains(answer.getAnswer)){
+					<h4>@answer.getAnswer</h4>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="@(answer.getCount_answer*100/number_of_answer)" aria-valuemin="0" aria-valuemax="100" style="width:@(answer.getCount_answer*100/number_of_answer)%; min-width:2em;">
+						@(answer.getCount_answer*100/number_of_answer)%
+						</div>
+					</div>
+				}
+			}
+		</div>
+		
 	</div>
 		
 }

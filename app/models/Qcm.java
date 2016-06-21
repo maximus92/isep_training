@@ -273,7 +273,7 @@ public class Qcm {
             builder.append( "?," );
         }
 
-        String stmt = "SELECT id_question FROM question WHERE forexam = 0 AND id_chapter IN ("
+        String stmt = "SELECT id_question FROM question WHERE level=? AND forexam = 0 AND id_chapter IN ("
                 + builder.deleteCharAt( builder.length() - 1 ).toString() + ") ORDER BY RAND() LIMIT ?";
 
         Connection connection = null;
@@ -283,6 +283,7 @@ public class Qcm {
         connection = DB.getConnection();
         statement = connection.prepareStatement( stmt );
         int index = 1;
+        statement.setInt( index++, question_level );
         for ( int i : id_chapter_list ) {
             statement.setInt( index++, i );
         }

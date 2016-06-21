@@ -43,7 +43,7 @@ public class Answer {
                                                                          + "ON q.id_qcm = s.id_qcm "
                                                                          + "INNER JOIN answer a "
                                                                          + "ON a.id_answer = s.id_answer "
-                                                                         + "WHERE q.id_test = ? AND a.id_question = ? "
+                                                                         + "WHERE q.id_test = ? AND a.id_question = ? AND s.isselected = 1 "
                                                                          + "GROUP BY a.answer";
 
     private String              answer;

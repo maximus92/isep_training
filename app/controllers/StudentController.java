@@ -86,24 +86,26 @@ public class StudentController extends Controller {
                 question_level
                 );
 
-        qcm.createStudentQcm(
-                questionsArray,
-                qcm_time,
-                token,
-                questionsArray.size(),
-                good_answer,
-                bad_answer,
-                no_answer,
-                id_chapter_list
-                );
+        if ( !questionsArray.isEmpty() ) {
+            qcm.createStudentQcm(
+                    questionsArray,
+                    qcm_time,
+                    token,
+                    questionsArray.size(),
+                    good_answer,
+                    bad_answer,
+                    no_answer,
+                    id_chapter_list
+                    );
+            JsonNode json = Json.toJson( questionsArray );
+            questionsArray.clear();
+            return ok( json );
+        } else {
+            ObjectNode json = Json.newObject();
+            json.put( "noQuestion", true );
 
-        JsonNode json = Json.toJson( questionsArray );
-        questionsArray.clear();
-        //
-        // for ( int i = 0; i < session().size(); i++ ) {
-        // session().get( "answer" );
-        // }
-        return ok( json );
+            return ok( json );
+        }
     }
 
     public Result studentTrainingQcm( Integer question_num, Integer qcm ) throws SQLException {
@@ -262,7 +264,7 @@ public class StudentController extends Controller {
             id_chapter_list.add( id_chapter );
             String token = session().get( "token" );
             int id_user = User.getIdByToken( token );
-            List<Question> questionsArray = Question.selectQuestionByIdTest( id_test, id_user );
+            List<Question> questionsArray = Question.selectQuestionByIdTest( id_test );
             ArrayList<Integer> questionIdArray = new ArrayList<>();
             for ( int i = 0; i < questionsArray.size(); i++ ) {
                 questionIdArray.add( questionsArray.get( i ).getId_question() );

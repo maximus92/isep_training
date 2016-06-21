@@ -181,7 +181,11 @@ $(document).ready(
 					dataType : "json",
 
 					success : function(data) {
-						window.location.href = "/student/trainingQcm/0?question_num=1", data;
+						if(data.noQuestion){
+							alert("Pas de question selon les critères sélectionnés")
+						}else {
+							window.location.href = "/student/trainingQcm/0?question_num=1", data;
+						}
 					}
 				});
 
@@ -499,7 +503,7 @@ $(document).ready(
 					data: dataString,
 					success: function(data){
 						if(data.password){
-							window.location.href = "/student/trainingQcm/0?question_num=1";
+							window.location.href = "/student/trainingQcm/"+data.id_qcm+"?question_num=1";
 						}else{
 							alert("Mauvais mot de passe");
 						}

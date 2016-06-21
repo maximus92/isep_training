@@ -332,7 +332,7 @@ public class ProfessorController extends Controller {
         int id_test = Integer.parseInt( form.get( "id_test" ) );
         int id_user = getUserID();
         ArrayList<ArrayList<Answer>> answer_list = new ArrayList<>();
-        ArrayList<Question> question_list = Question.selectQuestionByIdTest( id_test, id_user );
+        ArrayList<Question> question_list = Question.selectQuestionByIdTestAndUser( id_test, id_user );
 
         for ( int i = 0; i < question_list.size(); i++ ) {
             int id_question = question_list.get( i ).getId_question();
@@ -488,7 +488,7 @@ public class ProfessorController extends Controller {
         int nbanswermax = Integer.parseInt( form.get( "maxR" ) );
         int hours = Integer.parseInt( form.get( "hour" ) );
         int minutes = Integer.parseInt( form.get( "minute" ) );
-        int time = ( hours * 60 ) + minutes;
+        int time = ( ( hours * 60 ) + minutes ) * 60;
         int number_of_questions = Integer.parseInt( form.get( "nbrQ" ) );
         int good_answer = Integer.parseInt( form.get( "positiveP" ) );
         int bad_answer = Integer.parseInt( form.get( "negativeP" ) );
@@ -573,6 +573,8 @@ public class ProfessorController extends Controller {
 
     public Result testResults( int id_test, int id_question ) throws SQLException {
         List<Answer> list_answer = new ArrayList<Answer>();
+        List<Answer> list_answer2 = new ArrayList<Answer>();
+        List<String> string = new ArrayList<String>();
         Question question = new Question();
         int number_of_answer = 0;
 
@@ -583,7 +585,13 @@ public class ProfessorController extends Controller {
             number_of_answer += list_answer.get( i ).getCount_answer();
         }
 
-        return ok( prof_test_results.render( "", list_answer, question, number_of_answer ) );
+        list_answer2 = Answer.getAnswersByQuestionId( id_question );
+
+        for ( int i = 0; i < list_answer.size(); i++ ) {
+            string.add( list_answer.get( i ).getAnswer() );
+        }
+
+        return ok( prof_test_results.render( "", string, list_answer, list_answer2, question, number_of_answer ) );
     }
 
 }

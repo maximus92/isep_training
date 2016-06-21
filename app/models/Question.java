@@ -12,9 +12,13 @@ import play.Logger;
 import play.db.DB;
 
 public class Question {
-    private static final String GET_QUESTION_BY_ID_TEST                 = "SELECT * FROM question q "
+    private static final String GET_QUESTION_BY_ID_TEST_AND_ID_USER     = "SELECT * FROM question q "
                                                                                 + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
                                                                                 + "WHERE jtq.id_test=? AND q.createby=?";
+
+    private static final String GET_QUESTION_BY_ID_TEST                 = "SELECT * FROM question q "
+                                                                                + "LEFT JOIN join_test_question jtq ON q.id_question = jtq.id_question "
+                                                                                + "WHERE jtq.id_test=?";
 
     private static final String GET_QCM_QUESTION_NUM                    = "SELECT q.question, q.id_question "
                                                                                 + "FROM question q "
@@ -269,12 +273,42 @@ public class Question {
         }
     }
 
-    public static ArrayList<Question> selectQuestionByIdTest( int id_test, int id_user ) throws SQLException {
+    public static ArrayList<Question> selectQuestionByIdTestAndUser( int id_test, int id_user ) throws SQLException {
+        ArrayList<Question> list = new ArrayList<Question>();
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement( GET_QUESTION_BY_ID_TEST_AND_ID_USER );
+        statement.setInt( 1, id_test );
+        statement.setInt( 2, id_user );
+        ResultSet rs = statement.executeQuery();
+        while ( rs.next() ) {
+            int id_question = rs.getInt( "id_question" );
+            String question = rs.getString( "question" );
+            String correction = rs.getString( "correction" );
+            String level = rs.getString( "level" );
+            String id_chapter = rs.getString( "id_chapter" );
+            String forexam = rs.getString( "forexam" );
+            String file = rs.getString( "file" );
+            Question q = new Question();
+            q.setId_question( id_question );
+            q.setQuestion( question );
+            q.setCorrection( correction );
+            q.setLevel( level );
+            q.setId_chapter( id_chapter );
+            q.setForexam( forexam );
+            q.setFile( file );
+            // add each employee to the list
+            list.add( q );
+        }
+        statement.close();
+        Model.closeConnection( connection );
+        return list;
+    }
+
+    public static ArrayList<Question> selectQuestionByIdTest( int id_test ) throws SQLException {
         ArrayList<Question> list = new ArrayList<Question>();
         Connection connection = DB.getConnection();
         PreparedStatement statement = connection.prepareStatement( GET_QUESTION_BY_ID_TEST );
         statement.setInt( 1, id_test );
-        statement.setInt( 2, id_user );
         ResultSet rs = statement.executeQuery();
         while ( rs.next() ) {
             int id_question = rs.getInt( "id_question" );
