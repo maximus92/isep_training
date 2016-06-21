@@ -38,6 +38,9 @@
 	  
 	  $("#btn-ajout-module").click(function(){ 
 		  var dataString = $("#module-form").serialize();
+		  if($("#module_name").val()=="" || $("#module_name").val().length == 0){
+			  return false;
+		  }
 			ajaxBody("/add-module",dataString,function(data) { 
 					$(".module-reponse").append(addModuleDiv(data.id,data.name)); 
 			});
@@ -83,6 +86,9 @@
 		$("#module-detail").on('click',".btn-module-add-chapter",function(){
 			var id_module = $("#hidden-id_module").val();
 			var chapter_name = $("#input-chapter_name").val();
+			if(chapter_name == "" || chapter_name.length == 0){
+				return false;
+			}
 			var dataString = {id_module: id_module, chapter_name: chapter_name};
 			ajaxBody("/add-chapter",dataString,function(data) {
 					$(".chapter-reponse").append(addChapterDiv(chapter_name,data.id_chapter));
