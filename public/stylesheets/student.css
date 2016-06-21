@@ -2,6 +2,20 @@
 	display: none;	
 }
 
+.pop-up{
+	height:150px;
+	width:300px;
+	box-shadow: 1px 1px 12px #555;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	top:-450px;
+	padding-top:50px;
+	padding-left:10px;
+	padding-right:10px;
+	background-color: white;
+}
+
 .selected-chapter{
 	background-color: #0D6186;
 	color: white;

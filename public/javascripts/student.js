@@ -23,9 +23,15 @@ $(document).ready(
 			// Passer de la page de paramètre 1 à 2 et inversement
 			
 			$("#pass-to-settings-second-part").click(function() {
-
-				$("#student-qcm-settings-part-1").hide();
-				$("#student-qcm-settings-part-2").show();
+				if($(".selected-chapter").length){
+					$("#student-qcm-settings-part-1").hide();
+					$("#student-qcm-settings-part-2").show();
+				} else {
+					$(".container").append('<div class="pop-up center"><p>Veuillez sélectionner un chapitre !</p></div>')
+					$(".pop-up").fadeOut(1000, function(){
+						$(".pop-up").remove();
+					});
+				}
 
 			});
 
@@ -182,7 +188,10 @@ $(document).ready(
 
 					success : function(data) {
 						if(data.noQuestion){
-							alert("Pas de question selon les critères sélectionnés")
+							$("body").append('<div class="pop-up center"><p>Pas de question selon les critères sélectionnés <br> Veuillez changer vos paramètres</p></div>')
+							$(".pop-up").fadeOut(2500, function(){
+								$(".pop-up").remove();
+							});
 						}else {
 							window.location.href = "/student/trainingQcm/0?question_num=1", data;
 						}

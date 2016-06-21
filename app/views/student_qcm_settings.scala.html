@@ -41,7 +41,7 @@
             <div class="settings-container col-md-11 col-md-offset-1">
                 <div class="settings-center col-md-3">
                     <h3>Nombre de questions</h3>
-                    <select name="number-of-questions" id="number-of-questions" class="form-control">
+                    <select name="number-of-questions" id="number-of-questions" class="form-control" required>
                         @for(i <- 1 until 11){
                               <option>@(i*5)</option>
                         }
@@ -52,7 +52,7 @@
                     <div class=" setting-time-input col-md-12">
                        <div class="form-inline">
                            <div class="form-group">
-                                <select name="qcm-time-hours" id="qcm-time-hours" class="form-control">
+                                <select name="qcm-time-hours" id="qcm-time-hours" class="form-control" required>
                                     @for(i <- 0 until 4){
                                           <option>@(i)</option>
                                     }
@@ -60,7 +60,7 @@
                                 <label for="qcm-time-hours">H</label>
                             </div>
                            <div class="form-group">
-                                <select name="qcm-time-minutes" id="qcm-time-minutes" class="form-control">
+                                <select name="qcm-time-minutes" id="qcm-time-minutes" class="form-control" required>
                                     @for(i <- 1 until 13){
                                           <option>@(i*5)</option>
                                     }
@@ -74,7 +74,7 @@
 
                 <div class="settings-center col-md-3 col-md-offset-1">
                     <h3>Difficulté</h3>
-                    <select name="question-level" id="question-level" class="form-control">
+                    <select name="question-level" id="question-level" class="form-control" required>
                         @for(i <- 1 until 4){
                               <option>@(i)</option>
                         }
@@ -83,15 +83,15 @@
                 <div class="settings-scale col-md-12">
                     <div class="settings-center col-md-3">
                         <h3>Bonne réponse</h3>
-                        <input type="number" name="good-answer" id="good-answer" value="1">
+                        <input type="number" name="good-answer" id="good-answer" value="1" required>
                     </div>
                     <div class="settings-center col-md-3 col-md-offset-1">
                         <h3>Mauvaise réponse</h3>
-                        <input type="number" name="bad-answer" id="bad-answer" value="0">
+                        <input type="number" name="bad-answer" id="bad-answer" value="0" required>
                     </div>
                     <div class="settings-center col-md-3 col-md-offset-1">
                         <h3>Pas de réponse</h3>
-                        <input type="number" name="no-answer" id="no-answer" value="0">
+                        <input type="number" name="no-answer" id="no-answer" value="0" required>
                     </div>
                 </div>
             </div>
