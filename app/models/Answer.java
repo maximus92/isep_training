@@ -45,6 +45,8 @@ public class Answer {
                                                                          + "ON a.id_answer = s.id_answer "
                                                                          + "WHERE q.id_test = ? AND a.id_question = ? AND s.isselected = 1 "
                                                                          + "GROUP BY a.answer";
+    private static final String DELETE_ANSWER_BY_ID              = "DELETE FROM answer "
+                                                                         + "WHERE id_answer = ?";
 
     private String              answer;
     private int                 id_question;
@@ -256,6 +258,21 @@ public class Answer {
             list_answer.add( answer );
         }
         return list_answer;
+    }
+
+    public static void deleteAnswerById( int id_answer ) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        connection = DB.getConnection();
+        statement = connection.prepareStatement( DELETE_ANSWER_BY_ID );
+        statement.setInt( 1, id_answer );
+        statement.executeUpdate();
+
+        statement.close();
+
+        if ( connection != null ) {
+            connection.close();
+        }
     }
 
 }

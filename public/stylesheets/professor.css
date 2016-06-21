@@ -104,6 +104,9 @@
 .question-filter{
 	background-color: rgba( 173, 216, 230,0.5);
 }
+.question-select{
+	margin-left:10px;
+}
 .glyphicon-remove:hover {
     cursor: pointer;
 }

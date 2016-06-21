@@ -237,7 +237,7 @@
                              '</label>'+
                            '</div>';
            
-                formulaire1 += '<div id="remove0">'+
+                formulaire1 += '<div id="remove' + i + '">'+
                                '<label for="reponse">Réponse</label>'+
                                '<div class="row">'+
                                  '<div class="col-xs-10">'+
@@ -246,7 +246,7 @@
                                      'value="'+data[0][i].answer+'">'+
                                  '</div>'+isTrue+
                                  '<div class="col-xs-1">'+
-                                   '<i class="fa fa-times delete_answer" id="delete_answer0"></i>'+
+                                   '<i class="fa fa-times delete_answer" id="delete_answer' + i + '"></i>'+
                                  '</div>'+
                                '</div>'+
                              '</div>';

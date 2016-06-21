@@ -267,6 +267,8 @@ public class ProfessorController extends Controller {
     }
 
     public Result updateQuestionWithAnswer() throws SQLException {
+        List<Integer> list = new ArrayList<Integer>();
+        List<Answer> list_answer = new ArrayList<Answer>();
         DynamicForm form = Form.form().bindFromRequest();
         int id_question = Integer.parseInt( form.get( "id_question" ) );
         String question = form.get( "question" );
@@ -285,17 +287,20 @@ public class ProfessorController extends Controller {
         q.setFile( file );
         q.updateQuestion( id_question );
 
+        list_answer = Answer.getAnswersByQuestionId( id_question );
+
         int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ) );
 
         for ( int i = 0; i < reponse_counter_modify; i++ ) {
-        	int id_answer = 0;
-        	if(form.get( "id_answer" + i )!= null){
-        		id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
-        	}
-            
+            int id_answer = 0;
+            if ( form.get( "id_answer" + i ) != null ) {
+                id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
+            }
+
             String answer = form.get( "reponse" + i + "" );
 
             if ( id_answer != 0 ) {
+                list.add( id_answer );
 
                 if ( answer != null && answer != "" ) {
                     boolean istrue;
@@ -327,6 +332,13 @@ public class ProfessorController extends Controller {
                 }
             }
         }
+
+        for ( int i = 0; i < list_answer.size(); i++ ) {
+            if ( !list.contains( list_answer.get( i ).getId_answer() ) ) {
+                Answer.deleteAnswerById( list_answer.get( i ).getId_answer() );
+            }
+        }
+
         return redirect( "/prof" );
 
     }
@@ -568,7 +580,7 @@ public class ProfessorController extends Controller {
         Chapter chapter = new Chapter();
         chapter.setId_chapter( id_chapter );
         int id_module = chapter.getIdModuleFromIdChapter();
-        Logger.debug(Integer.toString(id_module));
+        Logger.debug( Integer.toString( id_module ) );
         ObjectNode result = Json.newObject();
         result.put( "id_module", id_module );
         return ok( result );
