@@ -52,7 +52,7 @@
 										'<label for="question">Question</label>'+
 									'</div>'+
 									'<div class="col-xs-8" id="question_input_div'+i+'">'+
-										'<input type="text"class="form-control width-100" name="question'+i+'">'+
+										'<input type="text"class="form-control width-100" name="question'+i+'" required>'+
 									'</div>'+
 								'</div>'+	
 								'<div id="question'+i+'_answer'+m+'">'+
@@ -66,7 +66,7 @@
 									'</div>'+	
 									'<div class="row">'+ 
 										'<div class="col-xs-8">'+ 
-											'<input type="text" class="form-control width-100" name="question'+i+'_answer'+m+'">'+ 
+											'<input type="text" class="form-control width-100" name="question'+i+'_answer'+m+'"required>'+ 
 										'</div>'+ 
 										'<div class="col-xs-2 align-right">'+ 
 												'<input type="checkbox" value="1" name="question'+i+'_goodA'+m+'">'+ 
@@ -99,7 +99,7 @@
              '</div>'+	
              '<div class="row">'+ 
                '<div class="col-xs-8">'+ 
-                 '<input type="text" class="form-control width-100" id="input_test_answer'+m+'" name="question'+id+'_answer'+m+'" >'+ 
+                 '<input type="text" class="form-control width-100" id="input_test_answer'+m+'" name="question'+id+'_answer'+m+'" required>'+ 
                '</div>'+ 
                '<div class="col-xs-2 align-right">'+ 
                    '<input type="checkbox" value="1" name="question'+id+'_goodA'+m+'">'+  
