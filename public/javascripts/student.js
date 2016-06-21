@@ -28,7 +28,7 @@ $(document).ready(
 					$("#student-qcm-settings-part-2").show();
 				} else {
 					$(".container").append('<div class="pop-up center"><p>Veuillez sélectionner un chapitre !</p></div>')
-					$(".pop-up").fadeOut(1000, function(){
+					$(".pop-up").fadeOut(1500, function(){
 						$(".pop-up").remove();
 					});
 				}
