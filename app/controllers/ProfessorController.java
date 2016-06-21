@@ -272,7 +272,7 @@ public class ProfessorController extends Controller {
         String question = form.get( "question" );
         String correction = form.get( "correction" );
         String level = form.get( "level" );
-        String id_chapter = form.get( "id_chapter" );
+        String id_chapter = form.get( "test_chapter" );
         String forexam = form.get( "forexam" );
         String file = form.get( "file" );
 
@@ -288,7 +288,11 @@ public class ProfessorController extends Controller {
         int reponse_counter_modify = Integer.parseInt( form.get( "reponse_counter_modify" ) );
 
         for ( int i = 0; i < reponse_counter_modify; i++ ) {
-            int id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
+        	int id_answer = 0;
+        	if(form.get( "id_answer" + i )!= null){
+        		id_answer = Integer.parseInt( form.get( "id_answer" + i ) );
+        	}
+            
             String answer = form.get( "reponse" + i + "" );
 
             if ( id_answer != 0 ) {
@@ -564,6 +568,7 @@ public class ProfessorController extends Controller {
         Chapter chapter = new Chapter();
         chapter.setId_chapter( id_chapter );
         int id_module = chapter.getIdModuleFromIdChapter();
+        Logger.debug(Integer.toString(id_module));
         ObjectNode result = Json.newObject();
         result.put( "id_module", id_module );
         return ok( result );

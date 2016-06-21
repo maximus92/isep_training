@@ -299,6 +299,11 @@
 		  displayChapterInSelect("#modifyQ #chapter_modal_modifyQ", "0", $(this).val());
 	  });
 	  
+	  $("#modifyQ").on('click','.delete_answer',function(){
+		 var id = $(this).attr("id").substring(13); 
+		 $("#remove"+id).remove();
+	  });
+	  
 	  
 	  $(".question_filter").on('click', ".modifyQA", function() {
 		  var id = $(this).attr('id').substring(8);
@@ -312,12 +317,15 @@
 				$(".answer-select").append(questionUpdateDiv(data));
 				$("#reponse_counter_modify").val(data[0].length);
 				var id_chapter = data[1][0].id_chapter;
-				ajaxBody("/get-module-from-chapter", {id_chapter: id_chapter}, function(data){
-					var id_module = data.id_module;
-					displayModuleInSelect("#modifyQ #test_module", id_module);
-					displayChapterInSelect("#modifyQ #chapter_modal_modifyQ", id_chapter, id_module);
-				});
-				
+				if(id_chapter != null && id_chapter != 0){
+					ajaxBody("/get-module-from-chapter", {id_chapter: id_chapter}, function(data){
+						var id_module = data.id_module;
+						displayModuleInSelect("#modifyQ #test_module", id_module);
+						displayChapterInSelect("#modifyQ #chapter_modal_modifyQ", id_chapter, id_module);
+					});
+				}else{
+					displayModuleInSelect("#modifyQ #test_module", "0");
+				}
 			});
 	  }
 	  
