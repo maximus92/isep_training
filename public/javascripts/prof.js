@@ -332,7 +332,7 @@
 			  dataType: "json",
 			  
 			  success: function(data) {
-				  alert("La question a été modifiée!");
+				  
 			  }
 		  }); 
 		  

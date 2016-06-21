@@ -213,10 +213,6 @@
                            '<input type="hidden" value="'+data[1][0].id_question+'" name="id_question" id="id_question" />'+
                              '<label for="question">Question</label> <input type="text"'+
                                'class="form-control" id="question" name="question" value="'+data[1][0].question+'">'+
-                             '<div class="pull-right">'+picture+
-                             '<input type="file" id="imgInp" style="display: none" name="file" />'+
-     						'<button type="button" class="btn btn-primary" onclick="getfile();">Ajouter support</button>'+
-                               '<button type="button" class="btn btn-success btn-sm">&</button>'+
                              '</div>'+
                            '</div>'+
                            '</br> </br>'+

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -128,12 +129,12 @@ public class ExcelFile {
 	                			}
 	                		}	
 	                		if(index_cel == this.question_column){
-		                		question = cel.getStringCellValue();
+		                		question = StringEscapeUtils.escapeHtml4(cel.getStringCellValue());
 		                		answer_array = new ArrayList<>();
 		                	}else if(index_cel == this.answer_colum){
-		                		answer = getCellTypeToString(cel);
+		                		answer = StringEscapeUtils.escapeHtml4(getCellTypeToString(cel));
 		                	}else if(index_cel == this.correction_column){
-		                		correction = getCellTypeToString(cel);
+		                		correction = StringEscapeUtils.escapeHtml4(getCellTypeToString(cel));
 		                	}else if(index_cel == this.forexam_column){
 		                		forexam = Integer.parseInt(getCellTypeToString(cel));
 		                	}else if(index_cel == this.istrue_column){
