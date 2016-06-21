@@ -2,8 +2,11 @@
 
 @main("Résultats du test"){
 	<div class="container">
-		<h1 class="center">@question.getQuestion</h1>
+		<h1 class="center @question.getQuestion">@question.getQuestion</h1>
 		<div class="row">
+		@if(list_answer.length == 0){
+			<div class="center">Pas de réponse pour le moment ...</div>
+		}else {
 			@for(answer<-list_answer){
 				<h4>@answer.getAnswer</h4>
 				<div class="progress">
@@ -23,6 +26,7 @@
 					</div>
 				}
 			}
+		}
 		</div>
 		
 	</div>
