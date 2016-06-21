@@ -37,7 +37,7 @@ import controllers.security.Secured;
  * This controller contains an action to handle HTTP requests to the
  * application's home page.
  */
-// @With(ProfessorSecurity.class)
+@With(ProfessorSecurity.class)
 public class ProfessorController extends Controller {
 
     /**

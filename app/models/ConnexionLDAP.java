@@ -84,7 +84,7 @@ public class ConnexionLDAP {
         User u = null;
         int isprof = 0;
         Connection conn = DB.getConnection();
-        PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM user WHERE username='mabboud'" );
+        PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM user WHERE username='"+login+"'" );
         ResultSet rs = stmt.executeQuery();
         while ( rs.next() ) {
             String lastname = rs.getString( "lastname" );
